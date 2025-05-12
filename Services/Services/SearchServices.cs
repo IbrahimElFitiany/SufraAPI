@@ -1,0 +1,63 @@
+﻿using Services.IServices;
+using Sufra_MVC.Repositories;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using DuoVia.FuzzyStrings;
+using Sufra_MVC.DTOs;
+using Sufra_MVC.Models.RestaurantModels;
+
+namespace Sufra_MVC.Services.Services
+{
+    public class SearchServices : ISearchServices
+    {
+        private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IMenuItemRepository _menuItemRepository;
+
+
+        public SearchServices(IRestaurantRepository restaurantRepository, IMenuItemRepository menuItemRepository)
+        {
+            _restaurantRepository = restaurantRepository;
+            _menuItemRepository = menuItemRepository;
+        }
+        
+        //--------------------------------------------------
+
+        public async Task<IEnumerable<RestaurantDTO>> SearchRestaurantsAsync(string query)
+        {
+
+            IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetAllAsync();
+
+            string normalizedQuery = query?.Trim().ToLower();
+
+            IEnumerable<Restaurant> fuzzyResults = restaurants.Where(r =>
+                r.IsApproved == true &&
+                (
+                    r.Name != null && (r.Name.ToLower().Contains(normalizedQuery) ||
+                    r.Name.FuzzyMatch(normalizedQuery) > 0.5) ||
+
+                    r.District?.Name != null && (r.District.Name.ToLower().Contains(normalizedQuery) ||
+                    r.District.Name.FuzzyMatch(normalizedQuery) > 0.4) ||
+
+                    r.Cuisine?.Name != null && (r.Cuisine.Name.ToLower().Contains(normalizedQuery) ||
+                    r.Cuisine.Name.FuzzyMatch(normalizedQuery) > 0.5)
+                )
+            ).ToList();
+
+            var result = fuzzyResults.Select(r => new RestaurantDTO
+            {
+                RestaurantId = r.Id,
+                ImgUrl = r.ImgUrl,
+                Name = r.Name,
+                Phone = r.Phone,
+                CuisineId = r.CuisineId,
+                Description = r.Description,
+                Latitude = r.Latitude,
+                Longitude = r.Longitude,
+                Address = r.Address,
+                DistrictId = r.DistrictId
+            });
+
+            return result;
+        }
+
+    }
+}

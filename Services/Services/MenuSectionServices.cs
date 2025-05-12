@@ -1,0 +1,100 @@
+﻿using DTOs.MenuSectionDTOs;
+using Sufra_MVC.Exceptions;
+using Sufra_MVC.Models.RestaurantModels;
+using Sufra_MVC.Repositories;
+using Sufra_MVC.Services.IServices;
+
+namespace Sufra_MVC.Services.Services
+{
+    public class MenuSectionServices : IMenuSectionServices
+    {
+
+        private readonly IMenuSectionRepository _menuSectionRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
+
+        public MenuSectionServices(IMenuSectionRepository menuSectionRepository, IRestaurantRepository restaurantRepository)
+        {
+            _menuSectionRepository = menuSectionRepository;
+            _restaurantRepository = restaurantRepository;
+        }
+
+        //-------------------------------------------------------------------------------
+
+
+        public async Task<CreateMenuSectionResDTO> CreateAsync(MenuSectionDTO menuSectionDTO)
+        {
+            bool? approved = await _restaurantRepository.GetRestaurantStatusByIdAsync(menuSectionDTO.RestaurantId);
+
+      
+            if(approved == null)
+            {
+                throw new RestaurantNotFoundException("restaurant Not found");
+            }
+
+            if (approved == false)
+            {
+                throw new RestaurantNotApprovedException("Restaurant not approved");
+            }
+
+
+            MenuSection menuSection = new MenuSection
+            {
+                RestaurantId = menuSectionDTO.RestaurantId,
+                Name = menuSectionDTO.MenuSectionName
+            };
+
+            await _menuSectionRepository.CreateAsync(menuSection);
+            return new CreateMenuSectionResDTO
+            {
+                Status = "success",
+                MenuSection = menuSection.Name,
+                RestaurantId = menuSection.RestaurantId
+            };
+        }
+
+        public async Task DeleteAsync(MenuSectionDTO menuSectionDTO)
+        {
+
+            bool? approved = await _restaurantRepository.GetRestaurantStatusByIdAsync(menuSectionDTO.RestaurantId);
+
+            if (approved == null)
+            {
+                throw new RestaurantNotFoundException("restaurant Not found");
+            }
+
+            if (approved == false)
+            {
+                throw new RestaurantNotApprovedException("Restaurant not approved");
+            }
+
+            MenuSection menuSection = await _menuSectionRepository.GetByIdAsync(menuSectionDTO.MenuSectionId);
+
+            if (menuSection == null) {
+                throw new MenuSectionNotFoundException("Menu section not found.");
+            } 
+
+            if (menuSection.RestaurantId != menuSectionDTO.RestaurantId)
+            {
+                throw new UnauthorizedMenuSectionAccessException("No Menu Section with this name assossiated with this restauratnt");
+            }
+
+            await _menuSectionRepository.DeleteAsync(menuSection);
+
+        }
+
+        public Task<MenuSection> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<MenuSection>> GetByRestaurantIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MenuSection> UpdateByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
