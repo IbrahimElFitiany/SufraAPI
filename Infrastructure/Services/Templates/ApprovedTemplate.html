@@ -1,0 +1,87 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: #061C1A;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #B68D67;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            margin: 20px 0;
+        }
+
+        .reservation-image {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .message {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #BCBCBC;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='content'>
+            <div class='header'>
+                <h1>Your Reservation Confirmation</h1>
+            </div>
+
+            <div class='message'>
+                {body}
+            </div>
+
+            <div class='image-container'>
+                <img src='cid:{imageCid}' alt='Reservation Image' class='reservation-image' />
+            </div>
+
+            <div class='footer'>
+                Thank you for using Sufra!
+            </div>
+        </div>
+    </div>
+</body>
+</html>

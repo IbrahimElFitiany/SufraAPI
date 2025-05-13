@@ -167,9 +167,7 @@ namespace Sufra_MVC.Services.Services
             });
 
             string img = Convert.ToBase64String(QRCodeImageBase64);
-            Console.WriteLine(img);
-
-            await _emailServices.SendEmailAsync(reservation.Customer.Email, "Reservation Approved, Thank You for using Sufra", "ayn kan",img);
+            await _emailServices.SendApprovalEmailAsync(reservation.Customer.Email, "Reservation Approved, Thank You for using Sufra", "",img);
                            
         }
         public async Task RejectAsync(int reservationId, int restaurantId)

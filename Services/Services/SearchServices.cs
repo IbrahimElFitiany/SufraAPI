@@ -32,13 +32,13 @@ namespace Sufra_MVC.Services.Services
                 r.IsApproved == true &&
                 (
                     r.Name != null && (r.Name.ToLower().Contains(normalizedQuery) ||
-                    r.Name.FuzzyMatch(normalizedQuery) > 0.5) ||
+                    r.Name.FuzzyMatch(normalizedQuery) >= 0.3) ||
 
                     r.District?.Name != null && (r.District.Name.ToLower().Contains(normalizedQuery) ||
-                    r.District.Name.FuzzyMatch(normalizedQuery) > 0.4) ||
+                    r.District.Name.FuzzyMatch(normalizedQuery) >= 0.3) ||
 
                     r.Cuisine?.Name != null && (r.Cuisine.Name.ToLower().Contains(normalizedQuery) ||
-                    r.Cuisine.Name.FuzzyMatch(normalizedQuery) > 0.5)
+                    r.Cuisine.Name.FuzzyMatch(normalizedQuery) >= 0.3)
                 )
             ).ToList();
 

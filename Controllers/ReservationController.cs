@@ -58,7 +58,7 @@ namespace sufra.Sufra.Emps.Presentation.Controllers
             try
             {
                 await _reservationServices.ApproveAsync(reservationId , restaurantId);
-                return Ok(new{messasge = "approved"});
+                return Ok(new{messasge = "approved , email sent"});
             }
             catch (Exception ex)
             {
