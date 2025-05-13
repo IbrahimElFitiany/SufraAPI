@@ -319,6 +319,12 @@ namespace Sufra_MVC.Services.Services
             {
                 throw new RestaurantNotFoundException("Restaurant not found.");
             }
+
+            if (restaurant.RestaurantReviews.Any(r => r.CustomerId == userId))
+            {
+                throw new InvalidOperationException("You have already reviewed this restaurant.");
+            }
+
             RestaurantReview review = new RestaurantReview
             {
                 CustomerId = userId,
@@ -329,6 +335,10 @@ namespace Sufra_MVC.Services.Services
             };
 
             restaurant.AddReview(review);
+            await _restaurantRepository.SaveAsync();
+
+            restaurant.Rating = restaurant.RestaurantReviews.Average(r => r.Rating);
+
             await _restaurantRepository.SaveAsync();
         }
     }

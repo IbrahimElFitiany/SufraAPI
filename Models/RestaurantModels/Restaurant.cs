@@ -56,7 +56,6 @@ namespace Sufra_MVC.Models.RestaurantModels
         public virtual ICollection<MenuItem> MenuItems { get; set; }
         public virtual ICollection<MenuSection> MenuSections { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
 
 
