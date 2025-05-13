@@ -1,4 +1,5 @@
-﻿using Sufra_MVC.Models.Orders;
+﻿using Sufra_MVC.Models.CustomerModels;
+using Sufra_MVC.Models.Orders;
 using Sufra_MVC.Models.RestaurantModels;
 
 namespace Sufra_MVC.Repositories
@@ -7,6 +8,7 @@ namespace Sufra_MVC.Repositories
     {
         Task<Cart> CreateCartAsync(Cart cart);
         Task<Cart> GetCartByCustomerIdAsync(int customerId);
+        Task DeleteCartAsync(Cart cart);
         Task SaveAsync();
     }
 

@@ -245,5 +245,49 @@ namespace sufra.Controllers
             }
         }
 
+        [Authorize]
+        [HttpDelete("open-hours/{dayOfWeekEnum}")]
+        public async Task<IActionResult> DeleteOpeningHours([FromRoute] DayOfWeek dayOfWeekEnum)
+        {
+            int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
+
+            try
+            {
+                await _restaurantServices.DeleteOpeningHours(restaurantId, dayOfWeekEnum);
+                return Ok(new { message = "deleted working hours zai el fol" });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+
+        //-----------------RestaurantReviews-----------------------------
+        [Authorize]
+        [HttpPost("review")]
+        public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantOpeningHoursReqDTO)
+        {
+            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+
+            try
+            {
+                await _restaurantServices.AddReviewAsync(customerId , createRestaurantOpeningHoursReqDTO);
+                return Ok(new { message = "Review Added" });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
     }
 }

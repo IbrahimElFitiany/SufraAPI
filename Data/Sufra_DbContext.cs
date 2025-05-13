@@ -17,6 +17,7 @@ namespace Sufra_MVC.Data
         }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<RestaurantManager> RestaurantManagers { get; set; }
+        public DbSet<RestaurantReview> RestaurantReviews { get; set; }
         public DbSet<Cuisine> Cuisines { get; set; }
 
 
@@ -57,6 +58,57 @@ namespace Sufra_MVC.Data
                 .HasForeignKey<Restaurant>(r => r.ManagerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
+            // 1-to-Many: Restaurant <-> Reservation
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(r => r.Reservations)
+                .WithOne(rs => rs.Restaurant)
+                .HasForeignKey(rs => rs.RestaurantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 1-to-Many: Restaurant <-> MenuItem
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(r => r.MenuItems)
+                .WithOne(mi => mi.Restaurant)
+                .HasForeignKey(mi => mi.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            // 1-to-Many: Restaurant <-> Table
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(r => r.Tables)
+                .WithOne()
+                .HasForeignKey("RestaurantId");
+
+            modelBuilder.Entity<Restaurant>()
+                .Navigation(r => r.Tables)
+                .HasField("_tables");
+
+
+            // 1-to-Many: Restaurant <-> OpeningHours
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(r => r.OpeningHours)
+                .WithOne()
+                .HasForeignKey("RestaurantId");
+
+            modelBuilder.Entity<Restaurant>()
+                .Navigation(r => r.OpeningHours)
+                .HasField("_openingHours");
+
+
+
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(r => r.RestaurantReviews)
+                .WithOne(rr => rr.Restaurant)
+                .HasForeignKey(rr => rr.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Restaurant>()
+                .Navigation(r => r.RestaurantReviews)
+                .HasField("_restaurantReviews");
+
+
+
             // 1-to-Many: District <-> Restaurant
             modelBuilder.Entity<District>()
                 .HasMany(d => d.Restaurants)
@@ -83,12 +135,7 @@ namespace Sufra_MVC.Data
                 .IsUnique();
 
 
-            // 1-to-Many: Restaurant <-> MenuItem
-            modelBuilder.Entity<Restaurant>()
-                .HasMany(r => r.MenuItems)
-                .WithOne(mi => mi.Restaurant)
-                .HasForeignKey(mi => mi.RestaurantId)
-                .OnDelete(DeleteBehavior.Cascade);
+
 
             // 1-to-Many: MenuSection <-> MenuItems
             modelBuilder.Entity<MenuSection>()
@@ -106,12 +153,25 @@ namespace Sufra_MVC.Data
                 .HasIndex(ms => new { ms.RestaurantId, ms.Name })
                 .IsUnique();
 
+            // 1-to-Many: Customer <-> Reservation
+            modelBuilder.Entity<Customer>()
+                .HasMany(c => c.Reservations)
+                .WithOne(r => r.Customer)
+                .HasForeignKey(r => r.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // 1-to-Many: Customer <-> Order
             modelBuilder.Entity<Customer>()
                 .HasMany(c => c.Orders)
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Customer>()
+            .HasMany(c => c.RestaurantReviews)
+            .WithOne(rr => rr.Customer)
+            .HasForeignKey(rr => rr.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             // 1-to-Many: Order <-> OrderItem
             modelBuilder.Entity<Order>()
@@ -120,7 +180,11 @@ namespace Sufra_MVC.Data
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Restaurant)  
+                .WithMany(r => r.Orders)
+                .HasForeignKey(o => o.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // One-to-One relationship between Customer and Cart
             modelBuilder.Entity<Cart>()
@@ -132,6 +196,15 @@ namespace Sufra_MVC.Data
             modelBuilder.Entity<Cart>()
                 .Navigation(c => c.CartItems)
                 .HasField("_cartItems"); // Tell EF to use the private field _cartItems
+
+            modelBuilder.Entity<Order>()
+                .Navigation(order => order.OrderItems)
+                .HasField("_orderItems"); // Tell EF to use the private field _cartItems
+
+            modelBuilder.Entity<Order>()
+                .Property(order => order.Status)
+                .HasConversion<string>();  // Store as string
+
 
             // One-to-Many relationship between Cart and Restaurant
             modelBuilder.Entity<Cart>()
@@ -165,42 +238,8 @@ namespace Sufra_MVC.Data
 
 
 
-            // 1-to-Many: Customer <-> Reservation
-            modelBuilder.Entity<Customer>()
-                .HasMany(c => c.Reservations)
-                .WithOne(r => r.Customer)
-                .HasForeignKey(r => r.CustomerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // 1-to-Many: Restaurant <-> Reservation
-            modelBuilder.Entity<Restaurant>()
-                .HasMany(r => r.Reservations)
-                .WithOne(rs => rs.Restaurant)
-                .HasForeignKey(rs => rs.RestaurantId)
-                .OnDelete(DeleteBehavior.Restrict);
 
 
-
-            // 1-to-Many: Restaurant <-> Table
-            modelBuilder.Entity<Restaurant>()
-                .HasMany(r => r.Tables)
-                .WithOne()
-                .HasForeignKey("RestaurantId");
-
-            modelBuilder.Entity<Restaurant>()
-                .Navigation(r => r.Tables)
-                .HasField("_tables");
-
-
-            // 1-to-Many: Restaurant <-> OpeningHours
-            modelBuilder.Entity<Restaurant>()
-                .HasMany(r => r.OpeningHours)
-                .WithOne()
-                .HasForeignKey("RestaurantId");
-
-            modelBuilder.Entity<Restaurant>()
-                .Navigation(r => r.OpeningHours)
-                .HasField("_openingHours");
 
 
 

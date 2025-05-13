@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sufra_MVC.Data;
@@ -11,9 +12,11 @@ using Sufra_MVC.Data;
 namespace SufraMVC.Migrations
 {
     [DbContext(typeof(Sufra_DbContext))]
-    partial class Sufra_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20250512232940_addRestaurantIdToOrderTable")]
+    partial class addRestaurantIdToOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,39 +192,6 @@ namespace SufraMVC.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.RestaurantReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ReviewText")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("RestaurantId");
-
-                    b.ToTable("RestaurantReviews");
                 });
 
             modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.Review", b =>
@@ -710,25 +680,6 @@ namespace SufraMVC.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.RestaurantReview", b =>
-                {
-                    b.HasOne("Sufra_MVC.Models.CustomerModels.Customer", "Customer")
-                        .WithMany("RestaurantReviews")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sufra_MVC.Models.RestaurantModels.Restaurant", "Restaurant")
-                        .WithMany("RestaurantReviews")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Restaurant");
-                });
-
             modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.Review", b =>
                 {
                     b.HasOne("Sufra_MVC.Models.CustomerModels.Customer", "Customer")
@@ -889,8 +840,6 @@ namespace SufraMVC.Migrations
 
                     b.Navigation("Reservations");
 
-                    b.Navigation("RestaurantReviews");
-
                     b.Navigation("Reviews");
                 });
 
@@ -935,8 +884,6 @@ namespace SufraMVC.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Reservations");
-
-                    b.Navigation("RestaurantReviews");
 
                     b.Navigation("Reviews");
 

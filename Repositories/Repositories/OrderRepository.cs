@@ -22,11 +22,36 @@ namespace Sufra_MVC.Repositories
         public async Task CreateOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
         }
-        public async Task<Cart> GetCartByCustomer(Customer customer)
+        public async Task CancelOrderAsync(Order order)
         {
-            Cart customerCart = await _context.Carts.FirstOrDefaultAsync(cart => cart.CustomerId == customer.Id);
-            return customerCart;
+            order.Status = OrderStatus.Canceled;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Order> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
+        }
+        public async Task<IEnumerable<Order>> GetRestaurantOrders(int restaurantId)
+        {
+            return await _context.Orders
+                .Where(o => o.RestaurantId == restaurantId)
+                .AsNoTracking()  // Better performance for read-only
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Order>> GetCustomerOrders(int customerId)
+        {
+            return await _context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .AsNoTracking()  
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()   //For Admin
+        {
+            return await _context.Orders.ToListAsync();
         }
         public async Task SaveAsync()
         {

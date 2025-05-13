@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sufra_MVC.Data;
+using Sufra_MVC.Models.CustomerModels;
 using Sufra_MVC.Models.Orders;
 using Sufra_MVC.Models.RestaurantModels;
 
@@ -26,6 +27,11 @@ namespace Sufra_MVC.Repositories
         {
             Cart customerCart = await _context.Carts.FirstOrDefaultAsync(cart => cart.CustomerId == customerId);
             return customerCart;
+        }
+        public async Task DeleteCartAsync(Cart cart)
+        {
+            _context.Carts.Remove(cart);
+            await _context.SaveChangesAsync();
         }
         public async Task SaveAsync()
         {

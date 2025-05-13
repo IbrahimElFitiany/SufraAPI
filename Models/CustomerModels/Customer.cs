@@ -34,5 +34,7 @@ namespace Sufra_MVC.Models.CustomerModels
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Complaint> Complaints { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
+
     }
 }

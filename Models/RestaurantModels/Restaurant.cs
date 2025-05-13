@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sufra_MVC.Exceptions;
 using DTOs;
 using Sufra_MVC.Models.CustomerModels;
+using Models.Orders;
 
 namespace Sufra_MVC.Models.RestaurantModels
 {
@@ -56,15 +57,20 @@ namespace Sufra_MVC.Models.RestaurantModels
         public virtual ICollection<MenuSection> MenuSections { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+
 
 
         // Private Backing Fields for Collections
         private readonly List<RestaurantOpeningHours> _openingHours = new();
         private readonly List<Table> _tables = new();
+        private readonly List<RestaurantReview> _restaurantReviews = new();
 
         // Public Methods for Controlled Access
         public virtual IReadOnlyCollection<RestaurantOpeningHours> OpeningHours => _openingHours.AsReadOnly();
         public virtual IReadOnlyCollection<Table> Tables => _tables.AsReadOnly();
+        public virtual IReadOnlyCollection<RestaurantReview> RestaurantReviews => _restaurantReviews.AsReadOnly();
+
 
 
 
@@ -145,6 +151,17 @@ namespace Sufra_MVC.Models.RestaurantModels
             existingOpeningHour.CloseTime = closeTime;
 
         }
+        public void DeleteOpeningHour(DayOfWeek day)
+        {
+            var existingOpeningHour = OpeningHours.FirstOrDefault(h => h.DayOfWeek == day);
+
+            if (existingOpeningHour == null)
+            {
+                throw new InvalidOperationException("No opening hour found for the specified day.");
+            }
+            _openingHours.Remove(existingOpeningHour);
+
+        }
         public bool IsInOpeningHour(DateTime reservationTime)
         {
             //DateTime looks like kda msln "2025-05-12T20:00:00"
@@ -166,6 +183,15 @@ namespace Sufra_MVC.Models.RestaurantModels
 
             return reservationTimeOfDay >= openingHour.OpenTime && reservationTimeOfDay <= openingHour.CloseTime;
 
+        }
+
+        //-----------------------------------------------------------------------
+
+
+        // Review Behavior 
+        public void AddReview(RestaurantReview restaurantReview)
+        {
+            _restaurantReviews.Add(restaurantReview);
         }
     }
 }

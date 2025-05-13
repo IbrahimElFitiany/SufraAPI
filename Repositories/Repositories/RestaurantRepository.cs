@@ -84,5 +84,9 @@ namespace Sufra_MVC.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<bool> ExistsAsync(int restaurantId)
+        {
+            return await _context.Restaurants.AnyAsync(r => r.Id == restaurantId);
+        }
     }
 }

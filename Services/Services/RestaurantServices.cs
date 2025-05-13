@@ -3,9 +3,11 @@ using DTOs.MenuSectionDTOs;
 using DTOs.TableDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using sufra.Controllers;
 using Sufra_MVC.DTOs;
 using Sufra_MVC.Exceptions;
 using Sufra_MVC.Infrastructure.Services;
+using Sufra_MVC.Models.CustomerModels;
 using Sufra_MVC.Models.RestaurantModels;
 using Sufra_MVC.Repositories;
 using Sufra_MVC.Services.IServices;
@@ -291,6 +293,42 @@ namespace Sufra_MVC.Services.Services
             }
 
             restaurant.UpdateOpeningHour(restaurantOpeningHoursDTO.DayOfWeek, restaurantOpeningHoursDTO.OpenTime, restaurantOpeningHoursDTO.CloseTime);
+            await _restaurantRepository.SaveAsync();
+        }
+        public async Task DeleteOpeningHours(int RestaurantId , DayOfWeek dayOfWeek)
+        {
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(RestaurantId);
+
+            if (restaurant == null)
+            {
+                throw new RestaurantNotFoundException("Restaurant not found.");
+            }
+
+            restaurant.DeleteOpeningHour(dayOfWeek);
+            await _restaurantRepository.SaveAsync();
+
+        }
+
+        //---------------------Restaurant Review Services-----------------------------
+
+        public async Task AddReviewAsync(int userId , CreateRestaurantReviewReqDTO reviewDTO)
+        {
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(reviewDTO.RestaurantId);
+
+            if (restaurant == null)
+            {
+                throw new RestaurantNotFoundException("Restaurant not found.");
+            }
+            RestaurantReview review = new RestaurantReview
+            {
+                CustomerId = userId,
+                Rating = reviewDTO.Rating,
+                ReviewDate = DateTime.SpecifyKind(reviewDTO.ReviewDate, DateTimeKind.Utc),
+                RestaurantId = reviewDTO.RestaurantId,
+                ReviewText = reviewDTO.Review
+            };
+
+            restaurant.AddReview(review);
             await _restaurantRepository.SaveAsync();
         }
     }

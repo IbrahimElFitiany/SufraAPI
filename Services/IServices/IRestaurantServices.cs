@@ -2,6 +2,7 @@
 using DTOs.TableDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using sufra.Controllers;
 using Sufra_MVC.DTOs;
 using Sufra_MVC.Models.RestaurantModels;
 
@@ -22,6 +23,9 @@ namespace Sufra_MVC.Services.IServices
 
         Task AddOpeningHours(RestaurantOpeningHoursDTO restaurantOpeningHoursDTO);
         Task UpdateOpeningHours(RestaurantOpeningHoursDTO restaurantOpeningHoursDTO);
+        Task DeleteOpeningHours(int RestaurantId, DayOfWeek dayOfWeek);
 
+
+        Task AddReviewAsync(int userId, CreateRestaurantReviewReqDTO reviewDTO);
     }
 }

@@ -5,6 +5,7 @@
         Pending,
         Preparing,
         Ready,
-        Delivered
+        Delivered,
+        Canceled
     }
 }
