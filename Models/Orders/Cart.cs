@@ -35,6 +35,16 @@ namespace Sufra_MVC.Models.Orders
         {
             _cartItems.Add(cartItem);
         }
+
+        public IReadOnlyCollection<CartItem> GetCartItems()
+        {
+            return CartItems;
+        }
+
+        public void RemoveItem(CartItem cartItem)
+        {
+            _cartItems.Remove(cartItem);
+        }
         public decimal CalculateTotal()
         {
             return _cartItems.Sum(item => item.Price * item.Quantity);

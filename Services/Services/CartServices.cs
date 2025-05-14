@@ -2,6 +2,7 @@
 
 using DTOs;
 using Services.IServices;
+using Sufra_MVC.DTOs;
 using Sufra_MVC.Models.CustomerModels;
 using Sufra_MVC.Models.Orders;
 using Sufra_MVC.Models.RestaurantModels;
@@ -63,5 +64,86 @@ namespace Sufra_MVC.Services.Services
             customerCart.AddItem(cartItem);
             await _cartRepository.SaveAsync();
         }
+        public async Task<IEnumerable<GetCartItemReqDTO>> GetAllAsync(int customerId)
+        {
+            // Get the customer details
+            Customer customer = await _customerRepository.GetByIdAsync(customerId);
+
+            if (customer == null)
+                throw new Exception("Customer not found");
+
+            // Get the cart for the customer
+            Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
+
+            if (customerCart == null)
+            {
+                throw new Exception("Cart not found");
+            }
+
+            // Get the cart items from the cart
+            var cartItems = customerCart.GetCartItems();
+
+            // Map cart items to DTOs
+            return cartItems.Select(item => new GetCartItemReqDTO
+            {
+                CartItemId = item.Id,
+                menuItemDTO = new MenuItemDTO
+                {
+                    RestaurantId = item.MenuItem.RestaurantId, 
+                    MenuSectionId = item.MenuItem.MenuSectionId,
+                    Name = item.MenuItem.Name,
+                    MenuItemImg = item.MenuItem.MenuItemImg,
+                    Description = item.MenuItem.Description,
+                    Price = item.MenuItem.Price,
+                    Availability = item.MenuItem.Availability
+                },
+                Quantity = item.Quantity,
+                Price = item.Price
+            });
+        }
+        public async Task ClearCart(int customerId)
+        {
+            Customer customer = await _customerRepository.GetByIdAsync(customerId);
+
+            if (customer == null)
+                throw new Exception("Customer not found");
+
+            Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
+
+            if (customerCart == null)
+            {
+                throw new Exception("Cart is Already Cleared");
+            }
+
+            await _cartRepository.DeleteCartAsync(customerCart);
+        }
+        public async Task RemoveFromCartAsync(int customerId, int cartItemId)
+        {
+            // Check if user exists
+            Customer customer = await _customerRepository.GetByIdAsync(customerId);
+
+            if (customer == null)
+                throw new Exception("Customer not found");
+
+            // Get the cart for the customer
+            Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
+
+            if (customerCart == null)
+            {
+                throw new Exception("Cart not found for the customer");
+            }
+
+            // Check if the cartItemId exists in the cart
+            var cartItem = customerCart.CartItems.FirstOrDefault(item => item.Id == cartItemId);
+
+            if (cartItem == null)
+                throw new Exception("No cart item with this id found for this user");
+
+            // Remove the item from the cart
+            customerCart.RemoveItem(cartItem);  // Assuming you have a method like RemoveItem in the Cart class
+
+            await _cartRepository.SaveAsync();  // Save the changes to the database
+        }
+
     }
 }

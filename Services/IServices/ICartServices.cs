@@ -4,6 +4,9 @@ namespace Services.IServices
 {
     public interface ICartServices
     {
-        Task AddToCartAsync(AddToCartReqDTO addToCartReqDTO, int customerId);  
+        Task AddToCartAsync(AddToCartReqDTO addToCartReqDTO, int customerId);
+        Task ClearCart(int customerId);
+        Task<IEnumerable<GetCartItemReqDTO>> GetAllAsync(int customerId);
+        Task RemoveFromCartAsync(int customerId, int cartItemId);
     }
 }
