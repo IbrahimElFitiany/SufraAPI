@@ -27,7 +27,7 @@ namespace sufra.Sufra.Emps.Presentation.Controllers
             {
                 if (string.IsNullOrEmpty(q))
                 {
-                    return BadRequest(new { message = "Search query cannot be empty."});
+                    //return BadRequest(new { message = "Search query cannot be empty."});
                 }
 
                 IEnumerable<RestaurantDTO> restaurants = await _searchServices.SearchRestaurantsAsync(q);

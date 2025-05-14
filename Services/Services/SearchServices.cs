@@ -18,7 +18,7 @@ namespace Sufra_MVC.Services.Services
             _restaurantRepository = restaurantRepository;
             _menuItemRepository = menuItemRepository;
         }
-        
+
         //--------------------------------------------------
 
         public async Task<IEnumerable<RestaurantDTO>> SearchRestaurantsAsync(string query)
@@ -27,6 +27,26 @@ namespace Sufra_MVC.Services.Services
             IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetAllAsync();
 
             string normalizedQuery = query?.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(normalizedQuery))
+            {
+                return restaurants.Where(r =>
+                r.IsApproved == true).Select(r => new RestaurantDTO
+                {
+                    RestaurantId = r.Id,
+                    ImgUrl = r.ImgUrl,
+                    Name = r.Name,
+                    Phone = r.Phone,
+                    CuisineId = r.CuisineId,
+                    CuisineName = r.Cuisine.Name,
+                    Description = r.Description,
+                    Latitude = r.Latitude,
+                    Longitude = r.Longitude,
+                    Address = r.Address,
+                    DistrictId = r.DistrictId,
+                    Rating = r.Rating
+                });
+            }
 
             IEnumerable<Restaurant> fuzzyResults = restaurants.Where(r =>
                 r.IsApproved == true &&
@@ -49,11 +69,13 @@ namespace Sufra_MVC.Services.Services
                 Name = r.Name,
                 Phone = r.Phone,
                 CuisineId = r.CuisineId,
+                CuisineName =r.Cuisine.Name,
                 Description = r.Description,
                 Latitude = r.Latitude,
                 Longitude = r.Longitude,
                 Address = r.Address,
-                DistrictId = r.DistrictId
+                DistrictId = r.DistrictId,
+                Rating = r.Rating
             });
 
             return result;

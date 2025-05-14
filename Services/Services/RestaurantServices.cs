@@ -193,6 +193,7 @@ namespace Sufra_MVC.Services.Services
                     Longitude = restaurant.Longitude,
                     Address = restaurant.Address,
                     District = restaurant.District.Name,
+                    Rating = restaurant.Rating,
                     Menus = restaurant.MenuSections.Select(section => new MenuSectionDTO
                     {
                         RestaurantId = restaurant.Id,
