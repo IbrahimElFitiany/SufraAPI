@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sufra_MVC.DTOs;
+using Sufra_MVC.Models.RestaurantModels;
 using Sufra_MVC.Services.IServices;
 
 namespace Sufra_MVC.Controllers
@@ -46,6 +47,24 @@ namespace Sufra_MVC.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        [Authorize]
+        [HttpDelete("{menuItemId}")]
+        public async Task<IActionResult> DeleteMenuItem([FromRoute] int menuItemId)
+        {
+            int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
+
+            try
+            {
+                await _menuItemServices.RemoveMenuItemAsync(menuItemId,restaurantId);
+                return Ok(new { message = "MenuItem deleted" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
         }
 
 

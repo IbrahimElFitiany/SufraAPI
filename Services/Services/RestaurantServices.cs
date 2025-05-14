@@ -200,6 +200,7 @@ namespace Sufra_MVC.Services.Services
                         MenuSectionName = section.Name,
                         Items = section.MenuItems.Select(item => new MenuItemDTO
                         {
+                            MenuItemId = item.Id,
                             RestaurantId = restaurant.Id,
                             MenuSectionId = section.Id,
                             Name = item.Name,

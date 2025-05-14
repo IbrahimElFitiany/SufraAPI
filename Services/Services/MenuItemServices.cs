@@ -66,12 +66,41 @@ namespace Sufra_MVC.Services.Services
 
             await _menuItemRepository.CreateMenuItemAsync(menuItem);
 
+            menuItemDTO.MenuItemId = menuItem.Id;
+
 			return new CreateMenuItemResDTO
 			{
 				Status = "success",
 				Message = "Menu Item Created",
 				MenuItemDTO = menuItemDTO
 			};
+
+        }
+        public async Task RemoveMenuItemAsync(int menuItemId , int restaurantId)
+        {
+            bool? restaurantIsApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(restaurantId);
+
+            if (restaurantIsApproved == null)
+            {
+                throw new RestaurantNotFoundException("Restaurant not found.");
+            }
+
+            if (restaurantIsApproved == false)
+            {
+                throw new RestaurantNotApprovedException("restaurant Not Approved");
+            }
+
+            MenuItem menuItemExists = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
+            if(menuItemExists == null)
+            {
+                throw new Exception("Menu Item doesn't exist");
+            }
+            if(menuItemExists.RestaurantId != restaurantId)
+            {
+                throw new Exception($"menu item with id: {menuItemId} doesn't exist");
+            }
+
+            await _menuItemRepository.DeleteMenuItemAsync(menuItemExists);
 
         }
     }
