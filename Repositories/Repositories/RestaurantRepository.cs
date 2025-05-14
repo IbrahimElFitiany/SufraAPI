@@ -69,14 +69,10 @@ namespace Sufra_MVC.Repositories
         }
 
 
-        public async Task DeleteRestaurant(int id)
+        public async Task DeleteRestaurant(Restaurant restaurant)
         {
-            Restaurant restaurant = await _context.Restaurants.FindAsync(id);
-            if (restaurant != null)
-            {
-                _context.Restaurants.Remove(restaurant);
-                await _context.SaveChangesAsync();
-            }
+            _context.Restaurants.Remove(restaurant);
+            await _context.SaveChangesAsync();
         }
 
 

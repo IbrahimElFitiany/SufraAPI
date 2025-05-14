@@ -2,6 +2,7 @@
 using DTOs.TableDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sufra_MVC.DTOs;
 using Sufra_MVC.Exceptions;
@@ -102,6 +103,40 @@ namespace sufra.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRestaurants()
+        {
+            try
+            {
+                var restaurants = await _restaurantServices.GetAllAsync();
+                return Ok(restaurants);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{restaurantId}")]
+        public async Task<IActionResult> DeleteRestaurant([FromRoute] int restaurantId)
+        {
+            try
+            {
+                await _restaurantServices.DeleteAsync(restaurantId);
+                return Ok(new {messsage = "Deleted"});
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+
+
         [HttpGet("{restaurantId}")]
         public async Task<IActionResult> GetRestaurant([FromRoute] int restaurantId)
         {
@@ -118,21 +153,6 @@ namespace sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllRestaurants()
-        {
-            try
-            {
-                var restaurants = await _restaurantServices.GetAllAsync();
-                return Ok(restaurants);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-        }
 
         //----------------------Table-------------------------
 

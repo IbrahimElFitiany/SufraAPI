@@ -13,7 +13,7 @@ namespace Sufra_MVC.Repositories
         Task UpdateRestaurant(Restaurant restaurant);
         Task ApproveRestaurantById(Restaurant restaurant);
         Task BlockRestaurantById(Restaurant restaurant);
-        Task DeleteRestaurant(int id);
+        Task DeleteRestaurant(Restaurant restaurant);
         Task<bool?> GetRestaurantStatusByIdAsync(int restaurantId);
         Task<bool> ExistsAsync(int restaurantId);
         Task SaveAsync();

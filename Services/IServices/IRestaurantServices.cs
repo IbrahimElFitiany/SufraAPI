@@ -17,6 +17,7 @@ namespace Sufra_MVC.Services.IServices
         Task BlockRestaurantAsync(int restaurantId);
         Task<GetRestaurantResponseDTO> GetRestaurantAsync(int restaurantId);
         Task<IEnumerable<RestaurantDTO>> GetAllAsync();
+        Task DeleteAsync(int restaurantId);
 
         Task<CreateTableResDTO> AddTableAsync(TableDTO tableDTO);
         Task<IEnumerable<TableDTO>> GetAllTablesByRestaurantIdAsync(int restaurantId);

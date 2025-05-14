@@ -240,6 +240,16 @@ namespace Sufra_MVC.Services.Services
 
             return restaurantDtos;
         }
+        public async Task DeleteAsync(int restaurantId)
+        {
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
+            if (restaurant == null)
+            {
+                throw new RestaurantNotFoundException("restaurant not found");
+            }
+
+            await _restaurantRepository.DeleteRestaurant(restaurant);
+        }
 
         //---------------------Table Services-----------------------------
         public async Task<CreateTableResDTO> AddTableAsync(TableDTO tableDTO)
