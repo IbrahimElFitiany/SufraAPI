@@ -117,6 +117,23 @@ namespace sufra.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRestaurants()
+        {
+            try
+            {
+                var restaurants = await _restaurantServices.GetAllAsync();
+                return Ok(restaurants);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
         //----------------------Table-------------------------
 
         [Authorize]

@@ -62,11 +62,12 @@ namespace Sufra_MVC
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", policy =>
+                options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowAnyHeader();
+                          .AllowCredentials();
                 });
             });
 
@@ -105,6 +106,11 @@ namespace Sufra_MVC
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderServices, OrderServices>();
 
+            builder.Services.AddScoped<ICuisineRepository, CuisineRepository>();
+            builder.Services.AddScoped<ICuisineServices, CuisineServices>();
+
+            builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+            builder.Services.AddScoped<IDistrictServices, DistrictServices>();
 
             var app = builder.Build();
 
@@ -115,8 +121,8 @@ namespace Sufra_MVC
             }
 
             // Map your SignalR hub so clients can connect to it
-            app.MapHub<SupportHub>("/support");
-            app.UseCors("AllowAll");
+            app.MapHub<ChatHub>("/chat");
+            app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();

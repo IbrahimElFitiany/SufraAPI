@@ -7,6 +7,7 @@ namespace Sufra_MVC.Repositories
     {
         Task CreateAsync(Cuisine cuisine);
         Task<Cuisine> GetByIdAsync(int id);
+        Task<IEnumerable<Cuisine>> GetAllAsync();
         Task UpdateAsync(Cuisine cuisine);
         Task DeleteAsync(int id);
     }

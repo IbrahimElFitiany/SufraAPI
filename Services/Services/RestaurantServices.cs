@@ -216,6 +216,28 @@ namespace Sufra_MVC.Services.Services
                 throw new Exception(e.Message);
             }
         }
+        public async Task<IEnumerable<RestaurantDTO>> GetAllAsync()
+        {
+
+            IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetAllAsync();
+
+            IEnumerable<RestaurantDTO> restaurantDtos = restaurants.Select(r => new RestaurantDTO
+            {
+                RestaurantId = r.Id,          // Assuming 'Id' is the PK in your Restaurant entity
+                ImgUrl = r.ImgUrl,
+                Name = r.Name,
+                Phone = r.Phone,
+                CuisineId = r.CuisineId,
+                Description = r.Description,
+                Latitude = r.Latitude,
+                Longitude = r.Longitude,
+                Address = r.Address,
+                DistrictId = r.DistrictId,
+                IsApproved = r.IsApproved
+            });
+
+            return restaurantDtos;
+        }
 
         //---------------------Table Services-----------------------------
         public async Task<CreateTableResDTO> AddTableAsync(TableDTO tableDTO)

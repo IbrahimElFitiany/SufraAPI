@@ -12,5 +12,6 @@
         public decimal Longitude { get; set; }
         public string Address { get; set; }
         public int DistrictId { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

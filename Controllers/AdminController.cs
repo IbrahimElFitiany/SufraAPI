@@ -11,9 +11,11 @@ namespace sufra.Sufra.Emps.Presentation.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminServices _adminServices;
-        public AdminController(IAdminServices adminServices)
+        private readonly IRestaurantServices _restaurantServices;
+        public AdminController(IAdminServices adminServices , IRestaurantServices restaurantServices)
         {
             _adminServices = adminServices;
+            _restaurantServices = restaurantServices;
         }
 
         //---------------------

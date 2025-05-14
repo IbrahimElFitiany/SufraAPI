@@ -1,4 +1,5 @@
-﻿using Sufra_MVC.Models.RestaurantModels;
+﻿using DTOs;
+using Sufra_MVC.Models.RestaurantModels;
 
 namespace Sufra_MVC.Services.IServices
 {
@@ -6,7 +7,7 @@ namespace Sufra_MVC.Services.IServices
     {
         Task AddAsync(Cuisine cuisine);
         Task<Cuisine> GetByIdAsync(int id);
-        Task<IEnumerable<Cuisine>> GetAllAsync();
+        Task<IEnumerable<CuisineDTO>> GetAllAsync();
         Task UpdateAsync(Cuisine cuisine);
         Task DeleteAsync(int id);
 

@@ -39,6 +39,10 @@ namespace Sufra_MVC.Repositories
                 throw new Exception($"Error In Repo Layer: {ex.Message}");
             }
         }
+        public async Task<IEnumerable<Cuisine>> GetAllAsync()
+        {
+            return await _context.Cuisines.ToListAsync();
+        }
         public async Task UpdateAsync(Cuisine cuisine)
         {
             try

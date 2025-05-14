@@ -1,6 +1,7 @@
 ﻿using Sufra_MVC.Repositories;
 using Sufra_MVC.Services.IServices;
 using Sufra_MVC.Models.RestaurantModels;
+using DTOs;
 
 namespace Sufra_MVC.Services.Services
 {
@@ -24,9 +25,17 @@ namespace Sufra_MVC.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Cuisine>> GetAllAsync()
+        public async Task<IEnumerable<CuisineDTO>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var cuisines = await _cuisineRepository.GetAllAsync();  // Fetch cuisines from repository
+
+            var cuisineDTOs = cuisines.Select(c => new CuisineDTO
+            {
+                CuisineId = c.Id,
+                CuisineName = c.Name
+            }).ToList();
+
+            return cuisineDTOs;
         }
 
         public Task<Cuisine> GetByIdAsync(int id)
