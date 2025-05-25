@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components.Server;
 using Microsoft.EntityFrameworkCore;
-using Sufra_MVC.Data;
-using Sufra_MVC.Models.RestaurantModels;
+using SufraMVC.Data;
+using SufraMVC.Models.Restaurants;
+using SufraMVC.Repositories.IRepositories;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.Repositories
 {
     public class MenuItemRepository:IMenuItemRepository
     {

@@ -1,6 +1,6 @@
-﻿using Sufra_MVC.Models.CustomerModels;
+﻿using SufraMVC.Models.Customers;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.IRepositories
 {
     public interface ICustomerRepository
     {

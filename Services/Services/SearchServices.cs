@@ -1,11 +1,11 @@
-﻿using Services.IServices;
-using Sufra_MVC.Repositories;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using DuoVia.FuzzyStrings;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Models.RestaurantModels;
+using SufraMVC.Services.IServices;
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.DTOs;
+using SufraMVC.Models.Restaurants;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class SearchServices : ISearchServices
     {

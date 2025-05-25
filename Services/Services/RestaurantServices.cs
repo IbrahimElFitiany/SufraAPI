@@ -1,19 +1,15 @@
-﻿using DTOs;
-using DTOs.MenuSectionDTOs;
-using DTOs.TableDTOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.ObjectModelRemoting;
+﻿
 using Microsoft.EntityFrameworkCore;
-using sufra.Controllers;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Exceptions;
-using Sufra_MVC.Infrastructure.Services;
-using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Repositories;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.DTOs.MenuSectionDTOs;
+using SufraMVC.DTOs.TableDTOs;
+using SufraMVC.Exceptions;
+using SufraMVC.Infrastructure.Services;
+using SufraMVC.Models.Restaurants;
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Services.IServices;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class RestaurantServices : IRestaurantServices
     {

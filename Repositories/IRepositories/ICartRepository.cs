@@ -1,8 +1,6 @@
-﻿using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.Orders;
-using Sufra_MVC.Models.RestaurantModels;
+﻿using SufraMVC.Models.Orders;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.IRepositories
 {
     public interface ICartRepository
     {

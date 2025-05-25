@@ -1,4 +1,4 @@
-﻿namespace DTOs.ReservationDTOs
+﻿namespace SufraMVC.DTOs.ReservationDTOs
 {
     public class CreateReservationReqDTO
     {

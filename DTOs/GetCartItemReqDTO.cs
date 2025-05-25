@@ -1,7 +1,6 @@
-﻿using Sufra_MVC.DTOs;
-using Sufra_MVC.DTOs.CartDTOs;
+﻿
 
-namespace DTOs
+namespace SufraMVC.DTOs
 {
     public class GetCartItemReqDTO
     {

@@ -1,6 +1,6 @@
-﻿using Models.Orders;
+﻿using SufraMVC.Models.Orders;
 
-namespace DTOs
+namespace SufraMVC.DTOs
 {
     public class UpdateOrderReqDTO
     {

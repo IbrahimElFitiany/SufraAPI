@@ -1,9 +1,8 @@
-﻿using DTOs.ReservationDTOs;
-using Microsoft.AspNetCore.Mvc;
-using Models.Reservation;
-using Sufra_MVC.DTOs;
+﻿
+using SufraMVC.DTOs.ReservationDTOs;
+using SufraMVC.Models.Reservations;
 
-namespace Sufra_MVC.Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface IReservationServices
     {

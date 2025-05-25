@@ -1,15 +1,12 @@
-﻿
-
-using DTOs;
-using Services.IServices;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.Orders;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Repositories;
+﻿using SufraMVC.DTOs;
+using SufraMVC.Models.Customers;
+using SufraMVC.Models.Orders;
+using SufraMVC.Models.Restaurants;
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Services.IServices;
 
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class CartServices : ICartServices
     {

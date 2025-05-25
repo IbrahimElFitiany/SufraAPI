@@ -1,6 +1,5 @@
-﻿using Models.Reservation;
-
-namespace DTOs.ReservationDTOs
+﻿
+namespace SufraMVC.DTOs.ReservationDTOs
 {
     public class CreateReservationResDTO
     {

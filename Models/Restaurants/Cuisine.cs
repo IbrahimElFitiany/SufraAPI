@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sufra_MVC.Models.RestaurantModels
+namespace SufraMVC.Models.Restaurants
 {
     public class Cuisine
     {

@@ -1,15 +1,10 @@
-﻿using DTOs;
-using MailKit.Search;
+﻿
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models.Orders;
-using Org.BouncyCastle.Asn1.X509;
-using Services.IServices;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.Services.IServices;
 
-namespace Sufra_MVC.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

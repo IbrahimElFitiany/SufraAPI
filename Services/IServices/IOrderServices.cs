@@ -1,9 +1,7 @@
-﻿using DTOs;
-using Models.Orders;
-using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.Orders;
+﻿
+using SufraMVC.DTOs;
 
-namespace Sufra_MVC.Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface IOrderServices
     {

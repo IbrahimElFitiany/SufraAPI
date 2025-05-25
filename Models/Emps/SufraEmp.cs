@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace Sufra_MVC.Models.Emps
+namespace SufraMVC.Models.Emps
 {
     public class SufraEmp
     {

@@ -1,9 +1,8 @@
-﻿using Sufra_MVC.Models;
-using Sufra_MVC.Models.RestaurantModels;
+﻿using SufraMVC.Models.Restaurants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sufra_MVC.Models
+namespace SufraMVC.Models
 {
     public class District
     {

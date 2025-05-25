@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Models.Reservation;
-using Sufra_MVC.Data;
-using Table = Sufra_MVC.Models.RestaurantModels.Table;
+using SufraMVC.Data;
+using SufraMVC.Models.Reservations;
+using SufraMVC.Repositories.IRepositories;
+using Table = SufraMVC.Models.Restaurants.Table;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.Repositories
 {
     public class ReservationRepository : IReservationRepository
     {

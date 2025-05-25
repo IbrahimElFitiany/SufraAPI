@@ -1,6 +1,5 @@
-﻿using Sufra_MVC.Models.RestaurantModels;
-
-namespace DTOs
+﻿
+namespace SufraMVC.DTOs
 {
     public class RestaurantOpeningHoursDTO
     {

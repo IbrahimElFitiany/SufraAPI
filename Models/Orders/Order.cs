@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sufra_MVC.Models.CustomerModels;
 using System.Text.Json.Serialization;
-using Sufra_MVC.Models.RestaurantModels;
+using SufraMVC.Models.Restaurants;
+using SufraMVC.Models.Customers;
 
-namespace Models.Orders
+namespace SufraMVC.Models.Orders
 {
     public class Order
     {

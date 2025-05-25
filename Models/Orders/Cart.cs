@@ -1,10 +1,10 @@
-﻿using Sufra_MVC.Models.RestaurantModels;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System;
-using Sufra_MVC.Models.CustomerModels;
 using System.ComponentModel.DataAnnotations.Schema;
+using SufraMVC.Models.Customers;
+using SufraMVC.Models.Restaurants;
 
-namespace Sufra_MVC.Models.Orders
+namespace SufraMVC.Models.Orders
 {
     public class Cart
     {
@@ -21,7 +21,7 @@ namespace Sufra_MVC.Models.Orders
 
         // Navigation property for Restaurant
         public virtual Restaurant Restaurant { get; set; }
-        public virtual CustomerModels.Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
 
         // Collection of CartItems (private set for encapsulation)

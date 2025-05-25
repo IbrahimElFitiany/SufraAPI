@@ -1,9 +1,9 @@
-﻿using Sufra_MVC.Repositories;
-using Sufra_MVC.Services.IServices;
-using Sufra_MVC.Models.RestaurantModels;
-using DTOs;
+﻿using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.Models.Restaurants;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class CuisineServices: ICuisineServices
     {

@@ -1,12 +1,10 @@
-﻿using DTOs.MenuSectionDTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.DTOs.MenuSectionDTOs;
+using SufraMVC.Services.IServices;
 
-namespace Sufra_MVC.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sufra_MVC.Models.CustomerModels
+namespace SufraMVC.Models.Customers
 {
     public class Complaint
     {

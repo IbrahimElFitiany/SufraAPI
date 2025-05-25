@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Repositories;
-using Sufra_MVC.Infrastructure.Services;
-using Sufra_MVC.Services.IServices;
+﻿
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Infrastructure.Services;
+using SufraMVC.DTOs;
+using SufraMVC.Services.IServices;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class AdminServices : IAdminServices
     {

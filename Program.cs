@@ -4,18 +4,16 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Sufra_MVC.Repositories;
-using Sufra_MVC.Data;
-using Sufra_MVC.Infrastructure.Hubs;
-using Sufra_MVC.Infrastructure.Services;
-using Sufra_MVC.Services.IServices;
-using Sufra_MVC.Services.Services;
-using sufra.Sufra.Emps.Infrastructure.Repositories;
-using Services.IServices;
 using System.Text.Json.Serialization;
-using Sufra_MVC.Repositories.IRepositories;
+using SufraMVC.Services.IServices;
+using SufraMVC.Infrastructure.Services;
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Repositories.Repositories;
+using SufraMVC.Infrastructure.Hubs;
+using SufraMVC.Data;
+using SufraMVC.Services.Services;
 
-namespace Sufra_MVC
+namespace SufraMVC
 {
     public class Program
     {

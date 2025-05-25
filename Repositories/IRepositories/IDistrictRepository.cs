@@ -1,8 +1,6 @@
-﻿
-using Sufra_MVC.Models;
-using Sufra_MVC.Models.RestaurantModels;
+﻿using SufraMVC.Models;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.IRepositories
 {
     public interface IDistrictRepository
     {

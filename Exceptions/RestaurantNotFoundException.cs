@@ -1,4 +1,4 @@
-﻿namespace Sufra_MVC.Exceptions
+﻿namespace SufraMVC.Exceptions
 {
     public class RestaurantNotFoundException : Exception
     {

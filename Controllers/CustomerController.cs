@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.Services.IServices;
 using System.Threading.Tasks;
 
-namespace Sufra_MVC.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

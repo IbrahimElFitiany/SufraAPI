@@ -1,4 +1,4 @@
-﻿namespace DTOs.TableDTOs
+﻿namespace SufraMVC.DTOs.TableDTOs
 {
     public class CreateTableResDTO
     {

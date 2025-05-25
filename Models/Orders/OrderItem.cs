@@ -1,8 +1,8 @@
-﻿using Sufra_MVC.Models.RestaurantModels;
+﻿using SufraMVC.Models.Restaurants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Orders
+namespace SufraMVC.Models.Orders
 {
     public class OrderItem
     {

@@ -1,7 +1,7 @@
-﻿using Models.Orders;
-using NuGet.Packaging.Signing;
+﻿using NuGet.Packaging.Signing;
+using SufraMVC.Models.Orders;
 
-namespace DTOs
+namespace SufraMVC.DTOs
 {
     public class OrderDTO
     {

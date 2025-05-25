@@ -1,8 +1,7 @@
-﻿
-using Models.Reservation;
-using Sufra_MVC.Models.RestaurantModels;
+﻿using SufraMVC.Models.Reservations;
+using SufraMVC.Models.Restaurants;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.IRepositories
 {
     public interface IReservationRepository
     {

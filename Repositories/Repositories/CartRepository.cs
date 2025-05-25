@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Sufra_MVC.Data;
-using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.Orders;
-using Sufra_MVC.Models.RestaurantModels;
+﻿
+using Microsoft.EntityFrameworkCore;
+using SufraMVC.Data;
+using SufraMVC.Models.Orders;
+using SufraMVC.Repositories.IRepositories;
 
-namespace Sufra_MVC.Repositories
+namespace SufraMVC.Repositories.Repositories
 {
     public class CartRepository : ICartRepository
     {

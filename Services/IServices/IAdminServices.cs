@@ -1,6 +1,6 @@
-﻿using Sufra_MVC.DTOs;
+﻿using SufraMVC.DTOs;
 
-namespace Sufra_MVC.Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface IAdminServices
     {

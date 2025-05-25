@@ -1,6 +1,6 @@
-﻿using DTOs;
+﻿using SufraMVC.DTOs;
 
-namespace Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface ICartServices
     {

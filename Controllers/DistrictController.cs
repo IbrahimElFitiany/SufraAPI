@@ -1,12 +1,9 @@
-﻿using DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Services.IServices;
-using Sufra_MVC.Services.Services;
+using SufraMVC.DTOs;
+using SufraMVC.Services.IServices;
 
-namespace sufra.Sufra.Emps.Presentation.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

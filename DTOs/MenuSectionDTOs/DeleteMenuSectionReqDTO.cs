@@ -1,4 +1,4 @@
-﻿namespace DTOs.MenuSectionDTOs
+﻿namespace SufraMVC.DTOs.MenuSectionDTOs
 {
     public class DeleteMenuSectionReqDTO
     {

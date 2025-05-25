@@ -1,8 +1,8 @@
-﻿using DTOs;
-using Sufra_MVC.Models;
-using Sufra_MVC.Models.RestaurantModels;
+﻿
+using SufraMVC.DTOs;
+using SufraMVC.Models;
 
-namespace Sufra_MVC.Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface IDistrictServices
     {

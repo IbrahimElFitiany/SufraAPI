@@ -1,5 +1,4 @@
-﻿
-namespace Sufra_MVC.DTOs
+﻿namespace SufraMVC.DTOs
 {
     public class LoginResponseDTO
     {

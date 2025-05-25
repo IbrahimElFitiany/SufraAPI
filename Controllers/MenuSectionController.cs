@@ -1,11 +1,11 @@
-﻿using DTOs.MenuSectionDTOs;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sufra_MVC.Exceptions;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs.MenuSectionDTOs;
+using SufraMVC.Exceptions;
+using SufraMVC.Services.IServices;
 
-namespace sufra.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

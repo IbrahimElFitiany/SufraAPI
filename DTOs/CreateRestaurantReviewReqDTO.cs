@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace sufra.Controllers
+namespace SufraMVC.DTOs
 {
     public class CreateRestaurantReviewReqDTO
     {

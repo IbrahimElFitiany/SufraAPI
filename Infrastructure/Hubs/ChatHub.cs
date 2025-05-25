@@ -1,4 +1,4 @@
-﻿namespace Sufra_MVC.Infrastructure.Hubs
+﻿namespace SufraMVC.Infrastructure.Hubs
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Collections.Concurrent;

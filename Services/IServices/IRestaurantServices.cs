@@ -1,12 +1,8 @@
-﻿using DTOs;
-using DTOs.TableDTOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using sufra.Controllers;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Models.RestaurantModels;
+﻿
+using SufraMVC.DTOs;
+using SufraMVC.DTOs.TableDTOs;
 
-namespace Sufra_MVC.Services.IServices
+namespace SufraMVC.Services.IServices
 {
     public interface IRestaurantServices
     {

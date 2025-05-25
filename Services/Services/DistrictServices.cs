@@ -1,10 +1,9 @@
-﻿using Sufra_MVC.Repositories;
-using Sufra_MVC.Services.IServices;
-using Sufra_MVC.Models.RestaurantModels;
-using DTOs;
-using Sufra_MVC.Models;
+﻿using SufraMVC.Models;
+using SufraMVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.Repositories.IRepositories;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class DistrictServices : IDistrictServices
     {

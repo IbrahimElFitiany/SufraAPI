@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using System.Security.Claims;
-using Sufra_MVC.Infrastructure.Services;
+using SufraMVC.Infrastructure.Services;
 
-namespace Sufra_MVC.DTOs
+namespace SufraMVC.DTOs
 {
     public class AdminClaimsDTO : IJwtClaimsProvider
     {

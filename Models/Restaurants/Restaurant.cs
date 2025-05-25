@@ -1,16 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc;
-using Models.Reservation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Sufra_MVC.Exceptions;
-using DTOs;
-using Sufra_MVC.Models.CustomerModels;
-using Models.Orders;
+using SufraMVC.Models.Orders;
+using SufraMVC.Exceptions;
+using SufraMVC.Models.Reservations;
 
-namespace Sufra_MVC.Models.RestaurantModels
+namespace SufraMVC.Models.Restaurants
 {
     public class Restaurant
     {

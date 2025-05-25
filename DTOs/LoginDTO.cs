@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Sufra_MVC.DTOs
+namespace SufraMVC.DTOs
 {
     public class LoginDTO
     {

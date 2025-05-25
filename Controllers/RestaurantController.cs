@@ -1,14 +1,13 @@
-﻿using DTOs;
-using DTOs.TableDTOs;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Exceptions;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs;
+using SufraMVC.DTOs.TableDTOs;
+using SufraMVC.Exceptions;
+using SufraMVC.Services.IServices;
 
-namespace sufra.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

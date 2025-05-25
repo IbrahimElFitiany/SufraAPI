@@ -1,7 +1,7 @@
-﻿using Sufra_MVC.Models.RestaurantModels;
+﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace DTOs
+namespace SufraMVC.DTOs
 {
     public class CreateRestaurantOpeningHoursReqDTO
     {

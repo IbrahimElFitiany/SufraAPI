@@ -1,4 +1,4 @@
-﻿namespace Sufra_MVC.DTOs.CartDTOs
+﻿namespace SufraMVC.DTOs.CartDTOs
 {
     public class CartItemDTO
     {

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Sufra_MVC.Infrastructure.Services
+namespace SufraMVC.Infrastructure.Services
 {
     public interface IJwtClaimsProvider
     {

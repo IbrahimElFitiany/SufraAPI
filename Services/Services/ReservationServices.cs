@@ -1,18 +1,16 @@
-﻿using DTOs;
-using DTOs.ReservationDTOs;
-using MimeKit.Cryptography;
-using Models.Reservation;
+﻿
 using QRCoder.Extensions;
-using Sufra_MVC.Exceptions;
-using Sufra_MVC.Infrastructure.Services;
-using Sufra_MVC.Models.CustomerModels;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Repositories;
-using Sufra_MVC.Repositories.IRepositories;
-using Sufra_MVC.Services.IServices;
+using SufraMVC.DTOs.ReservationDTOs;
+using SufraMVC.Exceptions;
+using SufraMVC.Infrastructure.Services;
+using SufraMVC.Models.Customers;
+using SufraMVC.Models.Reservations;
+using SufraMVC.Models.Restaurants;
+using SufraMVC.Repositories.IRepositories;
+using SufraMVC.Services.IServices;
 using System.Data;
 
-namespace Sufra_MVC.Services.Services
+namespace SufraMVC.Services.Services
 {
     public class ReservationServices : IReservationServices
     {

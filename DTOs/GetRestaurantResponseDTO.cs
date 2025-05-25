@@ -1,6 +1,6 @@
-﻿using DTOs.MenuSectionDTOs;
+﻿using SufraMVC.DTOs.MenuSectionDTOs;
 
-namespace Sufra_MVC.DTOs
+namespace SufraMVC.DTOs
 {
     public class GetRestaurantResponseDTO
     {

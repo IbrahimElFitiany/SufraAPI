@@ -1,7 +1,5 @@
-﻿using DTOs.ReservationDTOs;
-using Sufra_MVC.DTOs;
-
-namespace DTOs
+﻿
+namespace SufraMVC.DTOs
 {
     public class UpdateRestaurantReqDTO
     {

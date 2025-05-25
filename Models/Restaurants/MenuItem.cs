@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sufra_MVC.Models.CustomerModels;
 
-namespace Sufra_MVC.Models.RestaurantModels
+namespace SufraMVC.Models.Restaurants
 {
     public class MenuItem
     {

@@ -1,6 +1,6 @@
-﻿using Sufra_MVC.DTOs;
+﻿using SufraMVC.DTOs;
 
-namespace DTOs.MenuSectionDTOs
+namespace SufraMVC.DTOs.MenuSectionDTOs
 {
     public class MenuSectionDTO
     {

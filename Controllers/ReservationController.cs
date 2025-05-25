@@ -1,16 +1,10 @@
-﻿using DTOs.ReservationDTOs;
+﻿
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.Json;
-using Models.Reservation;
-using Sufra_MVC.DTOs;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Services.IServices;
-using Sufra_MVC.Services.Services;
+using SufraMVC.DTOs.ReservationDTOs;
+using SufraMVC.Services.IServices;
 
-namespace sufra.Sufra.Emps.Presentation.Controllers
+namespace SufraMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

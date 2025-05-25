@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sufra_MVC.Models.RestaurantModels;
-using Sufra_MVC.Exceptions;
-using Microsoft.AspNetCore.RateLimiting;
 using System.Text.Json.Serialization;
-using Sufra_MVC.Models.CustomerModels;
+using SufraMVC.Models.Customers;
+using SufraMVC.Models.Restaurants;
 
-namespace Models.Reservation
+namespace SufraMVC.Models.Reservations
 {
     public enum ReservationStatus
     {

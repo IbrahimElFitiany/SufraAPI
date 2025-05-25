@@ -1,4 +1,4 @@
-﻿namespace DTOs
+﻿namespace SufraMVC.DTOs
 {
     public class DistrictDTO
     {

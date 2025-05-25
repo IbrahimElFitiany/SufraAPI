@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
-using Models.Reservation;
-using Models.Orders;
+using SufraMVC.Models.Orders;
+using SufraMVC.Models.Reservations;
+using SufraMVC.Models.Restaurants;
 
-namespace Sufra_MVC.Models.CustomerModels
+namespace SufraMVC.Models.Customers
 {
     [Index(nameof(Email), IsUnique = true)]
     public class Customer
