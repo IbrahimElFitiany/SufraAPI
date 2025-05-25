@@ -1,8 +1,10 @@
 ﻿using DTOs;
+using MailKit.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Orders;
+using Org.BouncyCastle.Asn1.X509;
 using Services.IServices;
 using Sufra_MVC.Models.RestaurantModels;
 using Sufra_MVC.Services.IServices;
@@ -49,8 +51,6 @@ namespace Sufra_MVC.Controllers
             }
         }
 
-
-
         [Authorize]
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder([FromRoute] int orderId)
@@ -70,6 +70,23 @@ namespace Sufra_MVC.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllSystemOrder()
+        {
+            try
+            {
+                IEnumerable<OrderDTO> orders =  await _orderServices.GetAllOrders();
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+
 
         [Authorize]
         [HttpGet("customer-orders")]

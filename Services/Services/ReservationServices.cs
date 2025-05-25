@@ -1,4 +1,5 @@
-﻿using DTOs.ReservationDTOs;
+﻿using DTOs;
+using DTOs.ReservationDTOs;
 using MimeKit.Cryptography;
 using Models.Reservation;
 using QRCoder.Extensions;
@@ -7,6 +8,7 @@ using Sufra_MVC.Infrastructure.Services;
 using Sufra_MVC.Models.CustomerModels;
 using Sufra_MVC.Models.RestaurantModels;
 using Sufra_MVC.Repositories;
+using Sufra_MVC.Repositories.IRepositories;
 using Sufra_MVC.Services.IServices;
 using System.Data;
 
@@ -140,12 +142,30 @@ namespace Sufra_MVC.Services.Services
             };
         }
 
+        public async Task<IEnumerable<ReservationDTO>> GetAllAsync()
+        {
+            var reservations = await _reservationRepository.GetAllAsync();
+
+            return reservations.Select(reservation => new ReservationDTO
+            {
+                ReservationId = reservation.Id,
+                CustomerId = reservation.CustomerId,
+                RestaurantId = reservation.RestaurantId,
+                TableId = reservation.TableId,
+                TabelLabel = reservation.Table.TableLabel,
+                ReservationDateTime = reservation.ReservationDateTime,
+                PartySize = reservation.PartySize,
+                reservationStatus = reservation.Status.ToString()
+            }).ToList();
+        }
 
 
         public async Task ApproveAsync(int reservationId , int restaurantId)
         {
+            //validate
             Restaurant restaurant = await ValidateRestaurant(restaurantId);
             
+            //get reservation
             Reservation reservation = await _reservationRepository.GetByIdAsync(reservationId);
             if (reservation == null || reservation.RestaurantId != restaurantId)
             {
@@ -154,6 +174,7 @@ namespace Sufra_MVC.Services.Services
 
             await _reservationRepository.ApproveAsync(reservation);
 
+            Console.WriteLine(reservation.Status.GetStringValue());
             byte[] QRCodeImageBase64 = _qrCodeService.GenerateReservationQRCode(new ReservationDTO
             {
                 ReservationId = reservation.Id,

@@ -12,8 +12,8 @@ using Sufra_MVC.Data;
 namespace SufraMVC.Migrations
 {
     [DbContext(typeof(Sufra_DbContext))]
-    [Migration("20250512020008_addCartAndCartItems")]
-    partial class addCartAndCartItems
+    [Migration("20250514212912_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,8 +42,12 @@ namespace SufraMVC.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("RestaurantId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
@@ -51,6 +55,8 @@ namespace SufraMVC.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Orders");
                 });
@@ -188,6 +194,39 @@ namespace SufraMVC.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.RestaurantReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("RestaurantReviews");
+                });
+
             modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -205,9 +244,6 @@ namespace SufraMVC.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("RestaurantId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -220,8 +256,6 @@ namespace SufraMVC.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("MenuItemId");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Reviews");
                 });
@@ -606,7 +640,15 @@ namespace SufraMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Sufra_MVC.Models.RestaurantModels.Restaurant", "Restaurant")
+                        .WithMany("Orders")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("Models.Orders.OrderItem", b =>
@@ -666,6 +708,25 @@ namespace SufraMVC.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.RestaurantReview", b =>
+                {
+                    b.HasOne("Sufra_MVC.Models.CustomerModels.Customer", "Customer")
+                        .WithMany("RestaurantReviews")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sufra_MVC.Models.RestaurantModels.Restaurant", "Restaurant")
+                        .WithMany("RestaurantReviews")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("Sufra_MVC.Models.CustomerModels.Review", b =>
                 {
                     b.HasOne("Sufra_MVC.Models.CustomerModels.Customer", "Customer")
@@ -679,10 +740,6 @@ namespace SufraMVC.Migrations
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Sufra_MVC.Models.RestaurantModels.Restaurant", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("RestaurantId");
 
                     b.Navigation("Customer");
 
@@ -826,6 +883,8 @@ namespace SufraMVC.Migrations
 
                     b.Navigation("Reservations");
 
+                    b.Navigation("RestaurantReviews");
+
                     b.Navigation("Reviews");
                 });
 
@@ -867,9 +926,11 @@ namespace SufraMVC.Migrations
 
                     b.Navigation("OpeningHours");
 
+                    b.Navigation("Orders");
+
                     b.Navigation("Reservations");
 
-                    b.Navigation("Reviews");
+                    b.Navigation("RestaurantReviews");
 
                     b.Navigation("Tables");
                 });

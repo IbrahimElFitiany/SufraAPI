@@ -82,19 +82,29 @@ namespace Sufra_MVC.Services.Services
 
         }
 
-        public Task<MenuSection> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<ICollection<MenuSection>> GetByRestaurantIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<MenuSection> UpdateByIdAsync(int id)
+        public async Task UpdateByIdAsync(MenuSectionDTO menuSection)
         {
-            throw new NotImplementedException();
+            var existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuSection.MenuSectionId);
+
+            if (existingMenuSection == null)
+            {
+                throw new Exception($"Menu section with ID {menuSection.MenuSectionId} not found.");
+            }
+
+            if (existingMenuSection.RestaurantId != menuSection.RestaurantId)
+            {
+                throw new UnauthorizedMenuSectionAccessException("No Menu Section with this name assossiated with this restauratnt");
+            }
+
+            existingMenuSection.Name = menuSection.MenuSectionName;
+
+            await _menuSectionRepository.UpdateAsync(existingMenuSection);
+
         }
     }
 }

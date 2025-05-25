@@ -156,7 +156,22 @@ namespace Sufra_MVC.Services.Services
             }).ToList();
 
         }
+        public async Task<IEnumerable<OrderDTO>> GetAllOrders()
+        {
 
+            var orders = await _orderRepository.GetAllOrdersAsync();
+
+            return orders.Select(order => new OrderDTO
+            {
+                OrderId = order.Id,
+                CustomerId = order.CustomerId,
+                RestaurantId = order.RestaurantId,
+                Status = order.Status,
+                TotalPrice = order.TotalPrice,
+                OrderDate = order.OrderDate
+            }).ToList();
+
+        }
 
         public async Task CancelOrderAsync(int orderId , int customerId)
         {

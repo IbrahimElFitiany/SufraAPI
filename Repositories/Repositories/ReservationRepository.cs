@@ -39,6 +39,10 @@ namespace Sufra_MVC.Repositories
             IEnumerable<Reservation> reservations = await _context.Reservations.Where(r => r.TableId == table.Id && r.Status == ReservationStatus.Pending).ToListAsync();
             return reservations;
         }
+        public async Task<IEnumerable<Reservation>> GetAllAsync()
+        {
+            return await _context.Reservations.ToListAsync();
+        }
 
         public async Task ApproveAsync(Reservation reservation)
         {

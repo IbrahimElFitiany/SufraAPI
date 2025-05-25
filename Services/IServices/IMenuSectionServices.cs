@@ -7,8 +7,7 @@ namespace Sufra_MVC.Services.IServices
     {
         Task<CreateMenuSectionResDTO> CreateAsync(MenuSectionDTO menuSectionDTO);
         Task<ICollection<MenuSection>> GetByRestaurantIdAsync(int id);
-        Task<MenuSection> GetByIdAsync(int id);
         Task DeleteAsync(MenuSectionDTO menuSectionDTO);
-        Task<MenuSection> UpdateByIdAsync(int id);
+        Task UpdateByIdAsync(MenuSectionDTO menuSection);
     }
 }

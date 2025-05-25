@@ -2,6 +2,7 @@
 using DTOs.MenuSectionDTOs;
 using DTOs.TableDTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.ObjectModelRemoting;
 using Microsoft.EntityFrameworkCore;
 using sufra.Controllers;
 using Sufra_MVC.DTOs;
@@ -235,7 +236,8 @@ namespace Sufra_MVC.Services.Services
                 Longitude = r.Longitude,
                 Address = r.Address,
                 DistrictId = r.DistrictId,
-                IsApproved = r.IsApproved
+                IsApproved = r.IsApproved,
+                Rating = r.Rating
             });
 
             return restaurantDtos;
@@ -249,6 +251,54 @@ namespace Sufra_MVC.Services.Services
             }
 
             await _restaurantRepository.DeleteRestaurant(restaurant);
+        }
+
+        public async Task UpdateRestaurantAsync(UpdateRestaurantReqDTO updateRestaurantReqDTO)
+        {
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(updateRestaurantReqDTO.RestaurantId);
+
+            if (restaurant == null)
+            {
+                throw new RestaurantNotFoundException("restaurant not found");
+            }
+
+            restaurant.Name = updateRestaurantReqDTO.Name;
+            restaurant.Phone = updateRestaurantReqDTO.Phone;
+            restaurant.ImgUrl = updateRestaurantReqDTO.ImgUrl;
+            restaurant.CuisineId = updateRestaurantReqDTO.CuisineId;
+            restaurant.Description = updateRestaurantReqDTO.Description;
+            restaurant.Latitude = updateRestaurantReqDTO.Latitude;
+            restaurant.Longitude = updateRestaurantReqDTO.Longitude;
+            restaurant.Address = updateRestaurantReqDTO.Address;
+            restaurant.DistrictId = updateRestaurantReqDTO.DistrictId;
+
+            await _restaurantRepository.UpdateRestaurant(restaurant);
+        }
+
+        public async Task<IEnumerable<RestaurantDTO>> GetSufraPicksAsync()
+        {
+
+            IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetSufraPicksAsync();
+
+            IEnumerable<RestaurantDTO> restaurantDtos = restaurants.Select(r => new RestaurantDTO
+            {
+                RestaurantId = r.Id,         
+                ImgUrl = r.ImgUrl,
+                Name = r.Name,
+                Phone = r.Phone,
+                CuisineId = r.CuisineId,
+                CuisineName = r.Cuisine.Name,
+                Description = r.Description,
+                Latitude = r.Latitude,
+                Longitude = r.Longitude,
+                Address = r.Address,
+                DistrictId = r.DistrictId,
+                IsApproved = r.IsApproved,
+                Rating = r.Rating
+                
+            });
+
+            return restaurantDtos;
         }
 
         //---------------------Table Services-----------------------------

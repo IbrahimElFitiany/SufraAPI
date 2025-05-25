@@ -12,6 +12,7 @@ namespace Sufra_MVC.Services.IServices
        Task<OrderDTO> GetOrder(int orderId, int customerId);
        Task<IEnumerable<OrderDTO>> GetRestaurantOrders(int restaurantId);
        Task<IEnumerable<OrderDTO>> GetCustomerOrders(int customerId);
+        Task<IEnumerable<OrderDTO>> GetAllOrders();
        Task UpdateOrderStatus(OrderDTO orderDTO);
     }
 }

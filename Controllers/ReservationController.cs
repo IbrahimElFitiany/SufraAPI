@@ -50,6 +50,25 @@ namespace sufra.Sufra.Emps.Presentation.Controllers
             }
         }
 
+
+        [Authorize (Roles ="Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllReservations()
+        {
+            try
+            {
+                IEnumerable<ReservationDTO> reservations = await _reservationServices.GetAllAsync();
+                return Ok(reservations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+
         [Authorize]
         [HttpPatch("approve/{reservationId}")]
         public async Task<IActionResult> ApproveReservation([FromRoute] int reservationId)

@@ -26,6 +26,15 @@ namespace Sufra_MVC.Repositories
         {
             return await _context.Restaurants.ToListAsync();
         }
+
+        public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()
+        {
+            return await _context.Restaurants
+                .OrderByDescending(r => r.Rating)
+                .Take(4)
+                .ToListAsync();
+        }
+
         public async Task<Restaurant> GetByIdAsync(int id)
         {
              return await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
@@ -63,9 +72,10 @@ namespace Sufra_MVC.Repositories
             _context.Restaurants.Update(restaurant);
             await _context.SaveChangesAsync();
         }
-        public Task UpdateRestaurant(Restaurant restaurant)
+        public async Task UpdateRestaurant(Restaurant restaurant)
         {
-            throw new NotImplementedException();
+            _context.Restaurants.Update(restaurant);
+            await _context.SaveChangesAsync();
         }
 
 

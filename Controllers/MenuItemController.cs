@@ -49,6 +49,38 @@ namespace Sufra_MVC.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpPut ("{menuItemId}")]
+        //el mafrod ast5dm dto mo5tlf bs el w2t
+        public async Task<IActionResult> UpdateMenuItem([FromBody] CreateMenuItemReqDTO createMenuItemReqDTO , [FromRoute] int menuItemId)
+        {
+            int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
+
+            try
+            {
+                MenuItemDTO menuItemDTO = new MenuItemDTO
+                {
+                    MenuItemId = menuItemId,
+                    RestaurantId = restaurantId,
+                    MenuSectionId = createMenuItemReqDTO.MenuSectionId,
+                    Name = createMenuItemReqDTO.Name,
+                    MenuItemImg = createMenuItemReqDTO.MenuItemImg,
+                    Description = createMenuItemReqDTO.Description,
+                    Price = createMenuItemReqDTO.Price,
+                    Availability = createMenuItemReqDTO.Availability
+                };
+
+                await _menuItemServices.UpdateMenuItem(menuItemDTO);
+                return Ok(new {message = "el menu item updated"});
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
         [Authorize]
         [HttpDelete("{menuItemId}")]
         public async Task<IActionResult> DeleteMenuItem([FromRoute] int menuItemId)

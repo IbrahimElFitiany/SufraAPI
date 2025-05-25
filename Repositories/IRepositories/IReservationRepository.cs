@@ -10,6 +10,7 @@ namespace Sufra_MVC.Repositories
         Task<Reservation> GetByIdAsync(int id);
         Task<IEnumerable<Reservation>> GetApprovedReservationByTableAsync(Table table);
         Task<IEnumerable<Reservation>> GetPendingReservationsByTableAsync(Table table);
+        Task<IEnumerable<Reservation>> GetAllAsync();
 
         Task ApproveAsync(Reservation reservation);
         Task RejectAsync(Reservation reservation);

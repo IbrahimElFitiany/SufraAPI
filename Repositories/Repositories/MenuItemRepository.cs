@@ -42,9 +42,10 @@ namespace Sufra_MVC.Repositories
             }
         }
 
-        public Task UpdateMenuItemAsync(MenuItem menuItem)
+        public async Task UpdateMenuItemAsync(MenuItem menuItem)
         {
-            throw new NotImplementedException();
+            _context.MenuItems.Update(menuItem);
+            await _context.SaveChangesAsync();
         }
     }
 }

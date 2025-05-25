@@ -10,6 +10,7 @@ namespace Sufra_MVC.Repositories
         Task<Restaurant> GetByNameAsync(string RestaurantName);
         Task<Restaurant> GetByManagerIdAsync(int id);
         Task<IEnumerable<Restaurant>> GetAllAsync();
+        Task<IEnumerable<Restaurant>> GetSufraPicksAsync();
         Task UpdateRestaurant(Restaurant restaurant);
         Task ApproveRestaurantById(Restaurant restaurant);
         Task BlockRestaurantById(Restaurant restaurant);

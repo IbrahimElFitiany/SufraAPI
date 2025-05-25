@@ -136,6 +136,22 @@ namespace sufra.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantReqDTO updateRestaurantReqDTO)
+        {
+            try
+            {
+                await _restaurantServices.UpdateRestaurantAsync(updateRestaurantReqDTO);
+                return Ok(new { messsage = "Updated" });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
 
         [HttpGet("{restaurantId}")]
         public async Task<IActionResult> GetRestaurant([FromRoute] int restaurantId)
@@ -152,6 +168,20 @@ namespace sufra.Controllers
             }
         }
 
+        [HttpGet("sufra-picks")]
+        public async Task<IActionResult> GetSufraPicks()
+        {
+            try
+            {
+                IEnumerable<RestaurantDTO> sufarPicks = await _restaurantServices.GetSufraPicksAsync();
+                return Ok(sufarPicks);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
 
 
         //----------------------Table-------------------------

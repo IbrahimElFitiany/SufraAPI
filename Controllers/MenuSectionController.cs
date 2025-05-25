@@ -52,9 +52,10 @@ namespace sufra.Controllers
             }
         }
 
+        [Authorize]
+        [HttpDelete]
         public async Task<IActionResult> DeleteMenuSection([FromBody] DeleteMenuSectionReqDTO deleteMenuSectionReqDTO)
         {
-
             try
             {
                 int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
@@ -90,6 +91,38 @@ namespace sufra.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPatch ("{menuSectionId}")]
+        public async Task<IActionResult> UpdateMenuSectionName([FromRoute] int menuSectionId , [FromBody] CreateMenuSectionReqDTO updateMenuSectionReqDTO)
+        {
+            int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
+
+            try
+            {
+                MenuSectionDTO menuSection = new MenuSectionDTO
+                {
+                    MenuSectionId = menuSectionId,
+                    RestaurantId = restaurantId,
+                    MenuSectionName = updateMenuSectionReqDTO.MenuSectionName,
+                };
+
+                await _menuSectionManagementServices.UpdateByIdAsync(menuSection);
+
+                return Ok(new {message = "Updated the name"});
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
     }
 }

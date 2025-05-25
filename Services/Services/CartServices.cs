@@ -7,7 +7,7 @@ using Sufra_MVC.Models.CustomerModels;
 using Sufra_MVC.Models.Orders;
 using Sufra_MVC.Models.RestaurantModels;
 using Sufra_MVC.Repositories;
-using SufraMVC.Migrations;
+
 
 namespace Sufra_MVC.Services.Services
 {

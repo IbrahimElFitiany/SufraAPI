@@ -8,6 +8,6 @@ namespace Sufra_MVC.Repositories
         Task<ICollection<MenuSection>> GetByRestaurantIdAsync(int restaurantId);
         Task<MenuSection?> GetByIdAsync(int id);
         Task DeleteAsync(MenuSection menuSection);
-        Task<MenuSection> UpdateAsync(MenuSection menuSection);
+        Task UpdateAsync(MenuSection menuSection);
     }
 }

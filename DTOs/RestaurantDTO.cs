@@ -1,5 +1,4 @@
-﻿using SufraMVC.Migrations;
-
+﻿
 namespace Sufra_MVC.DTOs
 {
     public class RestaurantDTO
