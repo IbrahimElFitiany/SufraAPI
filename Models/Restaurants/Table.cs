@@ -1,8 +1,8 @@
-﻿using SufraMVC.Models.Reservations;
+﻿using Sufra.Models.Reservations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SufraMVC.Models.Restaurants
+namespace Sufra.Models.Restaurants
 {
     public class Table
     {

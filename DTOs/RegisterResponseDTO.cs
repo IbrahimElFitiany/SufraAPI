@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.DTOs
+﻿namespace Sufra.DTOs
 {
     public class RegisterResponseDTO
     {

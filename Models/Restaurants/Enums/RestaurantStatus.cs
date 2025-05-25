@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.Models.Restaurants.Enums
+﻿namespace Sufra.Models.Restaurants.Enums
 {
     public enum RestaurantStatus
     {

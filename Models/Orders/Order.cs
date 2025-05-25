@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using SufraMVC.Models.Restaurants;
-using SufraMVC.Models.Customers;
+using Sufra.Models.Restaurants;
+using Sufra.Models.Customers;
 
-namespace SufraMVC.Models.Orders
+namespace Sufra.Models.Orders
 {
     public class Order
     {

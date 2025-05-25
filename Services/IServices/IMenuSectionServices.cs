@@ -1,7 +1,7 @@
-﻿using SufraMVC.DTOs.MenuSectionDTOs;
-using SufraMVC.Models.Restaurants;
+﻿using Sufra.DTOs.MenuSectionDTOs;
+using Sufra.Models.Restaurants;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface IMenuSectionServices
     {

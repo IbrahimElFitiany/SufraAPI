@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.DTOs.CartDTOs
+﻿namespace Sufra.DTOs.CartDTOs
 {
     public class AddToCartReqDTO
     {

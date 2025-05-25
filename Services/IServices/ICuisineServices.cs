@@ -1,7 +1,7 @@
-﻿using SufraMVC.DTOs;
-using SufraMVC.Models.Restaurants;
+﻿using Sufra.DTOs;
+using Sufra.Models.Restaurants;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface ICuisineServices
     {

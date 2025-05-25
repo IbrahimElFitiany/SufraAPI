@@ -1,8 +1,8 @@
-﻿using SufraMVC.Models.Restaurants;
+﻿using Sufra.Models.Restaurants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SufraMVC.Models
+namespace Sufra.Models
 {
     public class District
     {

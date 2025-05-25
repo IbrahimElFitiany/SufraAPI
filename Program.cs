@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
-using SufraMVC.Services.IServices;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.Repositories.Repositories;
-using SufraMVC.Infrastructure.Hubs;
-using SufraMVC.Data;
-using SufraMVC.Services.Services;
+using Sufra.Services.IServices;
+using Sufra.Repositories.IRepositories;
+using Sufra.Infrastructure.Services;
+using Sufra.Repositories.Repositories;
+using Sufra.Infrastructure.Hubs;
+using Sufra.Services.Services;
+using Sufra.Data;
 
-namespace SufraMVC
+namespace Sufra
 {
     public class Program
     {
@@ -48,11 +48,19 @@ namespace SufraMVC
                     };
                     options.Events = new JwtBearerEvents
                     {
+                        OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+                            var result = JsonSerializer.Serialize(new { message = "You must be logged in." });
+                            return context.Response.WriteAsync(result);
+                        },
                         OnForbidden = context =>
                         {
                             context.Response.StatusCode = StatusCodes.Status403Forbidden;
                             context.Response.ContentType = "application/json";
-                            var result = JsonSerializer.Serialize(new { message = "Admins only!" });
+                            var result = JsonSerializer.Serialize(new { message = "You are not allowed to access this resource." });
                             return context.Response.WriteAsync(result);
                         }
                     };

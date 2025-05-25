@@ -1,6 +1,6 @@
-﻿using SufraMVC.DTOs;
+﻿using Sufra.DTOs;
 
-namespace SufraMVC.DTOs.MenuSectionDTOs
+namespace Sufra.DTOs.MenuSectionDTOs
 {
     public class CreateMenuItemResDTO
     {

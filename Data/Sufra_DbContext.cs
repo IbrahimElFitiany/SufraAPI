@@ -1,13 +1,13 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SufraMVC.Models.Orders;
-using SufraMVC.Models;
-using SufraMVC.Models.Emps;
-using SufraMVC.Models.Reservations;
-using SufraMVC.Models.Restaurants;
-using SufraMVC.Models.Customers;
+using Sufra.Models;
+using Sufra.Models.Restaurants;
+using Sufra.Models.Orders;
+using Sufra.Models.Reservations;
+using Sufra.Models.Customers;
+using Sufra.Models.Emps;
 
-namespace SufraMVC.Data
+namespace Sufra.Data
 {
     public class Sufra_DbContext : DbContext
     {

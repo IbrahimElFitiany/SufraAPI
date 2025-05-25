@@ -1,10 +1,9 @@
-﻿
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.DTOs;
-using SufraMVC.Services.IServices;
+﻿using Sufra.Services.IServices;
+using Sufra.Repositories.IRepositories;
+using Sufra.Infrastructure.Services;
+using Sufra.DTOs;
 
-namespace SufraMVC.Services.Services
+namespace Sufra.Services.Services
 {
     public class AdminServices : IAdminServices
     {

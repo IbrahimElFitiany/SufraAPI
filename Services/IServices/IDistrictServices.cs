@@ -1,8 +1,8 @@
 ﻿
-using SufraMVC.DTOs;
-using SufraMVC.Models;
+using Sufra.DTOs;
+using Sufra.Models;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface IDistrictServices
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SufraMVC.Data;
-using SufraMVC.Models.Orders;
-using SufraMVC.Repositories.IRepositories;
+using Sufra.Data;
+using Sufra.Models.Orders;
+using Sufra.Repositories.IRepositories;
 
-namespace SufraMVC.Repositories.Repositories
+namespace Sufra.Repositories.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

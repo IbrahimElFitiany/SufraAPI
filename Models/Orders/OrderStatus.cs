@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.Models.Orders
+﻿namespace Sufra.Models.Orders
 {
     public enum OrderStatus
     {

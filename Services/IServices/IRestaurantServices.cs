@@ -1,8 +1,8 @@
 ﻿
-using SufraMVC.DTOs;
-using SufraMVC.DTOs.TableDTOs;
+using Sufra.DTOs;
+using Sufra.DTOs.TableDTOs;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface IRestaurantServices
     {

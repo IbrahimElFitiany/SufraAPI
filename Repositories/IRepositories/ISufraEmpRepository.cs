@@ -1,6 +1,6 @@
-﻿using SufraMVC.Models.Emps;
+﻿using Sufra.Models.Emps;
 
-namespace SufraMVC.Repositories.IRepositories
+namespace Sufra.Repositories.IRepositories
 {
     public interface ISufraEmpRepository
     {

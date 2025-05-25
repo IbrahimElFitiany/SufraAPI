@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using SufraMVC.Models.Customers;
+using Sufra.Models.Customers;
 
-namespace SufraMVC.Models.Restaurants
+namespace Sufra.Models.Restaurants
 {
     public class Review
     {

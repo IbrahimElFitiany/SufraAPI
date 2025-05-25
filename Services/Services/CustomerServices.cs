@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SufraMVC.DTOs;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.Models.Customers;
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.Services.IServices;
+using Sufra.DTOs;
+using Sufra.Infrastructure.Services;
+using Sufra.Models.Customers;
+using Sufra.Repositories.IRepositories;
+using Sufra.Services.IServices;
 
-namespace SufraMVC.Services.Services
+namespace Sufra.Services.Services
 {
     public class CustomerServices : ICustomerServices
     {

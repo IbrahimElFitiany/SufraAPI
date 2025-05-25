@@ -1,7 +1,7 @@
 ﻿
-using SufraMVC.Models.Orders;
+using Sufra.Models.Orders;
 
-namespace SufraMVC.Repositories.IRepositories
+namespace Sufra.Repositories.IRepositories
 {
     public interface IOrderRepository
     {

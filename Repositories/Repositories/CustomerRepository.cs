@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-using SufraMVC.Data;
-using SufraMVC.Models.Customers;
-using SufraMVC.Repositories.IRepositories;
+using Sufra.Data;
+using Sufra.Models.Customers;
+using Sufra.Repositories.IRepositories;
 
-namespace SufraMVC.Repositories.Repositories
+namespace Sufra.Repositories.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {

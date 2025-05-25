@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.Extensions.Options;
-using SufraMVC.Infrastructure.Services;
+using Sufra.Infrastructure.Services;
 
-namespace SufraMVC.DTOs
+namespace Sufra.DTOs
 {
     public class CustomerClaimsDTO : IJwtClaimsProvider
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SufraMVC.Models.Restaurants;
+using Sufra.Models.Restaurants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SufraMVC.Models.Orders
+namespace Sufra.Models.Orders
 {
     public class CartItem
     {

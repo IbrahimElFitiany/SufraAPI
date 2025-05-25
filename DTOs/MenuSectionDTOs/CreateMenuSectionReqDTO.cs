@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.DTOs.MenuSectionDTOs
+﻿namespace Sufra.DTOs.MenuSectionDTOs
 {
     public class CreateMenuSectionReqDTO
     {

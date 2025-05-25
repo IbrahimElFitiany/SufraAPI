@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.Models.Emps
+﻿namespace Sufra.Models.Emps
 {
     public enum EmployeeRole
     {

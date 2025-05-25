@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using SufraMVC.Infrastructure.Services;
+using Sufra.Infrastructure.Services;
 
-namespace SufraMVC.DTOs
+namespace Sufra.DTOs
 {
     public class RestaurantClaimsDTO : IJwtClaimsProvider
     {

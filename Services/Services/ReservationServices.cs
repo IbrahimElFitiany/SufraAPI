@@ -1,16 +1,16 @@
 ﻿
 using QRCoder.Extensions;
-using SufraMVC.DTOs.ReservationDTOs;
-using SufraMVC.Exceptions;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.Models.Customers;
-using SufraMVC.Models.Reservations;
-using SufraMVC.Models.Restaurants;
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.Services.IServices;
+using Sufra.DTOs.ReservationDTOs;
+using Sufra.Infrastructure.Services;
+using Sufra.Models.Customers;
+using Sufra.Models.Reservations;
+using Sufra.Models.Restaurants;
+using Sufra.Repositories.IRepositories;
+using Sufra.Services.IServices;
+using Sufra.Exceptions;
 using System.Data;
 
-namespace SufraMVC.Services.Services
+namespace Sufra.Services.Services
 {
     public class ReservationServices : IReservationServices
     {

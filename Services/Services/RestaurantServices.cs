@@ -1,15 +1,16 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SufraMVC.DTOs;
-using SufraMVC.DTOs.MenuSectionDTOs;
-using SufraMVC.DTOs.TableDTOs;
-using SufraMVC.Exceptions;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.Models.Restaurants;
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.Services.IServices;
+using Sufra.DTOs;
+using Sufra.DTOs.MenuSectionDTOs;
+using Sufra.DTOs.TableDTOs;
+using Sufra.Exceptions;
+using Sufra.Infrastructure.Services;
+using Sufra.Models.Restaurants;
+using Sufra.Repositories.IRepositories;
+using Sufra.Services.IServices;
 
-namespace SufraMVC.Services.Services
+
+namespace Sufra.Services.Services
 {
     public class RestaurantServices : IRestaurantServices
     {
@@ -122,7 +123,7 @@ namespace SufraMVC.Services.Services
                     RestaurantId = restaurant.Id,
                     RestaurantName = restaurant.Name,
                     IsApproved = restaurant.IsApproved,
-                    Role = "Restaurant Manager"
+                    Role = "RestaurantManager"
                 };
                 string token = _JwtService.GenerateToken(restaurantTokenDTO);
 

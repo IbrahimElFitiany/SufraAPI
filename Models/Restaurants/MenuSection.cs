@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SufraMVC.Models.Restaurants
+namespace Sufra.Models.Restaurants
 {
     public class MenuSection
     {

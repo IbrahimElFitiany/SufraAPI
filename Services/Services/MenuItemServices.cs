@@ -1,12 +1,11 @@
-﻿
-using SufraMVC.Services.IServices;
-using SufraMVC.DTOs;
-using SufraMVC.Repositories.IRepositories;
-using SufraMVC.DTOs.MenuSectionDTOs;
-using SufraMVC.Exceptions;
-using SufraMVC.Models.Restaurants;
+﻿using Sufra.Models.Restaurants;
+using Sufra.DTOs;
+using Sufra.Services.IServices;
+using Sufra.Repositories.IRepositories;
+using Sufra.DTOs.MenuSectionDTOs;
+using Sufra.Exceptions;
 
-namespace SufraMVC.Services.Services
+namespace Sufra.Services.Services
 {
     public class MenuItemServices : IMenuItemServices
     {

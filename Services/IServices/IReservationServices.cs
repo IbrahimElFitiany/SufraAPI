@@ -1,8 +1,8 @@
 ﻿
-using SufraMVC.DTOs.ReservationDTOs;
-using SufraMVC.Models.Reservations;
+using Sufra.DTOs.ReservationDTOs;
+using Sufra.Models.Reservations;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface IReservationServices
     {

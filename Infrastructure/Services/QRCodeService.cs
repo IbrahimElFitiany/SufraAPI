@@ -1,7 +1,7 @@
 ﻿using QRCoder;
 using Newtonsoft.Json;
-using SufraMVC.Infrastructure.Services;
-using SufraMVC.DTOs.ReservationDTOs;
+using Sufra.Infrastructure.Services;
+using Sufra.DTOs.ReservationDTOs;
 
 public class QRCodeService : IQRCodeService
 {

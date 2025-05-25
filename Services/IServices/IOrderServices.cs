@@ -1,7 +1,6 @@
-﻿
-using SufraMVC.DTOs;
+﻿using Sufra.DTOs;
 
-namespace SufraMVC.Services.IServices
+namespace Sufra.Services.IServices
 {
     public interface IOrderServices
     {

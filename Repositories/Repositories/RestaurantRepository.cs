@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SufraMVC.Data;
-using SufraMVC.Models.Restaurants;
-using SufraMVC.Repositories.IRepositories;
+using Sufra.Data;
+using Sufra.Models.Restaurants;
+using Sufra.Repositories.IRepositories;
 
-namespace SufraMVC.Repositories.Repositories
+namespace Sufra.Repositories.Repositories
 {
     public class RestaurantRepository : IRestaurantRepository
     {

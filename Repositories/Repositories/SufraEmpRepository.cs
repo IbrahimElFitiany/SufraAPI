@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SufraMVC.Data;
-using SufraMVC.Models.Emps;
-using SufraMVC.Repositories.IRepositories;
+using Sufra.Data;
+using Sufra.Models.Emps;
+using Sufra.Repositories.IRepositories;
 
-
-namespace SufraMVC.Repositories.Repositories
+namespace Sufra.Repositories.Repositories
 {
     public class SufraEmpRepository : ISufraEmpRepository
     {

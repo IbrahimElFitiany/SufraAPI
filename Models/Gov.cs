@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SufraMVC.Models
+namespace Sufra.Models
 {
     public class Gov
     {

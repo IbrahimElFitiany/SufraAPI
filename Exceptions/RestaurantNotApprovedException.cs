@@ -1,4 +1,4 @@
-﻿namespace SufraMVC.Exceptions
+﻿namespace Sufra.Exceptions
 {
     public class RestaurantNotApprovedException : Exception
     {

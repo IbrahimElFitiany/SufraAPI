@@ -1,10 +1,10 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SufraMVC.Models.Customers;
-using SufraMVC.Models.Restaurants;
+using Sufra.Models.Customers;
+using Sufra.Models.Restaurants;
 
-namespace SufraMVC.Models.Orders
+namespace Sufra.Models.Orders
 {
     public class Cart
     {

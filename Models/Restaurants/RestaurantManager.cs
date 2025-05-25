@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace SufraMVC.Models.Restaurants
+namespace Sufra.Models.Restaurants
 {
     public class RestaurantManager
     {

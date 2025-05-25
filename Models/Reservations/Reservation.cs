@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using SufraMVC.Models.Customers;
-using SufraMVC.Models.Restaurants;
+using Sufra.Models.Customers;
+using Sufra.Models.Restaurants;
 
-namespace SufraMVC.Models.Reservations
+namespace Sufra.Models.Reservations
 {
     public enum ReservationStatus
     {

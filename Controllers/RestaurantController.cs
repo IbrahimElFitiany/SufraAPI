@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SufraMVC.DTOs;
-using SufraMVC.DTOs.TableDTOs;
-using SufraMVC.Exceptions;
-using SufraMVC.Services.IServices;
+using Sufra.DTOs;
+using Sufra.DTOs.TableDTOs;
+using Sufra.Exceptions;
+using Sufra.Services.IServices;
 
-namespace SufraMVC.Controllers
+namespace Sufra.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -185,7 +185,7 @@ namespace SufraMVC.Controllers
 
         //----------------------Table-------------------------
 
-        [Authorize]
+        [Authorize (Roles = "RestaurantManager")]
         [HttpPost("tables")]
         public async Task<IActionResult> AddTable(CreateTableReqDTO createTableReqDTO)
         {

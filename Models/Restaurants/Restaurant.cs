@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SufraMVC.Models.Orders;
-using SufraMVC.Exceptions;
-using SufraMVC.Models.Reservations;
+using Sufra.Models.Orders;
+using Sufra.Models.Reservations;
+using Sufra.Exceptions;
 
-namespace SufraMVC.Models.Restaurants
+namespace Sufra.Models.Restaurants
 {
     public class Restaurant
     {

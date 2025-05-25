@@ -1,6 +1,6 @@
-﻿using SufraMVC.Models;
+﻿using Sufra.Models;
 
-namespace SufraMVC.Repositories.IRepositories
+namespace Sufra.Repositories.IRepositories
 {
     public interface IDistrictRepository
     {

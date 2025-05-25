@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SufraMVC.Infrastructure.Services
+namespace Sufra.Infrastructure.Services
 {
     public class JwtServices
     {

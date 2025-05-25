@@ -1,6 +1,6 @@
-﻿using SufraMVC.DTOs.ReservationDTOs;
+﻿using Sufra.DTOs.ReservationDTOs;
 
-namespace SufraMVC.Infrastructure.Services
+namespace Sufra.Infrastructure.Services
 {
     public interface IQRCodeService
     {
