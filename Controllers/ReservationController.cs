@@ -47,11 +47,11 @@ namespace Sufra.Controllers
 
         [Authorize (Roles ="Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllReservations()
+        public async Task<IActionResult> GetAllReservations([FromQuery] ReservationQueryDTO queryDTO) //will implement pagination and filtering soon 
         {
             try
             {
-                IEnumerable<ReservationDTO> reservations = await _reservationServices.GetAllAsync();
+                IEnumerable<ReservationDTO> reservations = await _reservationServices.GetAllAsync(queryDTO);
                 return Ok(reservations);
             }
             catch (Exception ex)

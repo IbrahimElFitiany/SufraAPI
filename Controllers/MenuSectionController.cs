@@ -20,7 +20,7 @@ namespace Sufra.Controllers
 
         //------------------------------------------------
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPost]
         public async Task<IActionResult> CreateMenuSection ([FromBody] CreateMenuSectionReqDTO createMenuSectionReqDTO)
         {
@@ -52,9 +52,9 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteMenuSection([FromBody] DeleteMenuSectionReqDTO deleteMenuSectionReqDTO)
+        [Authorize(Roles = "RestaurantManager")]
+        [HttpDelete("{menuSectionId}")]
+        public async Task<IActionResult> DeleteMenuSection([FromRoute] int menuSectionId)
         {
             try
             {
@@ -63,13 +63,12 @@ namespace Sufra.Controllers
                 MenuSectionDTO menuSectionDTO = new MenuSectionDTO
                 {
                     RestaurantId = restaurantId,
-                    MenuSectionId = deleteMenuSectionReqDTO.MenusectionId
-                };
+                    MenuSectionId = menuSectionId                };
 
                 await _menuSectionManagementServices.DeleteAsync(menuSectionDTO);
                 return Ok(new { message = "Deleted" });
             }
-            catch (UnauthorizedAccessException ex)
+            catch (MenuSectionUnauthorizedAccessException ex)
             {
                 return Forbid();
             }
@@ -91,7 +90,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPatch ("{menuSectionId}")]
         public async Task<IActionResult> UpdateMenuSectionName([FromRoute] int menuSectionId , [FromBody] CreateMenuSectionReqDTO updateMenuSectionReqDTO)
         {
@@ -106,7 +105,7 @@ namespace Sufra.Controllers
                     MenuSectionName = updateMenuSectionReqDTO.MenuSectionName,
                 };
 
-                await _menuSectionManagementServices.UpdateByIdAsync(menuSection);
+                await _menuSectionManagementServices.UpdateAsync(menuSection);
 
                 return Ok(new {message = "Updated the name"});
             }

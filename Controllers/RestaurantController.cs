@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Sufra.DTOs;
-using Sufra.DTOs.TableDTOs;
+using Sufra.DTOs.RestaurantDTOs;
+using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
+using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
 
@@ -42,7 +44,6 @@ namespace Sufra.Controllers
         }
 
 
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] RestaurantLoginRequestDTO restaurantLoginRequestDTO)
         {
@@ -58,7 +59,6 @@ namespace Sufra.Controllers
         }
 
 
-
         //-------------------------------------------------------------
 
         [Authorize(Roles = "Admin")]
@@ -70,12 +70,17 @@ namespace Sufra.Controllers
                 await _restaurantServices.ApproveRestaurantAsync(restaurantId);
                 return Ok(new { message = "Restaurant approved successfully." });
             }
-            catch (RestaurantNotFoundException e)
+            catch (RestaurantNotFoundException ex)
             {
-                return NotFound(new { message = e.Message });
+                return NotFound(new { message = ex.Message });
+            }
+            catch (AlreadyApprovedException ex)
+            {
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception ex)
             {
+                //will implement logger later
                 return StatusCode(500, new { error = ex.Message });
             }
 
@@ -90,12 +95,17 @@ namespace Sufra.Controllers
                 await _restaurantServices.BlockRestaurantAsync(restaurantId);
                 return Ok(new { message = "Restaurant Blocked successfully." });
             }
-            catch(RestaurantNotFoundException e)
+            catch(RestaurantNotFoundException ex)
             {
-                return NotFound(new { message = e.Message });
+                return NotFound(new { message = ex.Message });
+            }
+            catch (AlreadyBlockedException ex)
+            {
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception ex)
             {
+                //will implement logger later
                 return StatusCode(500, new { error = ex.Message });
             }
 
@@ -104,19 +114,35 @@ namespace Sufra.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllRestaurants()
+        public async Task<IActionResult> QueryRestaurants([FromQuery] RestaurantQueryDTO restaurantQueryDTO)
         {
             try
             {
-                var restaurants = await _restaurantServices.GetAllAsync();
-                return Ok(restaurants);
-
+                var restaurantlistItems = await _restaurantServices.QueryRestaurantsAsync(restaurantQueryDTO);
+                return Ok(restaurantlistItems);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { ex.Message });
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet ("search")] 
+        public async Task<IActionResult> SearchRestaurantAsync([FromQuery] RestaurantQueryDTO restaurantQueryDTO)
+        {
+            try
+            {
+                restaurantQueryDTO.IsApproved = true;
+                var restaurantlistItems = await _restaurantServices.QueryRestaurantsAsync(restaurantQueryDTO);
+                return Ok(restaurantlistItems);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{restaurantId}")]
@@ -126,7 +152,10 @@ namespace Sufra.Controllers
             {
                 await _restaurantServices.DeleteAsync(restaurantId);
                 return Ok(new {messsage = "Deleted"});
-
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound (new { ex.Message });
             }
             catch (Exception ex)
             {
@@ -136,14 +165,18 @@ namespace Sufra.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantReqDTO updateRestaurantReqDTO)
+        [HttpPatch("{restaurantId}")] 
+        public async Task<IActionResult> UpdateRestaurant(int restaurantId, [FromBody] UpdateRestaurantReqDTO updateRestaurantReqDTO) //partial updates
         {
             try
             {
-                await _restaurantServices.UpdateRestaurantAsync(updateRestaurantReqDTO);
-                return Ok(new { messsage = "Updated" });
+                await _restaurantServices.UpdateRestaurantAsync(restaurantId, updateRestaurantReqDTO);
+                return Ok(new { messsage = "Restaurant Updated" });
 
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
             }
             catch (Exception ex)
             {
@@ -151,7 +184,7 @@ namespace Sufra.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{restaurantId}")]
         public async Task<IActionResult> GetRestaurant([FromRoute] int restaurantId)
         {
@@ -202,15 +235,19 @@ namespace Sufra.Controllers
                 CreateTableResDTO addTable = await _restaurantServices.AddTableAsync(tableDTO);
                 return Ok(addTable);
             }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { ex.Message });
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpGet("tables")]
-        public async Task<IActionResult> GetAllTablesByRestaurant()
+        public async Task<IActionResult> GetAllTablesByRestaurant() //will add pagination if performance or data size becomes an issue
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
             try
@@ -224,7 +261,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpDelete("tables/{tableId}")]
         public async Task<IActionResult> RemoveTable([FromRoute] int tableId)
         {
@@ -233,7 +270,7 @@ namespace Sufra.Controllers
             try
             {
                 await _restaurantServices.RemoveTableAsync(restaurantId, tableId);
-                return Ok(new {message = "zai el fol etms7t"});
+                return Ok(new {message = "Table Deleted"});
             }
             catch (RestaurantNotFoundException ex)
             {
@@ -253,7 +290,7 @@ namespace Sufra.Controllers
 
         //----------------------OpeningHours-------------------------
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPost("open-hours")]
         public async Task<IActionResult> AddOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
@@ -270,11 +307,15 @@ namespace Sufra.Controllers
                 };
 
                 await _restaurantServices.AddOpeningHours(restaurantOpeningHoursDTO);
-                return Ok(new { message = "added working hours zai el fol" });
+                return Ok(new { message = "added working hours" });
             }
             catch (RestaurantNotFoundException ex)
             {
                 return NotFound(new { ex.Message });
+            }
+            catch (OpeningHoursExistsException ex)
+            {
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception e)
             {
@@ -282,7 +323,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPut("open-hours")]
         public async Task<IActionResult> UpdateOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
@@ -299,7 +340,7 @@ namespace Sufra.Controllers
                 };
 
                 await _restaurantServices.UpdateOpeningHours(restaurantOpeningHoursDTO);
-                return Ok(new { message = "updated working hours zai el fol" });
+                return Ok(new { message = "updated working hours" });
             }
             catch (RestaurantNotFoundException ex)
             {
@@ -311,15 +352,15 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
-        [HttpDelete("open-hours/{dayOfWeekEnum}")]
-        public async Task<IActionResult> DeleteOpeningHours([FromRoute] DayOfWeek dayOfWeekEnum)
+        [Authorize(Roles = "RestaurantManager")]
+        [HttpDelete("open-hours/{dayOfWeek}")]
+        public async Task<IActionResult> DeleteOpeningHours([FromRoute] DayOfWeek dayOfWeek)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
             try
             {
-                await _restaurantServices.DeleteOpeningHours(restaurantId, dayOfWeekEnum);
+                await _restaurantServices.DeleteOpeningHours(restaurantId, dayOfWeek);
                 return Ok(new { message = "deleted working hours zai el fol" });
             }
             catch (RestaurantNotFoundException ex)
@@ -332,8 +373,8 @@ namespace Sufra.Controllers
             }
         }
 
-
         //-----------------RestaurantReviews-----------------------------
+
         [Authorize]
         [HttpPost("review")]
         public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantOpeningHoursReqDTO)

@@ -1,4 +1,4 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.MenuDTOs;
 using Sufra.DTOs.MenuSectionDTOs;
 
 namespace Sufra.Services.IServices

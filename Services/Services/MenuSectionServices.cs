@@ -43,7 +43,7 @@ namespace Sufra.Services.Services
                 RestaurantId = menuSectionDTO.RestaurantId,
                 Name = menuSectionDTO.MenuSectionName
             };
-
+            
             await _menuSectionRepository.CreateAsync(menuSection);
             return new CreateMenuSectionResDTO
             {
@@ -76,7 +76,7 @@ namespace Sufra.Services.Services
 
             if (menuSection.RestaurantId != menuSectionDTO.RestaurantId)
             {
-                throw new UnauthorizedMenuSectionAccessException("No Menu Section with this name assossiated with this restauratnt");
+                throw new MenuSectionUnauthorizedAccessException("No Menu Section with this name assossiated with this restauratnt");
             }
 
             await _menuSectionRepository.DeleteAsync(menuSection);
@@ -88,18 +88,18 @@ namespace Sufra.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task UpdateByIdAsync(MenuSectionDTO menuSection)
+        public async Task UpdateAsync(MenuSectionDTO menuSection)
         {
             var existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuSection.MenuSectionId);
 
             if (existingMenuSection == null)
             {
-                throw new Exception($"Menu section with ID {menuSection.MenuSectionId} not found.");
+                throw new MenuSectionNotFoundException($"Menu section with ID {menuSection.MenuSectionId} not found.");
             }
 
             if (existingMenuSection.RestaurantId != menuSection.RestaurantId)
             {
-                throw new UnauthorizedMenuSectionAccessException("No Menu Section with this name assossiated with this restauratnt");
+                throw new MenuSectionUnauthorizedAccessException("Unauthorized to access this resource");
             }
 
             existingMenuSection.Name = menuSection.MenuSectionName;

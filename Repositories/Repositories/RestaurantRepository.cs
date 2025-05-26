@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DuoVia.FuzzyStrings;
+using Microsoft.EntityFrameworkCore;
 using Sufra.Data;
 using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
@@ -14,7 +15,7 @@ namespace Sufra.Repositories.Repositories
             _context = sufra_DbContext;
         }
 
-        //---------------
+        //-----------------------------
 
         public async Task CreateAsync(Restaurant restaurant)
         {
@@ -23,9 +24,37 @@ namespace Sufra.Repositories.Repositories
         }
 
 
-        public async Task<IEnumerable<Restaurant>> GetAllAsync()
+        public async Task<IEnumerable<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO dto)
         {
-            return await _context.Restaurants.ToListAsync();
+         
+            IQueryable<Restaurant> query = _context.Restaurants;
+
+            if (dto.IsApproved.HasValue)
+            {
+                query = query.Where(r => r.IsApproved == dto.IsApproved);
+            }
+
+            if (string.IsNullOrEmpty(dto.NormalizedQuery))
+            {
+                return await query
+                    .Skip((dto.Page - 1) * dto.PageSize)
+                    .Take(dto.PageSize)
+                    .ToListAsync();
+            }
+
+            // Fuzzy matching must be done in-memory
+            List<Restaurant> allFiltered = await query.ToListAsync();
+
+            var fuzzyFiltered = allFiltered.Where(r =>
+                (r.Name != null && r.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2) ||
+                (r.District?.Name != null && r.District.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2) ||
+                (r.Cuisine?.Name != null && r.Cuisine.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2)
+            ).ToList();
+
+            return fuzzyFiltered
+                .Skip((dto.Page - 1) * dto.PageSize)
+                .Take(dto.PageSize)
+                .ToList();
         }
 
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()
@@ -62,15 +91,14 @@ namespace Sufra.Repositories.Repositories
         }
 
 
-        public async Task ApproveRestaurantById(Restaurant restaurant)
+
+        public async Task ApproveRestaurant(Restaurant restaurant)
         {
             restaurant.IsApproved = true;
-            _context.Restaurants.Update(restaurant);
             await _context.SaveChangesAsync();
         }
-        public async Task BlockRestaurantById(Restaurant restaurant ) {
+        public async Task BlockRestaurant(Restaurant restaurant ) {
             restaurant.IsApproved = false;
-            _context.Restaurants.Update(restaurant);
             await _context.SaveChangesAsync();
         }
         public async Task UpdateRestaurant(Restaurant restaurant)

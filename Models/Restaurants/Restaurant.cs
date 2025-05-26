@@ -91,22 +91,6 @@ namespace Sufra.Models.Restaurants
             }
             _tables.Remove(table);
         }
-        public void UpdateTableCapacity(int tableId, int newCapacity)
-        {
-            Table table = _tables.FirstOrDefault(t => t.Id == tableId);
-            if (table != null)
-            {
-                table.UpdateCapacity(newCapacity);
-            }
-        }
-        public void UpdateTableLabel(int tableId, string newLabel)
-        {
-            var table = _tables.FirstOrDefault(t => t.Id == tableId);
-            if (table != null)
-            {
-                table.UpdateLabel(newLabel);
-            }
-        }
 
         //-----------------------------------------------------------------------
 
@@ -123,7 +107,7 @@ namespace Sufra.Models.Restaurants
 
             if (openingHoursExists)
             {
-                throw new OpeningHoursExistsException("you're trying to change an existing opening hours, if you want to update use update method");
+                throw new OpeningHoursExistsException("Opening hours for this day already exist. Use update method to modify them.");
             }
 
             _openingHours.Add(new RestaurantOpeningHours(day,openTime,closeTime,Id));
@@ -145,7 +129,6 @@ namespace Sufra.Models.Restaurants
             }
             existingOpeningHour.OpenTime = openTime;
             existingOpeningHour.CloseTime = closeTime;
-
         }
         public void DeleteOpeningHour(DayOfWeek day)
         {
@@ -156,16 +139,12 @@ namespace Sufra.Models.Restaurants
                 throw new InvalidOperationException("No opening hour found for the specified day.");
             }
             _openingHours.Remove(existingOpeningHour);
-
         }
         public bool IsInOpeningHour(DateTime reservationTime)
         {
-            //DateTime looks like kda msln "2025-05-12T20:00:00"
 
-            // Get the day of week from the reservation time
             DayOfWeek day = reservationTime.DayOfWeek; 
 
-            // Find the opening hours for that day
             RestaurantOpeningHours openingHour = OpeningHours.FirstOrDefault(h => h.DayOfWeek == day);
 
             if (openingHour == null)
@@ -173,12 +152,10 @@ namespace Sufra.Models.Restaurants
                 return false;
             }
 
-            //TimeSpan looks like kda msln "20:00:00"
             TimeSpan reservationTimeOfDay = reservationTime.TimeOfDay;
 
 
             return reservationTimeOfDay >= openingHour.OpenTime && reservationTimeOfDay <= openingHour.CloseTime;
-
         }
 
         //-----------------------------------------------------------------------

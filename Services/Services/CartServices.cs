@@ -1,4 +1,5 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.CartDTOs;
+using Sufra.DTOs.MenuDTOs;
 using Sufra.Models.Customers;
 using Sufra.Models.Orders;
 using Sufra.Models.Restaurants;
@@ -60,7 +61,7 @@ namespace Sufra.Services.Services
             customerCart.AddItem(cartItem);
             await _cartRepository.SaveAsync();
         }
-        public async Task<IEnumerable<GetCartItemReqDTO>> GetAllAsync(int customerId)
+        public async Task<IEnumerable<CartItemResponseDTO>> GetAllAsync(int customerId)
         {
             // Get the customer details
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
@@ -80,7 +81,7 @@ namespace Sufra.Services.Services
             var cartItems = customerCart.GetCartItems();
 
             // Map cart items to DTOs
-            return cartItems.Select(item => new GetCartItemReqDTO
+            return cartItems.Select(item => new CartItemResponseDTO
             {
                 CartItemId = item.Id,
                 menuItemDTO = new MenuItemDTO

@@ -140,17 +140,25 @@ namespace Sufra.Services.Services
             };
         }
 
-        public async Task<IEnumerable<ReservationDTO>> GetAllAsync()
+        public async Task<IEnumerable<ReservationDTO>> GetAllAsync(ReservationQueryDTO queryDTO)
         {
-            var reservations = await _reservationRepository.GetAllAsync();
+            var reservations = await _reservationRepository.GetAllAsync(queryDTO);
 
             return reservations.Select(reservation => new ReservationDTO
             {
                 ReservationId = reservation.Id,
+
                 CustomerId = reservation.CustomerId,
+                CustomerName = reservation.Customer.Fname,
+                CustomerEmail = reservation.Customer.Email,
+                CustomerPhone = reservation.Customer.Phone,
+
                 RestaurantId = reservation.RestaurantId,
+                RestaurantName = reservation.Restaurant.Name,
+                
                 TableId = reservation.TableId,
                 TabelLabel = reservation.Table.TableLabel,
+
                 ReservationDateTime = reservation.ReservationDateTime,
                 PartySize = reservation.PartySize,
                 reservationStatus = reservation.Status.ToString()

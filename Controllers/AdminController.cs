@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.SufraEmpDTOs;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -10,11 +10,9 @@ namespace Sufra.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminServices _adminServices;
-        private readonly IRestaurantServices _restaurantServices;
-        public AdminController(IAdminServices adminServices , IRestaurantServices restaurantServices)
+        public AdminController(IAdminServices adminServices)
         {
             _adminServices = adminServices;
-            _restaurantServices = restaurantServices;
         }
 
         //---------------------

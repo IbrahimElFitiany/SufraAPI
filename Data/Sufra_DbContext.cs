@@ -11,37 +11,25 @@ namespace Sufra.Data
 {
     public class Sufra_DbContext : DbContext
     {
-        public Sufra_DbContext(DbContextOptions<Sufra_DbContext> options) : base(options) {
-        }
+        public Sufra_DbContext(DbContextOptions<Sufra_DbContext> options) : base(options) {}
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<RestaurantManager> RestaurantManagers { get; set; }
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
         public DbSet<Cuisine> Cuisines { get; set; }
-
-
         public DbSet<District> Districts { get; set; }
         public DbSet<Gov> Govs { get; set; }
         public DbSet<Customer> Customers { get; set; }
-
-
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
-
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<MenuSection> MenuSections { get; set; }
-
-
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Table> Tables { get; set; }
-
-
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
-
-
         public DbSet<SufraEmp> Sufra_Emps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,13 +44,12 @@ namespace Sufra.Data
                 .HasForeignKey<Restaurant>(r => r.ManagerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
             // 1-to-Many: Restaurant <-> Reservation
             modelBuilder.Entity<Restaurant>()
                 .HasMany(r => r.Reservations)
                 .WithOne(rs => rs.Restaurant)
                 .HasForeignKey(rs => rs.RestaurantId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             // 1-to-Many: Restaurant <-> MenuItem
             modelBuilder.Entity<Restaurant>()
@@ -92,8 +79,6 @@ namespace Sufra.Data
             modelBuilder.Entity<Restaurant>()
                 .Navigation(r => r.OpeningHours)
                 .HasField("_openingHours");
-
-
 
             modelBuilder.Entity<Restaurant>()
                 .HasMany(r => r.RestaurantReviews)
@@ -131,9 +116,6 @@ namespace Sufra.Data
             modelBuilder.Entity<Cuisine>()
                 .HasIndex(c => c.Name)
                 .IsUnique();
-
-
-
 
             // 1-to-Many: MenuSection <-> MenuItems
             modelBuilder.Entity<MenuSection>()
@@ -217,12 +199,11 @@ namespace Sufra.Data
                 .HasForeignKey(ci => ci.CartId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configuring the foreign key for MenuItem
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.MenuItem)
-                .WithMany() // Each MenuItem can be in many CartItems
+                .WithMany() 
                 .HasForeignKey(ci => ci.MenuItemId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of MenuItems if they are in a CartItem
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configuring decimal precision for Price in CartItem
             modelBuilder.Entity<CartItem>()
@@ -233,13 +214,6 @@ namespace Sufra.Data
             modelBuilder.Entity<CartItem>()
                 .Property(ci => ci.Quantity)
                 .HasDefaultValue(1); // Default value for quantity if not specified
-
-
-
-
-
-
-
 
 
             // 1-to-Many: Table <-> Reservation

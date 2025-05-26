@@ -18,10 +18,10 @@ namespace Sufra.Repositories.Repositories
 
         public async Task<MenuSection> CreateAsync(MenuSection menuSection)
         {
-                await _context.MenuSections.AddAsync(menuSection);
-                await _context.SaveChangesAsync();
+            await _context.MenuSections.AddAsync(menuSection);
+            await _context.SaveChangesAsync();
 
-                return menuSection;
+            return menuSection;
         }
 
         public async Task DeleteAsync(MenuSection menuSection)

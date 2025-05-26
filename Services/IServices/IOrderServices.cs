@@ -1,4 +1,4 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.OrderDTOS;
 
 namespace Sufra.Services.IServices
 {
@@ -6,10 +6,10 @@ namespace Sufra.Services.IServices
     {
        Task CreateOrderAsync(OrderDTO orderDTO);
        Task CancelOrderAsync(int orderId, int customerId);
-       Task<OrderDTO> GetOrder(int orderId, int customerId);
-       Task<IEnumerable<OrderDTO>> GetRestaurantOrders(int restaurantId);
-       Task<IEnumerable<OrderDTO>> GetCustomerOrders(int customerId);
-        Task<IEnumerable<OrderDTO>> GetAllOrders();
+       Task<OrderDTO> GetOrderAsync(int orderId, int customerId);
+       Task<IEnumerable<OrderDTO>> GetRestaurantOrdersAsync(int restaurantId);
+       Task<IEnumerable<OrderDTO>> GetCustomerOrdersAsync(int customerId);
+        Task<IEnumerable<OrderDTO>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO);
        Task UpdateOrderStatus(OrderDTO orderDTO);
     }
 }

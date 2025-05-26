@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sufra.DTOs;
+using Sufra.DTOs.CustomerDTOs;
 using Sufra.Infrastructure.Services;
 using Sufra.Models.Customers;
 using Sufra.Repositories.IRepositories;

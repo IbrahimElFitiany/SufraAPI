@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sufra.Data;
+using Sufra.DTOs.ReservationDTOs;
 using Sufra.Models.Reservations;
 using Sufra.Repositories.IRepositories;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Table = Sufra.Models.Restaurants.Table;
 
 namespace Sufra.Repositories.Repositories
@@ -40,9 +42,15 @@ namespace Sufra.Repositories.Repositories
             IEnumerable<Reservation> reservations = await _context.Reservations.Where(r => r.TableId == table.Id && r.Status == ReservationStatus.Pending).ToListAsync();
             return reservations;
         }
-        public async Task<IEnumerable<Reservation>> GetAllAsync()
+        public async Task<IEnumerable<Reservation>> GetAllAsync(ReservationQueryDTO queryDTO)
         {
-            return await _context.Reservations.ToListAsync();
+            IQueryable<Reservation> reservations = _context.Reservations;
+
+            int skip = (queryDTO.Page - 1) * queryDTO.PageSize;
+
+            reservations = reservations.Skip(skip).Take(queryDTO.PageSize);
+
+            return await reservations.ToListAsync();
         }
 
         public async Task ApproveAsync(Reservation reservation)

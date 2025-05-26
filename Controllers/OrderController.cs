@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.OrderDTOS;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -57,7 +57,7 @@ namespace Sufra.Controllers
             }
             try
             {
-                OrderDTO order = await _orderServices.GetOrder(orderId, customerId);
+                OrderDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
                 return Ok(order);
             }
             catch (Exception ex)
@@ -68,11 +68,11 @@ namespace Sufra.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllSystemOrder()
+        public async Task<IActionResult> GetQueriedOrders([FromQuery] OrderQueryDTO orderQueryDTO)
         {
             try
             {
-                IEnumerable<OrderDTO> orders =  await _orderServices.GetAllOrders();
+                IEnumerable<OrderDTO> orders =  await _orderServices.QueryOrdersAsync(orderQueryDTO);
                 return Ok(orders);
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace Sufra.Controllers
             }
             try
             {
-                var customerOrders = await _orderServices.GetCustomerOrders(customerId);
+                var customerOrders = await _orderServices.GetCustomerOrdersAsync(customerId);
                 return Ok(customerOrders);
             }
             catch (Exception ex)
@@ -115,7 +115,7 @@ namespace Sufra.Controllers
             }
             try
             {
-                var restaurantOrders = await _orderServices.GetRestaurantOrders(restaurantId);
+                var restaurantOrders = await _orderServices.GetRestaurantOrdersAsync(restaurantId);
                 return Ok(restaurantOrders);
             }
             catch (Exception ex)

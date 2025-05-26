@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.MenuDTOs;
 using Sufra.DTOs.MenuSectionDTOs;
+using Sufra.Exceptions;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -19,7 +20,7 @@ namespace Sufra.Controllers
 
         //-------------------------------------------------------------
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPost]
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemReqDTO createMenuItemReqDTO)
         {
@@ -41,6 +42,26 @@ namespace Sufra.Controllers
                 CreateMenuItemResDTO newMenuItem = await _menuItemServices.CreateMenuItemAsync(menuItemDTO);
                 return Ok(newMenuItem);
             }
+            catch (MenuSectionNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuSectionUnauthorizedAccessException ex)
+            {
+                return Forbid();
+            }
+            catch (MenuItemAlreadyExistsException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
@@ -48,10 +69,9 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPut ("{menuItemId}")]
-        //el mafrod ast5dm dto mo5tlf bs el w2t
-        public async Task<IActionResult> UpdateMenuItem([FromBody] CreateMenuItemReqDTO createMenuItemReqDTO , [FromRoute] int menuItemId)
+        public async Task<IActionResult> UpdateMenuItem([FromBody] CreateMenuItemReqDTO createMenuItemReqDTO , [FromRoute] int menuItemId) // Using createDTO for now, tight on time
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
@@ -70,7 +90,31 @@ namespace Sufra.Controllers
                 };
 
                 await _menuItemServices.UpdateMenuItem(menuItemDTO);
-                return Ok(new {message = "el menu item updated"});
+                return Ok(new {message = "MenuItem Updated"});
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuSectionNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuSectionUnauthorizedAccessException ex)
+            {
+                return Forbid();
+            }
+            catch (MenuItemNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuItemUnauthorizedAccessException ex)
+            {
+                return Forbid();
             }
             catch (Exception ex)
             {
@@ -79,7 +123,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpDelete("{menuItemId}")]
         public async Task<IActionResult> DeleteMenuItem([FromRoute] int menuItemId)
         {
@@ -90,14 +134,28 @@ namespace Sufra.Controllers
                 await _menuItemServices.RemoveMenuItemAsync(menuItemId,restaurantId);
                 return Ok(new { message = "MenuItem deleted" });
             }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuItemNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (MenuItemUnauthorizedAccessException ex)
+            {
+                return Forbid();
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
 
         }
-
-
 
     }
 }

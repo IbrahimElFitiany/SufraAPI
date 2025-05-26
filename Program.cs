@@ -101,7 +101,6 @@ namespace Sufra
             builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
             builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 
-            builder.Services.AddScoped<ISearchServices, SearchServices>();
 
             builder.Services.AddScoped<IReservationServices, ReservationServices>();
             builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
@@ -119,12 +118,6 @@ namespace Sufra
             builder.Services.AddScoped<IDistrictServices, DistrictServices>();
 
             var app = builder.Build();
-
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
 
             // Map your SignalR hub so clients can connect to it
             app.MapHub<ChatHub>("/chat");

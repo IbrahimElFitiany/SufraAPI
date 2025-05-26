@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.CartDTOs;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -54,7 +54,7 @@ namespace Sufra.Controllers
 
             try
             {
-                IEnumerable<GetCartItemReqDTO> cartItems = await _cartServices.GetAllAsync(CustomerId);
+                IEnumerable<CartItemResponseDTO> cartItems = await _cartServices.GetAllAsync(CustomerId);
                 return Ok(cartItems);
             }
             catch (Exception ex)

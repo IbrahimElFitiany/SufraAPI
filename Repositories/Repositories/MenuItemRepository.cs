@@ -32,17 +32,9 @@ namespace Sufra.Repositories.Repositories
         }
         public async Task DeleteMenuItemAsync(MenuItem menuItem)
         {
-            try
-            {
-                _context.MenuItems.Remove(menuItem);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _context.MenuItems.Remove(menuItem);
+            await _context.SaveChangesAsync();
         }
-
         public async Task UpdateMenuItemAsync(MenuItem menuItem)
         {
             _context.MenuItems.Update(menuItem);

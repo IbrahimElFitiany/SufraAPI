@@ -1,8 +1,11 @@
 ﻿
+using Humanizer;
 using Microsoft.EntityFrameworkCore;
-using Sufra.DTOs;
+using Sufra.DTOs.MenuDTOs;
 using Sufra.DTOs.MenuSectionDTOs;
-using Sufra.DTOs.TableDTOs;
+using Sufra.DTOs.RestaurantDTOs;
+using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
+using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 using Sufra.Exceptions;
 using Sufra.Infrastructure.Services;
 using Sufra.Models.Restaurants;
@@ -30,7 +33,7 @@ namespace Sufra.Services.Services
         //----------------------------------------------------------------------------
 
 
-        public async Task<RestaurantRegisterResponseDTO> RegistrationAsync(RestaurantRegisterRequestDTO restaurantRegistrationDTO)
+        public async Task<RestaurantRegisterResponseDTO> RegistrationAsync(RestaurantRegisterRequestDTO restaurantRegistrationDTO) //need to make it into single transaction
         {
 
             RestaurantManager existingManager = await _restaurantManagerRepository.GetManagerByEmailAsync(restaurantRegistrationDTO.RestaurantManager.Email);
@@ -99,53 +102,49 @@ namespace Sufra.Services.Services
         }
         public async Task<RestaurantLoginResponseDTO> LoginAsync(RestaurantLoginRequestDTO restaurantLoginDTO)
         {
-            try
+            RestaurantManager manager = await _restaurantManagerRepository.GetManagerByEmailAsync(restaurantLoginDTO.email);
+
+            if (manager == null)
+                throw new AuthenticationException ("Invalid email or password. (For Testing: Email doens't exist)");
+
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(restaurantLoginDTO.password, manager.Password);
+
+            if (!isPasswordValid)
+                throw new AuthenticationException ("Invalid email or password");
+
+
+            Restaurant restaurant = await _restaurantRepository.GetByManagerIdAsync(manager.Id);
+
+            if (restaurant == null) 
             {
-
-                RestaurantManager manager = await _restaurantManagerRepository.GetManagerByEmailAsync(restaurantLoginDTO.email);
-
-                if (manager == null)
-                    throw new Exception ("Invalid email or password. (For Testing: Email doens't exist)");
-
-                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(restaurantLoginDTO.password, manager.Password);
-
-                if (!isPasswordValid)
-                    throw new Exception ("Invalid email or password. (For Testing: password doens't match)");
-
-
-                Restaurant restaurant = await _restaurantRepository.GetByManagerIdAsync(manager.Id);
-
-                RestaurantClaimsDTO restaurantTokenDTO = new RestaurantClaimsDTO
-                {
-                    ManagerID = manager.Id,
-                    ManagerName = manager.Fname,
-                    Email = manager.Email,
-                    RestaurantId = restaurant.Id,
-                    RestaurantName = restaurant.Name,
-                    IsApproved = restaurant.IsApproved,
-                    Role = "RestaurantManager"
-                };
-                string token = _JwtService.GenerateToken(restaurantTokenDTO);
-
-
-                RestaurantLoginResponseDTO response = new RestaurantLoginResponseDTO
-                {
-                    ManagerID = manager.Id,
-                    ManagerName = manager.Fname,
-                    Email = manager.Email,
-                    RestaurantId = restaurant.Id,
-                    RestaurantName = restaurant.Name,
-                    IsApproved = restaurant.IsApproved,
-                    Token = token
-                };
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
+                throw new RestaurantNotFoundException("Restaurant Not Found");
             }
 
+            RestaurantClaimsDTO restaurantTokenDTO = new RestaurantClaimsDTO
+            {
+                ManagerID = manager.Id,
+                ManagerName = manager.Fname,
+                Email = manager.Email,
+                RestaurantId = restaurant.Id,
+                RestaurantName = restaurant.Name,
+                IsApproved = restaurant.IsApproved,
+                Role = "RestaurantManager"
+            };
+            string token = _JwtService.GenerateToken(restaurantTokenDTO);
+
+
+            RestaurantLoginResponseDTO response = new RestaurantLoginResponseDTO
+            {
+                ManagerID = manager.Id,
+                ManagerName = manager.Fname,
+                Email = manager.Email,
+                RestaurantId = restaurant.Id,
+                RestaurantName = restaurant.Name,
+                IsApproved = restaurant.IsApproved,
+                Token = token
+            };
+
+            return response;
         }
 
         //----------------------------------------------------------------------------
@@ -156,8 +155,11 @@ namespace Sufra.Services.Services
             {
                 throw new RestaurantNotFoundException("restaurant not found");
             }
-
-            await _restaurantRepository.ApproveRestaurantById(restaurant);
+            if (restaurant.IsApproved)
+            {
+                throw new AlreadyApprovedException("Restaurant is already approved");
+            }
+            await _restaurantRepository.ApproveRestaurant(restaurant);
         }
         public async Task BlockRestaurantAsync(int restaurantId)
         {
@@ -166,9 +168,13 @@ namespace Sufra.Services.Services
             {
                 throw new RestaurantNotFoundException("restaurant not found");
             }
-
-            await _restaurantRepository.BlockRestaurantById(restaurant);
+            if (!restaurant.IsApproved)
+            {
+                throw new AlreadyBlockedException("Restaurant is already Blocked");
+            }
+            await _restaurantRepository.BlockRestaurant(restaurant);
         }
+
         public async Task<GetRestaurantResponseDTO> GetRestaurantAsync(int restaurantId)
         {
             try
@@ -216,29 +222,24 @@ namespace Sufra.Services.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<IEnumerable<RestaurantDTO>> GetAllAsync()
+        public async Task<IEnumerable<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO)
         {
 
-            IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetAllAsync();
+            IEnumerable<Restaurant> restaurants = await _restaurantRepository.QueryRestaurantsAsync(restaurantQueryDTO);
 
-            IEnumerable<RestaurantDTO> restaurantDtos = restaurants.Select(r => new RestaurantDTO
+            IEnumerable<RestaurantListItemDTO> restaurantListItemDTOs = restaurants.Select(r => new RestaurantListItemDTO
             {
-                RestaurantId = r.Id,          // Assuming 'Id' is the PK in your Restaurant entity
-                ImgUrl = r.ImgUrl,
+                Id = r.Id,
                 Name = r.Name,
-                Phone = r.Phone,
-                CuisineId = r.CuisineId,
-                Description = r.Description,
-                Latitude = r.Latitude,
-                Longitude = r.Longitude,
-                Address = r.Address,
-                DistrictId = r.DistrictId,
-                IsApproved = r.IsApproved,
+                Img = r.ImgUrl,
+                CuisineName = r.Cuisine.Name,
                 Rating = r.Rating
             });
 
-            return restaurantDtos;
+            return restaurantListItemDTOs;
         }
+
+
         public async Task DeleteAsync(int restaurantId)
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
@@ -250,24 +251,25 @@ namespace Sufra.Services.Services
             await _restaurantRepository.DeleteRestaurant(restaurant);
         }
 
-        public async Task UpdateRestaurantAsync(UpdateRestaurantReqDTO updateRestaurantReqDTO)
+        public async Task UpdateRestaurantAsync(int restaurantId , UpdateRestaurantReqDTO updateRestaurantReqDTO)
         {
-            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(updateRestaurantReqDTO.RestaurantId);
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
             if (restaurant == null)
             {
                 throw new RestaurantNotFoundException("restaurant not found");
             }
 
-            restaurant.Name = updateRestaurantReqDTO.Name;
-            restaurant.Phone = updateRestaurantReqDTO.Phone;
-            restaurant.ImgUrl = updateRestaurantReqDTO.ImgUrl;
-            restaurant.CuisineId = updateRestaurantReqDTO.CuisineId;
-            restaurant.Description = updateRestaurantReqDTO.Description;
-            restaurant.Latitude = updateRestaurantReqDTO.Latitude;
-            restaurant.Longitude = updateRestaurantReqDTO.Longitude;
-            restaurant.Address = updateRestaurantReqDTO.Address;
-            restaurant.DistrictId = updateRestaurantReqDTO.DistrictId;
+            if (updateRestaurantReqDTO.Name != null) restaurant.Name = updateRestaurantReqDTO.Name;
+            if (updateRestaurantReqDTO.Phone != null) restaurant.Phone = updateRestaurantReqDTO.Phone;
+            if (updateRestaurantReqDTO.ImgUrl != null) restaurant.ImgUrl = updateRestaurantReqDTO.ImgUrl;
+            if (updateRestaurantReqDTO.CuisineId.HasValue) restaurant.CuisineId = updateRestaurantReqDTO.CuisineId.Value;
+            if (updateRestaurantReqDTO.Description != null) restaurant.Description = updateRestaurantReqDTO.Description;
+            if (updateRestaurantReqDTO.Latitude.HasValue) restaurant.Latitude = updateRestaurantReqDTO.Latitude.Value;
+            if (updateRestaurantReqDTO.Longitude.HasValue) restaurant.Longitude = updateRestaurantReqDTO.Longitude.Value;
+            if (updateRestaurantReqDTO.Address != null) restaurant.Address = updateRestaurantReqDTO.Address;
+            if (updateRestaurantReqDTO.DistrictId.HasValue) restaurant.DistrictId = updateRestaurantReqDTO.DistrictId.Value;
+            if (updateRestaurantReqDTO.IsApproved.HasValue) restaurant.IsApproved = updateRestaurantReqDTO.IsApproved.Value;
 
             await _restaurantRepository.UpdateRestaurant(restaurant);
         }

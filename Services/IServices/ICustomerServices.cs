@@ -1,4 +1,4 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.CustomerDTOs;
 
 namespace Sufra.Services.IServices
 {

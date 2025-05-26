@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sufra.Data;
+using Sufra.DTOs.OrderDTOS;
 using Sufra.Models.Orders;
 using Sufra.Repositories.IRepositories;
 
@@ -35,7 +36,7 @@ namespace Sufra.Repositories.Repositories
         {
             return await _context.Orders
                 .Where(o => o.RestaurantId == restaurantId)
-                .AsNoTracking()  // Better performance for read-only
+                .AsNoTracking()
                 .ToListAsync();
         }
         public async Task<IEnumerable<Order>> GetCustomerOrders(int customerId)
@@ -46,9 +47,17 @@ namespace Sufra.Repositories.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrdersAsync()   //For Admin
+        public async Task<IEnumerable<Order>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO)
         {
-            return await _context.Orders.ToListAsync();
+            IQueryable<Order> orders = _context.Orders;
+
+            if (orderQueryDTO.Status.HasValue) orders = orders.Where(o => o.Status == orderQueryDTO.Status);
+            
+
+
+            int skip = (orderQueryDTO.page - 1) * orderQueryDTO.pageSize;
+
+            return await orders.Skip(skip).Take(orderQueryDTO.pageSize).ToListAsync();            
         }
         public async Task SaveAsync()
         {

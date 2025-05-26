@@ -1,4 +1,4 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.SufraEmpDTOs;
 
 namespace Sufra.Services.IServices
 {

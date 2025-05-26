@@ -1,5 +1,4 @@
-﻿
-using Sufra.DTOs;
+﻿using Sufra.DTOs.OrderDTOS;
 using Sufra.Models.Customers;
 using Sufra.Models.Orders;
 using Sufra.Models.Restaurants;
@@ -79,7 +78,7 @@ namespace Sufra.Services.Services
 
         }
 
-        public async Task<OrderDTO> GetOrder(int orderId, int customerId)
+        public async Task<OrderDTO> GetOrderAsync(int orderId, int customerId)
         {
             //check el awl 3ala el customer mawgod wala l2
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
@@ -115,7 +114,7 @@ namespace Sufra.Services.Services
             return orderDTO;
 
         }
-        public async Task<IEnumerable<OrderDTO>> GetRestaurantOrders(int restaurantId)
+        public async Task<IEnumerable<OrderDTO>> GetRestaurantOrdersAsync(int restaurantId)
         {
 
             bool restaurantExists = await _restaurantRepository.ExistsAsync(restaurantId);
@@ -136,7 +135,7 @@ namespace Sufra.Services.Services
                 OrderDate = order.OrderDate
             }).ToList();
         }
-        public async Task<IEnumerable<OrderDTO>> GetCustomerOrders(int customerId)
+        public async Task<IEnumerable<OrderDTO>> GetCustomerOrdersAsync(int customerId)
         {
 
             var orders = await _orderRepository.GetCustomerOrders(customerId);
@@ -152,16 +151,22 @@ namespace Sufra.Services.Services
             }).ToList();
 
         }
-        public async Task<IEnumerable<OrderDTO>> GetAllOrders()
+        public async Task<IEnumerable<OrderDTO>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO)
         {
-
-            var orders = await _orderRepository.GetAllOrdersAsync();
+            var orders = await _orderRepository.QueryOrdersAsync(orderQueryDTO);
 
             return orders.Select(order => new OrderDTO
             {
                 OrderId = order.Id,
+
                 CustomerId = order.CustomerId,
+                CustomerName = order.Customer.Fname,
+                CustomerEmail = order.Customer.Email,
+                CustomerPhone = order.Customer.Phone,
+
                 RestaurantId = order.RestaurantId,
+                RestaurantName = order.Restaurant.Name,
+
                 Status = order.Status,
                 TotalPrice = order.TotalPrice,
                 OrderDate = order.OrderDate

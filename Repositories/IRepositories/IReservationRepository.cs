@@ -1,4 +1,5 @@
-﻿using Sufra.Models.Reservations;
+﻿using Sufra.DTOs.ReservationDTOs;
+using Sufra.Models.Reservations;
 using Sufra.Models.Restaurants;
 
 namespace Sufra.Repositories.IRepositories
@@ -9,7 +10,7 @@ namespace Sufra.Repositories.IRepositories
         Task<Reservation> GetByIdAsync(int id);
         Task<IEnumerable<Reservation>> GetApprovedReservationByTableAsync(Table table);
         Task<IEnumerable<Reservation>> GetPendingReservationsByTableAsync(Table table);
-        Task<IEnumerable<Reservation>> GetAllAsync();
+        Task<IEnumerable<Reservation>> GetAllAsync(ReservationQueryDTO queryDTO);
 
         Task ApproveAsync(Reservation reservation);
         Task RejectAsync(Reservation reservation);

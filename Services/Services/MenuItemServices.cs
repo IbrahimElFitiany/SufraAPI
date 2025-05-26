@@ -1,9 +1,9 @@
 ﻿using Sufra.Models.Restaurants;
-using Sufra.DTOs;
 using Sufra.Services.IServices;
 using Sufra.Repositories.IRepositories;
 using Sufra.DTOs.MenuSectionDTOs;
 using Sufra.Exceptions;
+using Sufra.DTOs.MenuDTOs;
 
 namespace Sufra.Services.Services
 {
@@ -41,16 +41,15 @@ namespace Sufra.Services.Services
             MenuSection existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuItemDTO.MenuSectionId);
 
 
-            if (existingMenuSection == null || existingMenuSection.RestaurantId != menuItemDTO.RestaurantId)
-            {
-                throw new Exception($"A menu Section with the ID '{menuItemDTO.MenuSectionId}' doesn't exist for this restaurant.");
-            }
+            if (existingMenuSection == null) throw new MenuSectionNotFoundException("Menu Section Not Found");
+
+            if (existingMenuSection.RestaurantId != menuItemDTO.RestaurantId) throw new MenuSectionUnauthorizedAccessException("UnAuthorized");
 
             MenuItem existingMenuItem = await _menuItemRepository.GetMenuItemByRestaurantAndNameAsync(menuItemDTO.RestaurantId, menuItemDTO.Name);
 
             if (existingMenuItem != null)
             {
-                throw new Exception($"A menu item with the name '{menuItemDTO.Name}' already exists for this restaurant.");
+                throw new MenuItemAlreadyExistsException($"A menu item with the name '{menuItemDTO.Name}' already exists for this restaurant.");
             }
 
             MenuItem menuItem = new MenuItem
@@ -78,7 +77,6 @@ namespace Sufra.Services.Services
         }
         public async Task UpdateMenuItem( MenuItemDTO menuItemDTO)
         {
-            // Check if the restaurant is approved wala l2
             bool? restaurantIsApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(menuItemDTO.RestaurantId);
 
             if (restaurantIsApproved == null)
@@ -91,24 +89,17 @@ namespace Sufra.Services.Services
                 throw new RestaurantNotApprovedException("Restaurant not approved.");
             }
 
-            // Get the menu section
             MenuSection existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuItemDTO.MenuSectionId);
 
-            // Validate menu section
-            if (existingMenuSection == null || existingMenuSection.RestaurantId != menuItemDTO.RestaurantId)
-            {
-                throw new Exception($"A menu section with the ID '{menuItemDTO.MenuSectionId}' doesn't exist for this restaurant.");
-            }
+            if (existingMenuSection == null) throw new MenuSectionNotFoundException("Menu Section Not Found");
+            if (existingMenuSection.RestaurantId != menuItemDTO.RestaurantId) throw new MenuSectionUnauthorizedAccessException("UnAuthorized");
 
-            // Get the existing menu item by id
             MenuItem existingMenuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemDTO.MenuItemId);
 
-            if (existingMenuItem == null || existingMenuItem.RestaurantId != menuItemDTO.RestaurantId)
-            {
-                throw new Exception($"A menu item with the ID '{menuItemDTO.MenuItemId}' doesn't exist for this restaurant.");
-            }
+            if (existingMenuItem == null) throw new MenuItemNotFoundException("Menu Item Not Found");
+            if (existingMenuItem.RestaurantId != menuItemDTO.RestaurantId) throw new MenuItemUnauthorizedAccessException("UnAuthorized Menu Item");
 
-            // Update the values
+
             existingMenuItem.Name = menuItemDTO.Name;
             existingMenuItem.MenuItemImg = menuItemDTO.MenuItemImg;
             existingMenuItem.Description = menuItemDTO.Description;
@@ -116,7 +107,6 @@ namespace Sufra.Services.Services
             existingMenuItem.Availability = menuItemDTO.Availability;
             existingMenuItem.MenuSectionId = menuItemDTO.MenuSectionId;
 
-            // Save changes
             await _menuItemRepository.UpdateMenuItemAsync(existingMenuItem);
 
         }
@@ -125,28 +115,19 @@ namespace Sufra.Services.Services
         {
             bool? restaurantIsApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(restaurantId);
 
-            if (restaurantIsApproved == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurantIsApproved == null) throw new RestaurantNotFoundException("Restaurant not found.");
 
-            if (restaurantIsApproved == false)
-            {
-                throw new RestaurantNotApprovedException("restaurant Not Approved");
-            }
+            if (restaurantIsApproved == false) throw new RestaurantNotApprovedException("restaurant Not Approved");
+
 
             MenuItem menuItemExists = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
-            if(menuItemExists == null)
-            {
-                throw new Exception("Menu Item doesn't exist");
-            }
-            if(menuItemExists.RestaurantId != restaurantId)
-            {
-                throw new Exception($"menu item with id: {menuItemId} doesn't exist");
-            }
+
+            if(menuItemExists == null) throw new MenuItemNotFoundException("Menu Item doesn't exist");
+
+            if(menuItemExists.RestaurantId != restaurantId) throw new MenuItemUnauthorizedAccessException("UnAuthorized");
+
 
             await _menuItemRepository.DeleteMenuItemAsync(menuItemExists);
-
         }
     }
 }

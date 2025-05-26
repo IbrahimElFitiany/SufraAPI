@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.CustomerDTOs;
 using Sufra.Services.IServices;
 using System.Threading.Tasks;
 

@@ -8,6 +8,6 @@ namespace Sufra.Services.IServices
         Task<CreateMenuSectionResDTO> CreateAsync(MenuSectionDTO menuSectionDTO);
         Task<ICollection<MenuSection>> GetByRestaurantIdAsync(int id);
         Task DeleteAsync(MenuSectionDTO menuSectionDTO);
-        Task UpdateByIdAsync(MenuSectionDTO menuSection);
+        Task UpdateAsync(MenuSectionDTO menuSection);
     }
 }

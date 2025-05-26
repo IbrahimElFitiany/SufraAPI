@@ -1,39 +1,38 @@
 ﻿using Sufra.Services.IServices;
 using Sufra.Repositories.IRepositories;
 using Sufra.Infrastructure.Services;
-using Sufra.DTOs;
+using Sufra.Models.Emps;
+using Sufra.Exceptions;
+using Sufra.DTOs.SufraEmpDTOs;
 
 namespace Sufra.Services.Services
 {
     public class AdminServices : IAdminServices
     {
         private readonly ISufraEmpRepository _sufraEmpRepository;
-        private readonly IRestaurantRepository _restaurantRepository;
         private readonly JwtServices _JwtService;
 
 
-        public AdminServices(ISufraEmpRepository sufraEmpRepository, IRestaurantRepository restaurantRepository, JwtServices JwtService)
+        public AdminServices(ISufraEmpRepository sufraEmpRepository,JwtServices JwtService)
         {  
             _sufraEmpRepository = sufraEmpRepository;
-            _restaurantRepository = restaurantRepository;
             _JwtService = JwtService;
         }
 
         //------------------------------------------
         public async Task<AdminLoginResponseDTO> Login(AdminLoginRequestDTO adminLoginRequestDTO)
         {
-            var admin = await _sufraEmpRepository.GetAdminByEmail(adminLoginRequestDTO.Email);
+            SufraEmp admin = await _sufraEmpRepository.GetAdminByEmail(adminLoginRequestDTO.Email);
 
             if (admin == null)
-                throw new Exception("no admin with this email");
+                throw new UserNotFoundException("User not found");
 
-
+            //sufraEmps Passwords Are not Hashed rn 
             bool isPasswordValid = adminLoginRequestDTO.Password == admin.Password;
 
 
             if (!isPasswordValid)
-                throw new Exception("password mismatch");
-
+                throw new AuthenticationException("password mismatch");
 
 
             var token = _JwtService.GenerateToken(
