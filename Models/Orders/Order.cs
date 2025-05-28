@@ -19,7 +19,7 @@ namespace Sufra.Models.Orders
         public int RestaurantId { get; set; }
 
         [DefaultValue(OrderStatus.Pending)]
-        [JsonConverter(typeof(JsonStringEnumConverter))] // Serialize enum as string
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         [Required, Range(0, double.MaxValue)]

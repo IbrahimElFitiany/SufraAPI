@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using Sufra.DTOs.OrderDTOS;
+using Sufra.Exceptions;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -19,15 +21,11 @@ namespace Sufra.Controllers
 
         //-------------------------------------------------------------
 
-        [Authorize]
+        [Authorize (Roles ="Customer")]
         [HttpPost]
         public async Task<IActionResult> AddOrder()
         {
             int customerId = int.Parse(User.FindFirst("UserID")?.Value);
-            if (customerId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
 
             try
             {
@@ -40,25 +38,45 @@ namespace Sufra.Controllers
                await _orderServices.CreateOrderAsync(order);
                return Ok(new { Message = "Order Created" });
             }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (CartNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (CartIsEmptyException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder([FromRoute] int orderId)
         {
             int customerId = int.Parse(User.FindFirst("UserID")?.Value);
-            if (customerId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
             try
             {
-                OrderDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
+                OrderDetailedDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
                 return Ok(order);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (OrderNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Forbid();
             }
             catch (Exception ex)
             {
@@ -83,19 +101,20 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("customer-orders")]
-        public async Task<IActionResult> GetCustomerOrders()
+        public async Task<IActionResult> GetCustomerOrders([FromQuery] OrderQueryDTO orderQueryDTO)
         {
             int customerId = int.Parse(User.FindFirst("UserID")?.Value);
-            if (customerId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
+
             try
             {
-                var customerOrders = await _orderServices.GetCustomerOrdersAsync(customerId);
+                var customerOrders = await _orderServices.GetCustomerOrdersAsync(customerId,orderQueryDTO);
                 return Ok(customerOrders);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new {message = ex.Message});
             }
             catch (Exception ex)
             {
@@ -104,42 +123,56 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpGet("restaurant-orders")]
-        public async Task<IActionResult> GetRestaurantOrder()
+        public async Task<IActionResult> GetRestaurantOrder([FromQuery] OrderQueryDTO orderQuery)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
-            if (restaurantId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
+
             try
             {
-                var restaurantOrders = await _orderServices.GetRestaurantOrdersAsync(restaurantId);
+                var restaurantOrders = await _orderServices.GetRestaurantOrdersAsync(restaurantId , orderQuery);
                 return Ok(restaurantOrders);
+            }
+            catch(RestaurantNotFoundException ex)
+            {
+                return NotFound(new { Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "'test'" });
+                return BadRequest(new { message = ex.Message });
             }
         }
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPatch ("{orderId}")]
         public async Task<IActionResult> CancelOrder([FromRoute] int orderId)
         {
             int customerId = int.Parse(User.FindFirst("UserID")?.Value);
-            if (customerId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
+
             try
             {
                 await _orderServices.CancelOrderAsync(orderId ,customerId);
                 return Ok(new { Message = "Order Canceled" });
             }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (OrderNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (OrderCancellationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
@@ -147,15 +180,12 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPatch("change-status/{orderId}")]
         public async Task<IActionResult> UpdateOrderStatus([FromRoute]int orderId,UpdateOrderReqDTO updateOrderReqDTO)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
-            if (restaurantId == null)
-            {
-                return Unauthorized(new { Message = "Invalid Token" });
-            }
+
             try
             {
                 OrderDTO orderDTO = new OrderDTO
@@ -167,6 +197,26 @@ namespace Sufra.Controllers
 
                 await _orderServices.UpdateOrderStatus(orderDTO);
                 return Ok(new {message = "updated" });
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Forbid($"Restaurant is not approved: {ex.Message}");
+            }
+            catch (OrderNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (OrderUnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (OrderIsAlreadyCanceledException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {

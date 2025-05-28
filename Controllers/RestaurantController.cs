@@ -7,6 +7,7 @@ using Sufra.DTOs.RestaurantDTOs;
 using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
 using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 using Sufra.Exceptions;
+using Sufra.Models.Restaurants;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -25,6 +26,7 @@ namespace Sufra.Controllers
 
         //-----------------------------------------------------
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RestaurantRegisterRequestDTO restaurantRegistrationDTO)
         {
@@ -43,7 +45,7 @@ namespace Sufra.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] RestaurantLoginRequestDTO restaurantLoginRequestDTO)
         {
@@ -375,20 +377,24 @@ namespace Sufra.Controllers
 
         //-----------------RestaurantReviews-----------------------------
 
-        [Authorize]
-        [HttpPost("review")]
-        public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantOpeningHoursReqDTO)
+        [Authorize(Roles = "Customer")]
+        [HttpPost("review/{restaurantId}")]
+        public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantOpeningHoursReqDTO , [FromRoute] int restaurantId)
         {
             int customerId = int.Parse(User.FindFirst("UserID")?.Value);
 
             try
             {
-                await _restaurantServices.AddReviewAsync(customerId , createRestaurantOpeningHoursReqDTO);
+                await _restaurantServices.AddReviewAsync(customerId, restaurantId, createRestaurantOpeningHoursReqDTO);
                 return Ok(new { message = "Review Added" });
             }
             catch (RestaurantNotFoundException ex)
             {
                 return NotFound(new { ex.Message });
+            }
+            catch (CustomerAlreadyReviewed ex)
+            {
+                return BadRequest(new { error = ex.Message });
             }
             catch (Exception e)
             {

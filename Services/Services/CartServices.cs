@@ -1,5 +1,6 @@
 ﻿using Sufra.DTOs.CartDTOs;
 using Sufra.DTOs.MenuDTOs;
+using Sufra.Exceptions;
 using Sufra.Models.Customers;
 using Sufra.Models.Orders;
 using Sufra.Models.Restaurants;
@@ -28,10 +29,11 @@ namespace Sufra.Services.Services
         public async Task AddToCartAsync(AddToCartReqDTO addToCartReqDTO,int customerId)
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
-            MenuItem menuItem = await _menuItemRepository.GetMenuItemByIdAsync(addToCartReqDTO.MenuItemId);
+            if (customer == null) throw new UserNotFoundException("Customer Not Found");
 
-            if (customer == null || menuItem == null)
-                throw new Exception("Customer or MenuItem not found");
+            MenuItem menuItem = await _menuItemRepository.GetMenuItemByIdAsync(addToCartReqDTO.MenuItemId);
+            if (menuItem == null) throw new MenuItemNotFoundException("Menu Item Not Found");
+
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
@@ -45,55 +47,51 @@ namespace Sufra.Services.Services
                 await _cartRepository.CreateCartAsync(customerCart);
             }
 
-            if (customerCart.RestaurantId != menuItem.RestaurantId)
+            if (customerCart.RestaurantId != menuItem.RestaurantId) throw new CartRestaurantConflictException("Cart conflict: different restaurant");
+
+            CartItem existingCartItem = customerCart.CartItems.FirstOrDefault(ci => ci.MenuItemId == menuItem.Id);
+
+
+            if (existingCartItem != null)
             {
-                throw new Exception("Can't add MenuItem from another Restaurant");
+                existingCartItem.Quantity += addToCartReqDTO.Quantity;
             }
 
-            CartItem cartItem = new CartItem
+            else 
             {
-                CartId = customerCart.Id,
-                MenuItemId = menuItem.Id,
-                Price = menuItem.Price,
-                Quantity = addToCartReqDTO.Quantity
-            };
+                CartItem cartItem = new CartItem
+                {
+                    CartId = customerCart.Id,
+                    MenuItemId = menuItem.Id,
+                    Price = menuItem.Price,
+                    Quantity = addToCartReqDTO.Quantity
+                };
 
-            customerCart.AddItem(cartItem);
+                customerCart.AddItem(cartItem);
+            }
+
             await _cartRepository.SaveAsync();
         }
-        public async Task<IEnumerable<CartItemResponseDTO>> GetAllAsync(int customerId)
+        public async Task<IEnumerable<CartListItemDTO>> GetAllAsync(int customerId)
         {
-            // Get the customer details
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null)
-                throw new Exception("Customer not found");
+            if (customer == null) throw new UserNotFoundException("Customer not found");
 
-            // Get the cart for the customer
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null)
-            {
-                throw new Exception("Cart not found");
-            }
+            if (customerCart == null) throw new CartNotFoundException("Cart not found");
 
-            // Get the cart items from the cart
+            //N+1 query problem still figuring it out 
             var cartItems = customerCart.GetCartItems();
 
             // Map cart items to DTOs
-            return cartItems.Select(item => new CartItemResponseDTO
+            return cartItems.Select(item => new CartListItemDTO
             {
                 CartItemId = item.Id,
-                menuItemDTO = new MenuItemDTO
-                {
-                    RestaurantId = item.MenuItem.RestaurantId, 
-                    MenuSectionId = item.MenuItem.MenuSectionId,
-                    Name = item.MenuItem.Name,
-                    MenuItemImg = item.MenuItem.MenuItemImg,
-                    Description = item.MenuItem.Description,
-                    Price = item.MenuItem.Price,
-                    Availability = item.MenuItem.Availability
-                },
+                Name = item.MenuItem.Name,
+                Description = item.MenuItem.Description,
+                MenuItemImg = item.MenuItem.MenuItemImg,
                 Quantity = item.Quantity,
                 Price = item.Price
             });
@@ -102,44 +100,34 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null)
-                throw new Exception("Customer not found");
+            if (customer == null) throw new UserNotFoundException("Customer not found");
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null)
-            {
-                throw new Exception("Cart is Already Cleared");
-            }
+            if (customerCart == null) throw new CartNotFoundException("No Cart For This User");
+            if (customerCart.CartItems.Count == 0) throw new CartIsEmptyException("Cart is Already Empty");
+
 
             await _cartRepository.DeleteCartAsync(customerCart);
         }
         public async Task RemoveFromCartAsync(int customerId, int cartItemId)
         {
-            // Check if user exists
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null)
-                throw new Exception("Customer not found");
+            if (customer == null) throw new UserNotFoundException("Customer not found");
 
-            // Get the cart for the customer
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null)
-            {
-                throw new Exception("Cart not found for the customer");
-            }
+            if (customerCart == null) throw new CartNotFoundException("Cart not found for the customer");
 
-            // Check if the cartItemId exists in the cart
-            var cartItem = customerCart.CartItems.FirstOrDefault(item => item.Id == cartItemId);
 
-            if (cartItem == null)
-                throw new Exception("No cart item with this id found for this user");
+            var cartItem = customerCart.CartItems.FirstOrDefault(ci => ci.Id == cartItemId);
 
-            // Remove the item from the cart
-            customerCart.RemoveItem(cartItem);  // Assuming you have a method like RemoveItem in the Cart class
+            if (cartItem == null) throw new CartItemNotFoundException("No cart item with this id found for this user");
 
-            await _cartRepository.SaveAsync();  // Save the changes to the database
+            customerCart.RemoveItem(cartItem);
+
+            await _cartRepository.SaveAsync();
         }
 
     }

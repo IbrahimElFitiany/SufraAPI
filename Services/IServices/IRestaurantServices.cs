@@ -26,6 +26,6 @@ namespace Sufra.Services.IServices
         Task DeleteOpeningHours(int RestaurantId, DayOfWeek dayOfWeek);
 
 
-        Task AddReviewAsync(int userId, CreateRestaurantReviewReqDTO reviewDTO);
+        Task AddReviewAsync(int customerId, int restaurantId, CreateRestaurantReviewReqDTO reviewDTO);
     }
 }

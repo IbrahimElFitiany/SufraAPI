@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Sufra.DTOs.ReservationDTOs;
+using Sufra.Exceptions;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -19,7 +21,7 @@ namespace Sufra.Controllers
 
         //-----------------------------------
 
-        [Authorize]
+        [Authorize (Roles = "Customer")]
         [HttpPost("{restaurantId}")]
         public async Task<IActionResult> CreateReservation([FromRoute] int restaurantId,[FromBody] CreateReservationReqDTO createReservationReqDTO)
         {
@@ -38,6 +40,22 @@ namespace Sufra.Controllers
 
                 return Ok(createReservation);
             }
+            catch (NoAvailableTablesException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (OutOfOpeningHoursException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return Forbid();
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new {message = ex.Message});
@@ -47,7 +65,7 @@ namespace Sufra.Controllers
 
         [Authorize (Roles ="Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllReservations([FromQuery] ReservationQueryDTO queryDTO) //will implement pagination and filtering soon 
+        public async Task<IActionResult> GetAllReservations([FromQuery] ReservationQueryDTO queryDTO)
         {
             try
             {
@@ -63,7 +81,7 @@ namespace Sufra.Controllers
 
 
 
-        [Authorize]
+        [Authorize (Roles ="RestaurantManager")]
         [HttpPatch("approve/{reservationId}")]
         public async Task<IActionResult> ApproveReservation([FromRoute] int reservationId)
         {
@@ -79,7 +97,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "RestaurantManager")]
         [HttpPatch("reject/{reservationId}")]
         public async Task<IActionResult> RejectReservation([FromRoute] int reservationId)
         {
@@ -95,7 +113,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPatch("cancel/{reservationId}")]
         public async Task<IActionResult> CancelReservation([FromRoute] int reservationId)
         {
@@ -103,7 +121,19 @@ namespace Sufra.Controllers
             try
             {
                 await _reservationServices.CancelAsync(reservationId, userId);
-                return Ok(new { messasge = "canceled" });
+                return Ok(new { message = "canceled" });
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new {message = ex.Message});
+            }
+            catch (ReservationNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Forbid();
             }
             catch (Exception ex)
             {

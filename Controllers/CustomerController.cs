@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sufra.DTOs.CustomerDTOs;
+using Sufra.Exceptions;
 using Sufra.Services.IServices;
 using System.Threading.Tasks;
 
@@ -18,29 +20,43 @@ namespace Sufra.Controllers
 
         //----------------------------------------------
 
+        [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login( [FromBody] LoginDTO loginDTO)
+        public async Task<IActionResult> Login( [FromBody] CustomerLoginReqDTO loginDTO)
         {
             try
             {
-                LoginResponseDTO loginResponseDTO = await _customerServices.LoginAsync(loginDTO);
+                CustomerLoginResDTO loginResponseDTO = await _customerServices.LoginAsync(loginDTO);
                 return Ok(loginResponseDTO);
             }
-            catch (InvalidOperationException ex)
+            catch (AuthenticationException ex)
             {
                 return Unauthorized(new { message = ex.Message });
             }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> Register([FromBody] CustomerRegisterDTO registerDTO)
         {
             try
             {
                 RegisterResponseDTO createCustomer = await _customerServices.RegisterAsync(registerDTO);
                 return Ok(createCustomer);
             }
-            catch (InvalidOperationException ex)
+            catch (EmailAlreadyInUseException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (PhoneAlreadyInUseException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }

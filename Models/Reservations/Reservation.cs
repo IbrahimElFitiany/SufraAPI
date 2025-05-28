@@ -38,6 +38,9 @@ namespace Sufra.Models.Reservations
         [JsonConverter(typeof(JsonStringEnumConverter))] // Serialize enum as string
         public ReservationStatus Status { get; set; }
 
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
         // Navigation Properties
         public virtual Customer Customer { get; set; }
         public virtual Restaurant Restaurant { get; set; }

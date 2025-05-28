@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sufra.Data;
 using Sufra.DTOs.ReservationDTOs;
 using Sufra.Models.Reservations;
+using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Table = Sufra.Models.Restaurants.Table;
@@ -26,13 +27,12 @@ namespace Sufra.Repositories.Repositories
             await _context.SaveChangesAsync();
         }
 
-
         public async Task<Reservation> GetByIdAsync(int id)
         {
             Reservation reservation = await _context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
             return reservation;
         }
-        public async Task<IEnumerable<Reservation>> GetApprovedReservationByTableAsync( Table table)
+        public async Task<IEnumerable<Reservation>> GetApprovedReservationsByTableAsync(Table table)
         {
             IEnumerable<Reservation> reservations = await _context.Reservations.Where(r => r.TableId == table.Id && r.Status == ReservationStatus.Approved).ToListAsync();
             return reservations;
@@ -44,7 +44,14 @@ namespace Sufra.Repositories.Repositories
         }
         public async Task<IEnumerable<Reservation>> GetAllAsync(ReservationQueryDTO queryDTO)
         {
-            IQueryable<Reservation> reservations = _context.Reservations;
+            IQueryable<Reservation> reservations = _context.Reservations //over-fetching will fix it later
+                .Include(r => r.Customer)
+                .Include(r => r.Restaurant)
+                .Include(r => r.Table)
+                .OrderByDescending(r => r.Id);
+
+            if (queryDTO.Status.HasValue) reservations = reservations.Where(r => r.Status == queryDTO.Status.Value);
+
 
             int skip = (queryDTO.Page - 1) * queryDTO.PageSize;
 
@@ -71,11 +78,6 @@ namespace Sufra.Repositories.Repositories
             _context.Reservations.Update(reservation);
             await _context.SaveChangesAsync();
         }
-        public async Task RescheduleReservationAsync(Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
-
 
 
         public async Task DeleteAsync(Reservation reservation)

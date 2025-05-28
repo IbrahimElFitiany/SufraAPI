@@ -6,10 +6,10 @@ namespace Sufra.Services.IServices
     {
        Task CreateOrderAsync(OrderDTO orderDTO);
        Task CancelOrderAsync(int orderId, int customerId);
-       Task<OrderDTO> GetOrderAsync(int orderId, int customerId);
-       Task<IEnumerable<OrderDTO>> GetRestaurantOrdersAsync(int restaurantId);
-       Task<IEnumerable<OrderDTO>> GetCustomerOrdersAsync(int customerId);
-        Task<IEnumerable<OrderDTO>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO);
+       Task<OrderDetailedDTO> GetOrderAsync(int orderId, int customerId);
+       Task<IEnumerable<OrderDTO>> GetRestaurantOrdersAsync(int restaurantId , OrderQueryDTO orderQuery);
+       Task<IEnumerable<OrderItemListDTO>> GetCustomerOrdersAsync(int customerId, OrderQueryDTO orderQuery);
+       Task<IEnumerable<OrderDTO>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO);
        Task UpdateOrderStatus(OrderDTO orderDTO);
     }
 }

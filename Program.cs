@@ -9,7 +9,6 @@ using Sufra.Services.IServices;
 using Sufra.Repositories.IRepositories;
 using Sufra.Infrastructure.Services;
 using Sufra.Repositories.Repositories;
-using Sufra.Infrastructure.Hubs;
 using Sufra.Services.Services;
 using Sufra.Data;
 
@@ -31,7 +30,7 @@ namespace Sufra
 
             builder.Services.AddSignalR();
 
-            builder.Services.AddDbContext<Sufra_DbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<Sufra_DbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -119,8 +118,6 @@ namespace Sufra
 
             var app = builder.Build();
 
-            // Map your SignalR hub so clients can connect to it
-            app.MapHub<ChatHub>("/chat");
             app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
             app.UseAuthorization();

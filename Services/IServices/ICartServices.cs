@@ -6,7 +6,7 @@ namespace Sufra.Services.IServices
     {
         Task AddToCartAsync(AddToCartReqDTO addToCartReqDTO, int customerId);
         Task ClearCart(int customerId);
-        Task<IEnumerable<CartItemResponseDTO>> GetAllAsync(int customerId);
+        Task<IEnumerable<CartListItemDTO>> GetAllAsync(int customerId);
         Task RemoveFromCartAsync(int customerId, int cartItemId);
     }
 }

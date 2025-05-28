@@ -26,35 +26,37 @@ namespace Sufra.Repositories.Repositories
 
         public async Task<IEnumerable<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO dto)
         {
-         
-            IQueryable<Restaurant> query = _context.Restaurants;
+            await _context.Database.ExecuteSqlRawAsync("CREATE EXTENSION IF NOT EXISTS pg_trgm");
 
-            if (dto.IsApproved.HasValue)
-            {
-                query = query.Where(r => r.IsApproved == dto.IsApproved);
-            }
+            IQueryable<Restaurant> query = _context.Restaurants.Include(r => r.Cuisine).Include(r => r.District);
 
-            if (string.IsNullOrEmpty(dto.NormalizedQuery))
+            if (dto.IsApproved.HasValue) query = query.Where(r => r.IsApproved == dto.IsApproved);
+            if (dto.DistrictId.HasValue) query = query.Where(r => r.DistrictId ==  dto.DistrictId);
+            if (dto.CuisineId.HasValue) query = query.Where(r => r.CuisineId == dto.CuisineId);
+
+
+            if (!string.IsNullOrEmpty(dto.NormalizedQuery))
             {
-                return await query
+                var fuzzyQuery = query
+                    .Where(r =>
+                        EF.Functions.TrigramsSimilarity(r.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
+                        EF.Functions.TrigramsSimilarity(r.District.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
+                        EF.Functions.TrigramsSimilarity(r.Cuisine.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3)
+                    .OrderByDescending(r =>
+                        EF.Functions.TrigramsSimilarity(r.Name, dto.NormalizedQuery) +
+                        EF.Functions.TrigramsSimilarity(r.District.Name, dto.NormalizedQuery) +
+                        EF.Functions.TrigramsSimilarity(r.Cuisine.Name, dto.NormalizedQuery))
                     .Skip((dto.Page - 1) * dto.PageSize)
-                    .Take(dto.PageSize)
-                    .ToListAsync();
+                    .Take(dto.PageSize);
+
+                return await fuzzyQuery.ToListAsync();
             }
 
-            // Fuzzy matching must be done in-memory
-            List<Restaurant> allFiltered = await query.ToListAsync();
-
-            var fuzzyFiltered = allFiltered.Where(r =>
-                (r.Name != null && r.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2) ||
-                (r.District?.Name != null && r.District.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2) ||
-                (r.Cuisine?.Name != null && r.Cuisine.Name.FuzzyMatch(dto.NormalizedQuery) >= 0.2)
-            ).ToList();
-
-            return fuzzyFiltered
-                .Skip((dto.Page - 1) * dto.PageSize)
-                .Take(dto.PageSize)
-                .ToList();
+            return await query
+            .OrderBy(r => r.Id)
+            .Skip((dto.Page - 1) * dto.PageSize)
+            .Take(dto.PageSize)
+            .ToListAsync();
         }
 
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()

@@ -1,6 +1,6 @@
 ﻿namespace Sufra.DTOs.CustomerDTOs
 {
-    public class LoginResponseDTO
+    public class CustomerLoginResDTO
     {
         public string Fname { get; set; }
         public string Lname { get; set; }

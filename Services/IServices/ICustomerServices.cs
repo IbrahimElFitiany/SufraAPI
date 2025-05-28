@@ -4,8 +4,8 @@ namespace Sufra.Services.IServices
 {
     public interface ICustomerServices
     {
-        Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
-        Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO);
+        Task<CustomerLoginResDTO> LoginAsync(CustomerLoginReqDTO loginDTO);
+        Task<RegisterResponseDTO> RegisterAsync(CustomerRegisterDTO registerDTO);
 
     }
 }

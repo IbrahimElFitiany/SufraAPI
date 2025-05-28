@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sufra.DTOs.CustomerDTOs;
+using Sufra.Exceptions;
 using Sufra.Infrastructure.Services;
 using Sufra.Models.Customers;
 using Sufra.Repositories.IRepositories;
@@ -21,17 +22,16 @@ namespace Sufra.Services.Services
         }
 
         //------------------------------------------
-        public async Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO)
+        public async Task<CustomerLoginResDTO> LoginAsync(CustomerLoginReqDTO loginDTO)
         {
             Customer customer = await _CustomerRepository.GetCustomerByEmailAsync(loginDTO.Email);
 
-            if (customer == null)
-                throw new InvalidOperationException("Invalid email or password.");
+            if (customer == null) throw new AuthenticationException("Invalid email or password.");
+
 
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDTO.Password, customer.Password);
 
-            if (!isPasswordValid)
-                throw new InvalidOperationException("Invalid email or password.");
+            if (!isPasswordValid) throw new AuthenticationException("Invalid email or password.");
 
 
 
@@ -44,7 +44,7 @@ namespace Sufra.Services.Services
                     Role = "Customer"
                 });
 
-            return new LoginResponseDTO
+            return new CustomerLoginResDTO
             {
                 Fname = customer.Fname,
                 Lname = customer.Lname,
@@ -55,21 +55,16 @@ namespace Sufra.Services.Services
 
         }
 
-        public async Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO)
+        public async Task<RegisterResponseDTO> RegisterAsync(CustomerRegisterDTO registerDTO)
         {
 
             Customer customerWithSameEmail = await _CustomerRepository.GetCustomerByEmailAsync(registerDTO.Email);
-            Customer customerWithSamePhone = await _CustomerRepository.GetCustomerByPhoneAsync(registerDTO.phone);
+            Customer customerWithSamePhone = await _CustomerRepository.GetCustomerByPhoneAsync(registerDTO.Phone);
 
-            if (customerWithSameEmail != null)
-            {
-                throw new InvalidOperationException($"Email: {registerDTO.Email} is already in use.");
-            }
+            if (customerWithSameEmail != null)  throw new EmailAlreadyInUseException($"Email: {registerDTO.Email} is already in use.");
 
-            else if (customerWithSamePhone != null)
-            {
-                throw new InvalidOperationException($"Number: {registerDTO.phone} is already in use.");
-            }
+            if (customerWithSamePhone != null)  throw new PhoneAlreadyInUseException($"Number: {registerDTO.Phone} is already in use.");
+
 
             registerDTO.Password = BCrypt.Net.BCrypt.HashPassword(registerDTO.Password);
 
@@ -79,7 +74,7 @@ namespace Sufra.Services.Services
                 Lname = registerDTO.Lname,
                 Email = registerDTO.Email,
                 Password = registerDTO.Password,
-                Phone = registerDTO.phone
+                Phone = registerDTO.Phone
             };
 
             await _CustomerRepository.AddCustomerAsync(customer);

@@ -15,8 +15,8 @@ namespace Sufra.Services.Services
     public class ReservationServices : IReservationServices
     {
         private readonly IReservationRepository _reservationRepository;
-        private readonly IRestaurantRepository _restaurantRepository;          //need to remove it ind DDD
-        private readonly ICustomerRepository _customerRepository;          //need to remove it ind DDD
+        private readonly IRestaurantRepository _restaurantRepository;          //need to remove it in DDD
+        private readonly ICustomerRepository _customerRepository;          //need to remove it in DDD
         private readonly IQRCodeService _qrCodeService;
         private readonly IEmailServices _emailServices;
 
@@ -47,16 +47,10 @@ namespace Sufra.Services.Services
         //--------------------------------------
         public async Task<CreateReservationResDTO> CreateAsync(ReservationDTO reservationDTO)
         {
-            //check on reservation Date
-            if (reservationDTO.ReservationDateTime < DateTime.UtcNow)
-            {
-                throw new Exception("invalid can't reserve in the past");
-            }
 
             Restaurant restaurant = await ValidateRestaurant(reservationDTO.RestaurantId);
 
-            if (!restaurant.IsInOpeningHour(reservationDTO.ReservationDateTime))
-                throw new Exception("Not in opening hours.");
+            if (!restaurant.IsInOpeningHour(reservationDTO.ReservationDateTime)) throw new OutOfOpeningHoursException("Not in opening hours.");
 
             //fixed time duration w maxeffort rn 
             int maxEffort = 2;
@@ -64,18 +58,17 @@ namespace Sufra.Services.Services
             DateTime desiredStart = reservationDTO.ReservationDateTime;
             DateTime desiredEnd = desiredStart.Add(reservationDuration);
 
-            //get el tables el el capacity akbr mn el ps , capcity as8r or equal ps + maxeffort
-            IEnumerable<Table> tables = restaurant.GetTables()
+            //get tables with capacity > party size and <= (party size + maxEffort).
+            IEnumerable<Table> suitableTables = restaurant.GetTables()
                 .Where(t => t.Capacity >= reservationDTO.PartySize && t.Capacity <= reservationDTO.PartySize + maxEffort)  
                 .OrderBy(t => t.Capacity);
 
-            if (!tables.Any())
-                throw new Exception("No available tables for this party size.");
+            if (!suitableTables.Any()) throw new NoAvailableTablesException("No available tables for this party size.");
 
 
-            foreach (Table table in tables)
+            foreach (Table table in suitableTables)
             {
-                var approvedReservations = await _reservationRepository.GetApprovedReservationByTableAsync(table);
+                var approvedReservations = await _reservationRepository.GetApprovedReservationsByTableAsync(table);
 
                 bool hasApprovedOverlap = approvedReservations.Any(res =>
                 {
@@ -126,7 +119,7 @@ namespace Sufra.Services.Services
             {
                 CustomerId = reservationDTO.CustomerId,
                 RestaurantId = restaurant.Id,
-                TableId = tables.First().Id,
+                TableId = suitableTables.First().Id,
                 ReservationDateTime = DateTime.SpecifyKind(reservationDTO.ReservationDateTime, DateTimeKind.Utc),
                 PartySize = reservationDTO.PartySize,
                 Status = ReservationStatus.Pending
@@ -213,16 +206,15 @@ namespace Sufra.Services.Services
         public async Task CancelAsync(int reservationId, int customerId)
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
-            if (customer == null)
-            {
-                throw new Exception("Customer Not Found");
-            }
+
+            if (customer == null) throw new UserNotFoundException("Customer Not Found");
+
 
             Reservation reservation = await _reservationRepository.GetByIdAsync(reservationId);
-            if (reservation == null || reservation.CustomerId != customer.Id)
-            {
-                throw new Exception("no reservation with this ID");
-            }
+
+            if (reservation == null) throw new ReservationNotFoundException("Reservation Not Found");
+
+            if (reservation.CustomerId != customer.Id) throw new UnauthorizedAccessException("Unauthorized");
 
             await _reservationRepository.CancelAsync(reservation);
         }

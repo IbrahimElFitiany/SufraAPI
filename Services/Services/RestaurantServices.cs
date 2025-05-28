@@ -394,26 +394,20 @@ namespace Sufra.Services.Services
 
         //---------------------Restaurant Review Services-----------------------------
 
-        public async Task AddReviewAsync(int userId , CreateRestaurantReviewReqDTO reviewDTO)
+        public async Task AddReviewAsync(int customerId ,int restaurantId , CreateRestaurantReviewReqDTO reviewDTO)
         {
-            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(reviewDTO.RestaurantId);
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new RestaurantNotFoundException("Restaurant not found.");
 
-            if (restaurant.RestaurantReviews.Any(r => r.CustomerId == userId))
-            {
-                throw new InvalidOperationException("You have already reviewed this restaurant.");
-            }
+            if (restaurant.RestaurantReviews.Any(r => r.CustomerId == customerId)) throw new CustomerAlreadyReviewed("You have already reviewed this restaurant.");            
 
             RestaurantReview review = new RestaurantReview
             {
-                CustomerId = userId,
+                CustomerId = customerId,
                 Rating = reviewDTO.Rating,
                 ReviewDate = DateTime.SpecifyKind(reviewDTO.ReviewDate, DateTimeKind.Utc),
-                RestaurantId = reviewDTO.RestaurantId,
+                RestaurantId = restaurant.Id,
                 ReviewText = reviewDTO.Review
             };
 

@@ -8,7 +8,7 @@ namespace Sufra.Repositories.IRepositories
     {
         Task CreateAsync(Reservation reservation);
         Task<Reservation> GetByIdAsync(int id);
-        Task<IEnumerable<Reservation>> GetApprovedReservationByTableAsync(Table table);
+        Task<IEnumerable<Reservation>> GetApprovedReservationsByTableAsync(Table table);
         Task<IEnumerable<Reservation>> GetPendingReservationsByTableAsync(Table table);
         Task<IEnumerable<Reservation>> GetAllAsync(ReservationQueryDTO queryDTO);
 
@@ -16,7 +16,6 @@ namespace Sufra.Repositories.IRepositories
         Task RejectAsync(Reservation reservation);
         Task CancelAsync(Reservation reservation);
 
-        Task RescheduleReservationAsync(Reservation reservation);
         Task DeleteAsync(Reservation reservation);
     }
 

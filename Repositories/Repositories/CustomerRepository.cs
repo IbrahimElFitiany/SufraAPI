@@ -25,7 +25,6 @@ namespace Sufra.Repositories.Repositories
         public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
             return await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
-
         }
         public async Task<Customer> GetCustomerByPhoneAsync(string phone)
         {
