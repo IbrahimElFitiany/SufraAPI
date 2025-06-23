@@ -207,7 +207,7 @@ namespace Sufra.Controllers
         {
             try
             {
-                IEnumerable<RestaurantDTO> sufarPicks = await _restaurantServices.GetSufraPicksAsync();
+                IEnumerable<RestaurantListItemDTO> sufarPicks = await _restaurantServices.GetSufraPicksAsync();
                 return Ok(sufarPicks);
 
             }

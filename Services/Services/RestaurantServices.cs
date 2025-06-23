@@ -274,27 +274,18 @@ namespace Sufra.Services.Services
             await _restaurantRepository.UpdateRestaurant(restaurant);
         }
 
-        public async Task<IEnumerable<RestaurantDTO>> GetSufraPicksAsync()
+        public async Task<IEnumerable<RestaurantListItemDTO>> GetSufraPicksAsync()
         {
 
             IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetSufraPicksAsync();
 
-            IEnumerable<RestaurantDTO> restaurantDtos = restaurants.Select(r => new RestaurantDTO
+            IEnumerable<RestaurantListItemDTO> restaurantDtos = restaurants.Select(r => new RestaurantListItemDTO
             {
-                RestaurantId = r.Id,         
-                ImgUrl = r.ImgUrl,
-                Name = r.Name,
-                Phone = r.Phone,
-                CuisineId = r.CuisineId,
+                Id=r.Id,
+                Name=r.Name,
+                Img=r.ImgUrl,
+                Rating=r.Rating,
                 CuisineName = r.Cuisine.Name,
-                Description = r.Description,
-                Latitude = r.Latitude,
-                Longitude = r.Longitude,
-                Address = r.Address,
-                DistrictId = r.DistrictId,
-                IsApproved = r.IsApproved,
-                Rating = r.Rating
-                
             });
 
             return restaurantDtos;

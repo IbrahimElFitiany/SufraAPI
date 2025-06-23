@@ -12,7 +12,7 @@ namespace Sufra.Services.IServices
         Task ApproveRestaurantAsync(int restaurantId);
         Task BlockRestaurantAsync(int restaurantId);
         Task<GetRestaurantResponseDTO> GetRestaurantAsync(int restaurantId);
-        Task<IEnumerable<RestaurantDTO>> GetSufraPicksAsync();
+        Task<IEnumerable<RestaurantListItemDTO>> GetSufraPicksAsync();
         Task<IEnumerable<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO);
         Task DeleteAsync(int restaurantId);
 
