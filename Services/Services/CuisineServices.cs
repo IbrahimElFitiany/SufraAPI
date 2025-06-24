@@ -1,7 +1,7 @@
 ﻿using Sufra.Repositories.IRepositories;
-using Sufra.DTOs;
 using Sufra.Services.IServices;
 using Sufra.Models.Restaurants;
+using Sufra.DTOs.CuisineDTOs;
 
 namespace Sufra.Services.Services
 {
@@ -25,17 +25,31 @@ namespace Sufra.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CuisineDTO>> GetAllAsync()
+        public async Task<IEnumerable<CuisineDisplayDTO>> GetAllWithImagesAsync()
         {
-            var cuisines = await _cuisineRepository.GetAllAsync();  // Fetch cuisines from repository
+            var cuisines = await _cuisineRepository.GetAllAsync();
 
-            var cuisineDTOs = cuisines.Select(c => new CuisineDTO
+            var cuisineDisplayDTOs = cuisines.Select(c => new CuisineDisplayDTO
             {
                 CuisineId = c.Id,
-                CuisineName = c.Name
+                CuisineName = c.Name,
+                CuisineImage = c.CuisineImage
             }).ToList();
 
-            return cuisineDTOs;
+            return cuisineDisplayDTOs;
+        }
+
+        public async Task<IEnumerable<CuisineBasicDTO>> GetAllAsync()
+        {
+            var cuisines = await _cuisineRepository.GetAllAsync();
+
+            var cuisineBasicDTOs = cuisines.Select(c => new CuisineBasicDTO
+            {
+                CuisineId = c.Id,
+                CuisineName = c.Name,
+            }).ToList();
+
+            return cuisineBasicDTOs;
         }
 
         public Task<Cuisine> GetByIdAsync(int id)

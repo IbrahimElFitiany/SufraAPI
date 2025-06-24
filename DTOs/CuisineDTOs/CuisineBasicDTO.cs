@@ -1,6 +1,6 @@
-﻿namespace Sufra.DTOs
+﻿namespace Sufra.DTOs.CuisineDTOs
 {
-    public class CuisineDTO
+    public class CuisineBasicDTO
     {
         public int CuisineId { get; set; }
         public string CuisineName { get; set; }

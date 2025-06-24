@@ -16,7 +16,10 @@ namespace Sufra.Models.Restaurants
             set => _name = value?.Trim().ToLowerInvariant();
         }
 
-       //navigation
+        [Required, StringLength(512)]
+        public string CuisineImage { get; set; }
+
+        //navigation
         public virtual ICollection<Restaurant> Restaurants { get; set; }
     }
 }

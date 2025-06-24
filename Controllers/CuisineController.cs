@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sufra.DTOs;
+using Sufra.DTOs.CuisineDTOs;
 using Sufra.Services.IServices;
 
 namespace Sufra.Controllers
@@ -18,12 +18,28 @@ namespace Sufra.Controllers
 
         //---------------------
 
+        [AllowAnonymous]
+        [HttpGet("with-images")]
+        public async Task<IActionResult> GetCuisinesWithImages()
+        {
+            try
+            {
+                IEnumerable<CuisineDisplayDTO> cuisines = await _cuisineServices.GetAllWithImagesAsync();
+                return Ok(cuisines);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCuisines()
         {
             try
             {
-                IEnumerable<CuisineDTO> cuisines = await _cuisineServices.GetAllAsync();
+                IEnumerable<CuisineBasicDTO> cuisines = await _cuisineServices.GetAllAsync();
                 return Ok(cuisines);
             }
             catch (InvalidOperationException ex)

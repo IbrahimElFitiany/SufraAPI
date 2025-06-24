@@ -42,7 +42,7 @@ namespace Sufra.Repositories.Repositories
         }
         public async Task<IEnumerable<Cuisine>> GetAllAsync()
         {
-            return await _context.Cuisines.ToListAsync();
+            return await _context.Cuisines.OrderBy(c => c.Id).ToListAsync();
         }
         public async Task UpdateAsync(Cuisine cuisine)
         {

@@ -1,4 +1,4 @@
-﻿using Sufra.DTOs;
+﻿using Sufra.DTOs.CuisineDTOs;
 using Sufra.Models.Restaurants;
 
 namespace Sufra.Services.IServices
@@ -7,7 +7,8 @@ namespace Sufra.Services.IServices
     {
         Task AddAsync(Cuisine cuisine);
         Task<Cuisine> GetByIdAsync(int id);
-        Task<IEnumerable<CuisineDTO>> GetAllAsync();
+        Task<IEnumerable<CuisineDisplayDTO>> GetAllWithImagesAsync();
+        Task<IEnumerable<CuisineBasicDTO>> GetAllAsync();
         Task UpdateAsync(Cuisine cuisine);
         Task DeleteAsync(int id);
 
