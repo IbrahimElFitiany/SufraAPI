@@ -28,7 +28,11 @@ namespace Sufra.Repositories.Repositories
         {
             await _context.Database.ExecuteSqlRawAsync("CREATE EXTENSION IF NOT EXISTS pg_trgm");
 
-            IQueryable<Restaurant> query = _context.Restaurants.Include(r => r.Cuisine).Include(r => r.District);
+            IQueryable<Restaurant> query = _context.Restaurants
+                .Include(r => r.Cuisine)
+                .Include(r => r.District)
+                .ThenInclude(d => d.Gov);
+
 
             if (dto.IsApproved.HasValue) query = query.Where(r => r.IsApproved == dto.IsApproved);
             if (dto.DistrictId.HasValue) query = query.Where(r => r.DistrictId ==  dto.DistrictId);
@@ -62,6 +66,9 @@ namespace Sufra.Repositories.Repositories
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()
         {
             return await _context.Restaurants
+                .Include(r => r.District)
+                .ThenInclude(d => d.Gov)
+                .Include(r => r.Cuisine)
                 .OrderByDescending(r => r.Rating)
                 .Take(4)
                 .ToListAsync();

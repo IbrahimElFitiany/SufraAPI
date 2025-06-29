@@ -6,6 +6,8 @@
         public string Name { get; set; }
         public string Img { get; set; }
         public decimal Rating { get; set; }
+        public string District { get; set; }
+        public string Gov { get; set; }
         public string CuisineName { get; set; }
     }
 }

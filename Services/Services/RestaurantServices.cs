@@ -232,6 +232,8 @@ namespace Sufra.Services.Services
                 Id = r.Id,
                 Name = r.Name,
                 Img = r.ImgUrl,
+                District = r.District.Name,
+                Gov = r.District.Gov.Name,
                 CuisineName = r.Cuisine.Name,
                 Rating = r.Rating
             });
@@ -285,6 +287,8 @@ namespace Sufra.Services.Services
                 Name=r.Name,
                 Img=r.ImgUrl,
                 Rating=r.Rating,
+                District=r.District.Name,
+                Gov=r.District.Gov.Name,
                 CuisineName = r.Cuisine.Name,
             });
 
