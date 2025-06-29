@@ -143,3 +143,16 @@ dotnet run
 - The frontend is maintained separately and still under active development:
 
 - 👉 [Sufrá Frontend Repository](https://github.com/IbrahimElFitiany/Sufra_FrontEnd)
+
+## ⚙️ Planned Improvements
+
+- **Optimize Entity Framework Queries**  
+  Replace `.Include()` calls with `.Select()` projections where only specific fields are needed  
+  (e.g., `Cuisine.Name`, `District.Name`, `Gov.Name`) to reduce unnecessary data loading and improve performance.
+
+- **Implement Transactional Consistency (Unit of Work)**  
+  Currently, creating a `Manager` and their associated `Restaurant` occurs in separate steps.  
+  If the restaurant creation fails, it may leave orphaned manager records.  
+  I plan to refactor this flow using the Unit of Work pattern to wrap related operations in a single transaction,  
+  ensuring data consistency and atomicity.
+
