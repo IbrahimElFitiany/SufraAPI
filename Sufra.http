@@ -1,6 +1,0 @@
-@Sufra_MVC_HostAddress = http://localhost:5164
-
-GET {{Sufra_MVC_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

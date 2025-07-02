@@ -1,19 +1,27 @@
-﻿using System;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Utils;
+using Sufra.Configuration;
 
 public class EmailServices:IEmailServices
 {
+    private readonly SmtpSettings _smtpSettings;
+    private readonly SupportSettings _supportSettings;
+
+    public EmailServices(IOptionsSnapshot<SmtpSettings> smtpSettings, IOptionsSnapshot<SupportSettings> supportSettings)
+    {
+        _smtpSettings = smtpSettings.Value;
+        _supportSettings = supportSettings.Value;
+    }
 
     public async Task SendApprovalEmailAsync(string toEmail, string subject, string body, string base64)
     {
-        string templatePath = Path.Combine(Directory.GetCurrentDirectory(),"Infrastructure" , "Services" , "Templates", "ApprovedTemplate.html");
+        string templatePath = Path.Combine(AppContext.BaseDirectory, "Infrastructure", "Services", "Templates", "ApprovedTemplate.html");
         string htmlTemplate = File.ReadAllText(templatePath);
 
         var emailMessage = new MimeMessage();
-        emailMessage.From.Add(new MailboxAddress("Sufra", "sufraa.app@gmail.com"));
+        emailMessage.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromEmail));
         emailMessage.To.Add(new MailboxAddress("", toEmail));                      
         emailMessage.Subject = subject;                                             
 
@@ -21,7 +29,6 @@ public class EmailServices:IEmailServices
 
         var imageBytes = Convert.FromBase64String(base64);
 
-        // 5. Create a linked resource (embedded image) and get its CID
         var image = bodyBuilder.LinkedResources.Add("reservation.png", imageBytes, new ContentType("image", "png"));
         image.ContentId = MimeUtils.GenerateMessageId();
 
@@ -29,7 +36,6 @@ public class EmailServices:IEmailServices
             .Replace("{body}", body)
             .Replace("{imageCid}", image.ContentId);
 
-        // 7. Set the body content
         bodyBuilder.HtmlBody = finalHtml;
         bodyBuilder.TextBody = body;
 
@@ -39,8 +45,8 @@ public class EmailServices:IEmailServices
         {
             using (var smtpClient = new SmtpClient())
             {
-                await smtpClient.ConnectAsync("smtp.gmail.com", 587, false); // Connect to Gmail SMTP server
-                await smtpClient.AuthenticateAsync("sufraa.app@gmail.com", "gtdi kqyt xvet pnvy");
+                await smtpClient.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, false);
+                await smtpClient.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
 
                 await smtpClient.SendAsync(emailMessage);
                 await smtpClient.DisconnectAsync(true);
@@ -51,6 +57,7 @@ public class EmailServices:IEmailServices
         catch (Exception ex)
         {
             Console.WriteLine($"Error sending email: {ex.Message}");
+            throw new Exception("An error occurred while sending email.", ex);
         }
     }
     public async Task SendRejectionEmailAsync(string toEmail, string subject)
@@ -59,7 +66,7 @@ public class EmailServices:IEmailServices
         string htmlTemplate = File.ReadAllText(templatePath);
 
         var emailMessage = new MimeMessage();
-        emailMessage.From.Add(new MailboxAddress("Sufra", "sufraa.app@gmail.com"));
+        emailMessage.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromEmail));
         emailMessage.To.Add(new MailboxAddress("", toEmail));
         emailMessage.Subject = subject;
 
@@ -69,8 +76,8 @@ public class EmailServices:IEmailServices
 
         string finalHtml = htmlTemplate
             .Replace("{body}", rejectionMessage)
-            .Replace("{supportEmail}", "support@sufra.com")
-            .Replace("{supportPhone}", "+1 (123) 456-7890");
+            .Replace("{supportEmail}", _supportSettings.Email)
+            .Replace("{supportPhone}", _supportSettings.Phone);
 
         bodyBuilder.HtmlBody = finalHtml;
         bodyBuilder.TextBody = rejectionMessage;
@@ -81,8 +88,8 @@ public class EmailServices:IEmailServices
         {
             using (var smtpClient = new SmtpClient())
             {
-                await smtpClient.ConnectAsync("smtp.gmail.com", 587, false);
-                await smtpClient.AuthenticateAsync("sufraa.app@gmail.com", "gtdi kqyt xvet pnvy");
+                await smtpClient.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, false);
+                await smtpClient.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
 
                 await smtpClient.SendAsync(emailMessage);
                 await smtpClient.DisconnectAsync(true);

@@ -11,6 +11,7 @@ using Sufra.Infrastructure.Services;
 using Sufra.Repositories.Repositories;
 using Sufra.Services.Services;
 using Sufra.Data;
+using Sufra.Configuration;
 
 namespace Sufra
 {
@@ -20,8 +21,9 @@ namespace Sufra
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers()
-            .AddJsonOptions(options =>
+            var env = builder.Environment;
+            
+            builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
@@ -30,10 +32,13 @@ namespace Sufra
 
             builder.Services.AddSignalR();
 
-            builder.Services.AddDbContext<Sufra_DbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
+            builder.Services.AddDbContext<Sufra_DbContext>(options =>
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+                if (env.IsDevelopment()) options.EnableSensitiveDataLogging();
+            });
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -76,6 +81,9 @@ namespace Sufra
                 });
             });
 
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+
+            builder.Services.Configure<SupportSettings>(builder.Configuration.GetSection("SupportSettings"));
 
 
             builder.Services.AddScoped<JwtServices>();
