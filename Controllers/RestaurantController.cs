@@ -136,8 +136,8 @@ namespace Sufra.Controllers
             try
             {
                 restaurantQueryDTO.IsApproved = true;
-                var restaurantlistItems = await _restaurantServices.QueryRestaurantsAsync(restaurantQueryDTO);
-                return Ok(restaurantlistItems);
+                var searchResults = await _restaurantServices.QueryRestaurantsAsync(restaurantQueryDTO);
+                return Ok(searchResults);
             }
             catch (Exception ex)
             {

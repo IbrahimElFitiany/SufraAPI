@@ -1,4 +1,5 @@
-﻿using Sufra.DTOs.RestaurantDTOs;
+﻿using Sufra.DTOs;
+using Sufra.DTOs.RestaurantDTOs;
 using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
 using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 
@@ -13,7 +14,7 @@ namespace Sufra.Services.IServices
         Task BlockRestaurantAsync(int restaurantId);
         Task<GetRestaurantResponseDTO> GetRestaurantAsync(int restaurantId);
         Task<IEnumerable<RestaurantListItemDTO>> GetSufraPicksAsync();
-        Task<IEnumerable<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO);
+        Task<PagedResultDTO<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO);
         Task DeleteAsync(int restaurantId);
 
         Task<CreateTableResDTO> AddTableAsync(TableDTO tableDTO);

@@ -1,6 +1,6 @@
-﻿
-using Humanizer;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Sufra.Common.Models;
+using Sufra.DTOs;
 using Sufra.DTOs.MenuDTOs;
 using Sufra.DTOs.MenuSectionDTOs;
 using Sufra.DTOs.RestaurantDTOs;
@@ -222,23 +222,31 @@ namespace Sufra.Services.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<IEnumerable<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO)
+        public async Task<PagedResultDTO<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO)
         {
 
-            IEnumerable<Restaurant> restaurants = await _restaurantRepository.QueryRestaurantsAsync(restaurantQueryDTO);
+            PagedQueryResult<Restaurant> restaurants = await _restaurantRepository.QueryRestaurantsAsync(restaurantQueryDTO);
 
-            IEnumerable<RestaurantListItemDTO> restaurantListItemDTOs = restaurants.Select(r => new RestaurantListItemDTO
+            PagedResultDTO<RestaurantListItemDTO> pagedResults = new PagedResultDTO<RestaurantListItemDTO>
             {
-                Id = r.Id,
-                Name = r.Name,
-                Img = r.ImgUrl,
-                District = r.District.Name,
-                Gov = r.District.Gov.Name,
-                CuisineName = r.Cuisine.Name,
-                Rating = r.Rating
-            });
+                Items = restaurants.Items.Select(r => new RestaurantListItemDTO
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Img = r.ImgUrl,
+                    District = r.District.Name,
+                    Gov = r.District.Gov.Name,
+                    CuisineName = r.Cuisine.Name,
+                    Rating = r.Rating
+                }),
+                Page = restaurants.Page,
+                PageSize = restaurants.PageSize,
+                TotalCount = restaurants.TotalCount,
+                HasNextPage = restaurants.HasNextPage,
+                HasPreviousPage = restaurants.HasPreviousPage,
+            };
 
-            return restaurantListItemDTOs;
+            return pagedResults;
         }
 
 

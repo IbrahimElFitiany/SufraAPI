@@ -1,5 +1,6 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.EntityFrameworkCore;
+using Sufra.Common.Models;
 using Sufra.Data;
 using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
@@ -24,43 +25,63 @@ namespace Sufra.Repositories.Repositories
         }
 
 
-        public async Task<IEnumerable<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO dto)
+        public async Task<PagedQueryResult<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO dto)
         {
-            await _context.Database.ExecuteSqlRawAsync("CREATE EXTENSION IF NOT EXISTS pg_trgm");
+            int totalCount;
+            List<Restaurant> results;
 
             IQueryable<Restaurant> query = _context.Restaurants
                 .Include(r => r.Cuisine)
                 .Include(r => r.District)
                 .ThenInclude(d => d.Gov);
 
-
             if (dto.IsApproved.HasValue) query = query.Where(r => r.IsApproved == dto.IsApproved);
             if (dto.DistrictId.HasValue) query = query.Where(r => r.DistrictId ==  dto.DistrictId);
             if (dto.CuisineId.HasValue) query = query.Where(r => r.CuisineId == dto.CuisineId);
-
 
             if (!string.IsNullOrEmpty(dto.NormalizedQuery))
             {
                 var fuzzyQuery = query
                     .Where(r =>
-                        EF.Functions.TrigramsSimilarity(r.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
-                        EF.Functions.TrigramsSimilarity(r.District.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
-                        EF.Functions.TrigramsSimilarity(r.Cuisine.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3)
+                    EF.Functions.TrigramsSimilarity(r.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
+                    EF.Functions.TrigramsSimilarity(r.District.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3 ||
+                    EF.Functions.TrigramsSimilarity(r.Cuisine.Name.Replace(" ", ""), dto.NormalizedQuery) > 0.3)
                     .OrderByDescending(r =>
-                        EF.Functions.TrigramsSimilarity(r.Name, dto.NormalizedQuery) +
-                        EF.Functions.TrigramsSimilarity(r.District.Name, dto.NormalizedQuery) +
-                        EF.Functions.TrigramsSimilarity(r.Cuisine.Name, dto.NormalizedQuery))
-                    .Skip((dto.Page - 1) * dto.PageSize)
-                    .Take(dto.PageSize);
+                    EF.Functions.TrigramsSimilarity(r.Name, dto.NormalizedQuery) +
+                    EF.Functions.TrigramsSimilarity(r.District.Name, dto.NormalizedQuery) +
+                    EF.Functions.TrigramsSimilarity(r.Cuisine.Name, dto.NormalizedQuery));
 
-                return await fuzzyQuery.ToListAsync();
+                totalCount = await fuzzyQuery.CountAsync();
+
+                results = await fuzzyQuery
+                    .Skip((dto.Page - 1) * dto.PageSize)
+                    .Take(dto.PageSize)
+                    .ToListAsync();
+
+                return new PagedQueryResult<Restaurant>
+                {
+                    Items = results,
+                    TotalCount = totalCount,
+                    Page = dto.Page,
+                    PageSize = dto.PageSize
+                };
             }
 
-            return await query
-            .OrderBy(r => r.Id)
-            .Skip((dto.Page - 1) * dto.PageSize)
-            .Take(dto.PageSize)
-            .ToListAsync();
+
+            totalCount = await query.CountAsync();
+            results = await query
+                        .OrderBy(r => r.Id)
+                        .Skip((dto.Page - 1) * dto.PageSize)
+                        .Take(dto.PageSize)
+                        .ToListAsync();
+
+            return new PagedQueryResult<Restaurant>
+            {
+                Items = results,
+                TotalCount = totalCount,
+                Page = dto.Page,
+                PageSize = dto.PageSize
+            };
         }
 
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()

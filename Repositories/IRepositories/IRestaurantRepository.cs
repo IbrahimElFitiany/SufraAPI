@@ -1,4 +1,5 @@
-﻿using Sufra.DTOs.RestaurantDTOs;
+﻿using Sufra.Common.Models;
+using Sufra.DTOs.RestaurantDTOs;
 using Sufra.Models.Restaurants;
 
 namespace Sufra.Repositories.IRepositories
@@ -9,7 +10,7 @@ namespace Sufra.Repositories.IRepositories
         Task<Restaurant> GetByIdAsync(int id);
         Task<Restaurant> GetByNameAsync(string RestaurantName);
         Task<Restaurant> GetByManagerIdAsync(int id);
-        Task<IEnumerable<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO query);
+        Task<PagedQueryResult<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO query);
         Task<IEnumerable<Restaurant>> GetSufraPicksAsync();
         Task UpdateRestaurant(Restaurant restaurant);
         Task ApproveRestaurant(Restaurant restaurant);
