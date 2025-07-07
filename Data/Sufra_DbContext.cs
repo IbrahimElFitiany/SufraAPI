@@ -12,6 +12,7 @@ namespace Sufra.Data
     public class Sufra_DbContext : DbContext
     {
         public Sufra_DbContext(DbContextOptions<Sufra_DbContext> options) : base(options) {}
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<RestaurantManager> RestaurantManagers { get; set; }
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }

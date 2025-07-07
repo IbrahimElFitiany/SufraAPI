@@ -1,8 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Cryptography;
+using NuGet.Common;
+using Sufra.Common.Enums;
+using Sufra.Common.Types;
+using Sufra.Data;
 using Sufra.DTOs.CustomerDTOs;
 using Sufra.Exceptions;
 using Sufra.Infrastructure.Services;
+using Sufra.Models;
 using Sufra.Models.Customers;
 using Sufra.Repositories.IRepositories;
 using Sufra.Services.IServices;
@@ -11,46 +17,55 @@ namespace Sufra.Services.Services
 {
     public class CustomerServices : ICustomerServices
     {
+        private readonly IRefreshTokenRepository _RefreshTokenRepository;
         private readonly ICustomerRepository _CustomerRepository;
-        private readonly JwtServices _JwtService;
+        private readonly ITokenService _tokenService;
+        
 
 
-        public CustomerServices(ICustomerRepository Repo, JwtServices JwtService)
+        public CustomerServices(ICustomerRepository customerRepository,IRefreshTokenRepository refreshTokenRepository,ITokenService tokenService)
         {
-            _CustomerRepository = Repo;
-            _JwtService = JwtService;
+            _CustomerRepository = customerRepository;
+            _RefreshTokenRepository = refreshTokenRepository;
+            _tokenService = tokenService;
         }
 
         //------------------------------------------
-        public async Task<CustomerLoginResDTO> LoginAsync(CustomerLoginReqDTO loginDTO)
+        public async Task<LoginResult<CustomerLoginResDTO>> LoginAsync(CustomerLoginReqDTO loginDTO)
         {
             Customer customer = await _CustomerRepository.GetCustomerByEmailAsync(loginDTO.Email);
 
-            if (customer == null) throw new AuthenticationException("Invalid email or password.");
+            if (customer == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, customer.Password)) throw new AuthenticationException("Invalid email or password.");
 
 
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDTO.Password, customer.Password);
-
-            if (!isPasswordValid) throw new AuthenticationException("Invalid email or password.");
-
-
-
-            var token = _JwtService.GenerateToken(
+            var accessToken = _tokenService.GenerateAccessToken(
                 new CustomerClaimsDTO
                 {
                     userID = customer.Id,
                     Name = customer.Fname,
                     Email = customer.Email,
-                    Role = "Customer"
+                    Role = UserType.Customer
                 });
 
-            return new CustomerLoginResDTO
+            var refreshToken = await _RefreshTokenRepository.AddAsync(new RefreshToken
             {
-                Fname = customer.Fname,
-                Lname = customer.Lname,
-                Email = customer.Email,
-                RoleforTesting = "Customer",
-                Token = token
+                UserId = customer.Id,
+                UserType = UserType.Customer,
+                ExpiresAt = DateTime.UtcNow.AddDays(10),
+
+            });
+
+            return new LoginResult<CustomerLoginResDTO>
+            {
+                LoginResDTO = new CustomerLoginResDTO
+                {
+                    Fname = customer.Fname,
+                    Lname = customer.Lname,
+                    Email = customer.Email,
+                    AccessToken = accessToken
+                },
+                RefreshToken = refreshToken.Token,
+                ExpirationDate = refreshToken.ExpiresAt
             };
 
         }

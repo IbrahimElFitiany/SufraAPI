@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sufra.Common.Enums;
 using Sufra.Common.Models;
 using Sufra.DTOs;
 using Sufra.DTOs.MenuDTOs;
@@ -20,14 +21,14 @@ namespace Sufra.Services.Services
 
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IRestaurantManagerRepository _restaurantManagerRepository;
-        private readonly JwtServices _JwtService;
+        private readonly ITokenService _tokenService;
 
 
-        public RestaurantServices(IRestaurantRepository restaurantRepository , IRestaurantManagerRepository restaurantManagerRepository , JwtServices jwtServices)
+        public RestaurantServices(IRestaurantRepository restaurantRepository , IRestaurantManagerRepository restaurantManagerRepository , ITokenService tokenService)
         {
             _restaurantRepository = restaurantRepository;
             _restaurantManagerRepository = restaurantManagerRepository;
-            _JwtService = jwtServices;
+            _tokenService = tokenService;
         }
 
         //----------------------------------------------------------------------------
@@ -104,13 +105,8 @@ namespace Sufra.Services.Services
         {
             RestaurantManager manager = await _restaurantManagerRepository.GetManagerByEmailAsync(restaurantLoginDTO.email);
 
-            if (manager == null)
-                throw new AuthenticationException ("Invalid email or password. (For Testing: Email doens't exist)");
-
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(restaurantLoginDTO.password, manager.Password);
-
-            if (!isPasswordValid)
-                throw new AuthenticationException ("Invalid email or password");
+            if (manager == null || !BCrypt.Net.BCrypt.Verify(restaurantLoginDTO.password, manager.Password))
+                throw new AuthenticationException ("Invalid email or password.");
 
 
             Restaurant restaurant = await _restaurantRepository.GetByManagerIdAsync(manager.Id);
@@ -122,15 +118,16 @@ namespace Sufra.Services.Services
 
             RestaurantClaimsDTO restaurantTokenDTO = new RestaurantClaimsDTO
             {
-                ManagerID = manager.Id,
-                ManagerName = manager.Fname,
+                UserId = manager.Id,
+                Name = manager.Fname,
                 Email = manager.Email,
                 RestaurantId = restaurant.Id,
                 RestaurantName = restaurant.Name,
                 IsApproved = restaurant.IsApproved,
-                Role = "RestaurantManager"
+                Role = UserType.RestaurantManager
             };
-            string token = _JwtService.GenerateToken(restaurantTokenDTO);
+
+            string token = _tokenService.GenerateAccessToken(restaurantTokenDTO);
 
 
             RestaurantLoginResponseDTO response = new RestaurantLoginResponseDTO

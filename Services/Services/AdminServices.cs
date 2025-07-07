@@ -10,13 +10,13 @@ namespace Sufra.Services.Services
     public class AdminServices : IAdminServices
     {
         private readonly ISufraEmpRepository _sufraEmpRepository;
-        private readonly JwtServices _JwtService;
+        private readonly ITokenService _tokenService;
 
 
-        public AdminServices(ISufraEmpRepository sufraEmpRepository,JwtServices JwtService)
+        public AdminServices(ISufraEmpRepository sufraEmpRepository,ITokenService tokenService)
         {  
             _sufraEmpRepository = sufraEmpRepository;
-            _JwtService = JwtService;
+            _tokenService = tokenService;
         }
 
         //------------------------------------------
@@ -24,21 +24,14 @@ namespace Sufra.Services.Services
         {
             SufraEmp admin = await _sufraEmpRepository.GetAdminByEmail(adminLoginRequestDTO.Email);
 
-            if (admin == null)
-                throw new UserNotFoundException("User not found");
-
-            //sufraEmps Passwords Are not Hashed rn 
-            bool isPasswordValid = adminLoginRequestDTO.Password == admin.Password;
+            if (admin == null || !(adminLoginRequestDTO.Password == admin.Password))
+                throw new AuthenticationException("User not found");
 
 
-            if (!isPasswordValid)
-                throw new AuthenticationException("password mismatch");
-
-
-            var token = _JwtService.GenerateToken(
+            var token = _tokenService.GenerateAccessToken(
                 new AdminClaimsDTO
                 {
-                    userID = admin.Id,
+                    UserId = admin.Id,
                     Name = admin.Fname,
                     Email = admin.Email,
                     Role = admin.Role

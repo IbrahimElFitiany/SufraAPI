@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sufra.Common.Types;
 using Sufra.DTOs.CustomerDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
@@ -26,8 +27,17 @@ namespace Sufra.Controllers
         {
             try
             {
-                CustomerLoginResDTO loginResponseDTO = await _customerServices.LoginAsync(loginDTO);
-                return Ok(loginResponseDTO);
+                LoginResult<CustomerLoginResDTO> loginResult = await _customerServices.LoginAsync(loginDTO);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = loginResult.ExpirationDate
+                };
+
+                Response.Cookies.Append("RefreshToken", loginResult.RefreshToken, cookieOptions);
+                return Ok(loginResult.LoginResDTO);
             }
             catch (AuthenticationException ex)
             {

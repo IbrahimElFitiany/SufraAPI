@@ -28,10 +28,6 @@ namespace Sufra
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddSignalR();
-
             builder.Services.AddDbContext<Sufra_DbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -86,7 +82,9 @@ namespace Sufra
             builder.Services.Configure<SupportSettings>(builder.Configuration.GetSection("SupportSettings"));
 
 
-            builder.Services.AddScoped<JwtServices>();
+            builder.Services.AddScoped<ITokenService,TokenService>();
+            builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
             builder.Services.AddScoped<IQRCodeService, QRCodeService>();
             builder.Services.AddScoped<IEmailServices, EmailServices>();
 

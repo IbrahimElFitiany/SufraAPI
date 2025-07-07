@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Sufra.Infrastructure.Services
 {
-    public class JwtServices
+    public class TokenService:ITokenService
     {
         private readonly IConfiguration _configuration;
 
-        public JwtServices(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public string GenerateToken (IJwtClaimsProvider user)
+        public string GenerateAccessToken (IJwtClaimsProvider user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
@@ -27,7 +27,7 @@ namespace Sufra.Infrastructure.Services
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials: credentials
             );
 

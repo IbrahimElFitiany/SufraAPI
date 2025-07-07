@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using Sufra.Common.Enums;
 using Sufra.Infrastructure.Services;
 
 namespace Sufra.DTOs.CustomerDTOs
@@ -9,7 +10,7 @@ namespace Sufra.DTOs.CustomerDTOs
         public int userID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public UserType Role { get; set; }
 
         public IEnumerable<Claim> GetClaims()
         {
@@ -18,7 +19,7 @@ namespace Sufra.DTOs.CustomerDTOs
                 new Claim("UserID", userID.ToString()),
                 new Claim("Name", Name),
                 new Claim("Email", Email),
-                new Claim(ClaimTypes.Role, Role)
+                new Claim(ClaimTypes.Role, Role.ToString())
             };
         }
     }
