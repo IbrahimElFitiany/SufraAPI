@@ -87,6 +87,7 @@ namespace Sufra.Repositories.Repositories
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()
         {
             return await _context.Restaurants
+                .Where(r => r.IsApproved == true)
                 .Include(r => r.District)
                 .ThenInclude(d => d.Gov)
                 .Include(r => r.Cuisine)
