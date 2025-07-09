@@ -42,9 +42,11 @@ namespace Sufra
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-                        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                        ValidIssuer = builder.Configuration["TokenSettings:Issuer"],
+                        ValidAudience = builder.Configuration["TokenSettings:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSettings:Key"])),
+
+                        ClockSkew = TimeSpan.Zero
                     };
                     options.Events = new JwtBearerEvents
                     {
@@ -78,11 +80,12 @@ namespace Sufra
             });
 
             builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
-
+            builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
             builder.Services.Configure<SupportSettings>(builder.Configuration.GetSection("SupportSettings"));
 
 
             builder.Services.AddScoped<ITokenService,TokenService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             builder.Services.AddScoped<IQRCodeService, QRCodeService>();

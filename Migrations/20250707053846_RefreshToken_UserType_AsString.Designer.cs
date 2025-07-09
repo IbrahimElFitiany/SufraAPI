@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sufra.Data;
@@ -11,9 +12,11 @@ using Sufra.Data;
 namespace Sufra.Migrations
 {
     [DbContext(typeof(Sufra_DbContext))]
-    partial class Sufra_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20250707053846_RefreshToken_UserType_AsString")]
+    partial class RefreshToken_UserType_AsString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,23 +304,8 @@ namespace Sufra.Migrations
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("IpAddress")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ReplacedByToken")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("RevokedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserAgent")
                         .HasColumnType("text");
 
                     b.Property<int>("UserId")

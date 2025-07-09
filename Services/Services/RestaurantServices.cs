@@ -101,48 +101,6 @@ namespace Sufra.Services.Services
             return response;
             
         }
-        public async Task<RestaurantLoginResponseDTO> LoginAsync(RestaurantLoginRequestDTO restaurantLoginDTO)
-        {
-            RestaurantManager manager = await _restaurantManagerRepository.GetManagerByEmailAsync(restaurantLoginDTO.email);
-
-            if (manager == null || !BCrypt.Net.BCrypt.Verify(restaurantLoginDTO.password, manager.Password))
-                throw new AuthenticationException ("Invalid email or password.");
-
-
-            Restaurant restaurant = await _restaurantRepository.GetByManagerIdAsync(manager.Id);
-
-            if (restaurant == null) 
-            {
-                throw new RestaurantNotFoundException("Restaurant Not Found");
-            }
-
-            RestaurantClaimsDTO restaurantTokenDTO = new RestaurantClaimsDTO
-            {
-                UserId = manager.Id,
-                Name = manager.Fname,
-                Email = manager.Email,
-                RestaurantId = restaurant.Id,
-                RestaurantName = restaurant.Name,
-                IsApproved = restaurant.IsApproved,
-                Role = UserType.RestaurantManager
-            };
-
-            string token = _tokenService.GenerateAccessToken(restaurantTokenDTO);
-
-
-            RestaurantLoginResponseDTO response = new RestaurantLoginResponseDTO
-            {
-                ManagerID = manager.Id,
-                ManagerName = manager.Fname,
-                Email = manager.Email,
-                RestaurantId = restaurant.Id,
-                RestaurantName = restaurant.Name,
-                IsApproved = restaurant.IsApproved,
-                Token = token
-            };
-
-            return response;
-        }
 
         //----------------------------------------------------------------------------
         public async Task ApproveRestaurantAsync(int restaurantId)

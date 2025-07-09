@@ -20,33 +20,6 @@ namespace Sufra.Services.Services
         }
 
         //------------------------------------------
-        public async Task<AdminLoginResponseDTO> Login(AdminLoginRequestDTO adminLoginRequestDTO)
-        {
-            SufraEmp admin = await _sufraEmpRepository.GetAdminByEmail(adminLoginRequestDTO.Email);
-
-            if (admin == null || !(adminLoginRequestDTO.Password == admin.Password))
-                throw new AuthenticationException("User not found");
-
-
-            var token = _tokenService.GenerateAccessToken(
-                new AdminClaimsDTO
-                {
-                    UserId = admin.Id,
-                    Name = admin.Fname,
-                    Email = admin.Email,
-                    Role = admin.Role
-                });
-
-            return new AdminLoginResponseDTO
-            {
-                AdminID = admin.Id,
-                Name = admin.Fname,
-                Email = admin.Email,
-                Role = admin.Role,
-                Token = token
-            };
-
-        }
 
     }
 }

@@ -7,7 +7,7 @@ namespace Sufra.DTOs.CustomerDTOs
 {
     public class CustomerClaimsDTO : IJwtClaimsProvider
     {
-        public int userID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public UserType Role { get; set; }
@@ -16,7 +16,7 @@ namespace Sufra.DTOs.CustomerDTOs
         {
             return new[]
             {
-                new Claim("UserID", userID.ToString()),
+                new Claim("Id", Id.ToString()),
                 new Claim("Name", Name),
                 new Claim("Email", Email),
                 new Claim(ClaimTypes.Role, Role.ToString())

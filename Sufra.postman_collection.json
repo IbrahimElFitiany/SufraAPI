@@ -7,19 +7,45 @@
 	},
 	"item": [
 		{
-			"name": "SufraEmpManagement",
+			"name": "Authentication",
 			"item": [
 				{
-					"name": "Auth",
-					"item": [
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"it919247@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"sufraemp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{SufraPort}}/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{SufraPort}}",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
 						{
-							"name": "Login",
-							"request": {
+							"name": "AdminLogin",
+							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"Email\": \"it919247@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
+									"raw": "{\r\n    \"email\": \"it919247@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"sufraemp\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -27,87 +53,258 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/admin/login",
+									"raw": "http://localhost:{{SufraPort}}/api/auth/login",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "5164",
+									"port": "{{SufraPort}}",
 									"path": [
 										"api",
-										"admin",
+										"auth",
 										"login"
 									]
 								}
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "success",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\": \"it919247@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/admin/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"admin",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:01:45 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"adminID\": 1,\n    \"name\": \"Ibrahim\",\n    \"email\": \"it919247@gmail.com\",\n    \"role\": \"Admin\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6IklicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiZTM2YWZmNjAtM2RkZS00Y2ZmLWE3MzItNTBiZGFkZDhiYjgwIiwiZXhwIjoxNzQ2OTE4MTA2LCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.7FK3wTZqMYoWhAZW8LaEkPx0dY_MO0ceKq-oFI4-Tbw\"\n}"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 09 Jul 2025 07:09:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "refreshToken=e92116bd-0fe6-4f26-8edd-087ef058f945; expires=Sat, 19 Jul 2025 07:09:13 GMT; path=/; secure; samesite=strict; httponly"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
 								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "RestaurantManagement",
-			"item": [
-				{
-					"name": "Auth",
-					"item": [
+							],
+							"cookie": [],
+							"body": "{\n    \"adminID\": 1,\n    \"name\": \"ibrahim\",\n    \"email\": \"it919247@gmail.com\",\n    \"role\": \"Admin\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6ImlicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiODQxZWUwMjgtOTk0MC00YTMyLWE3NDktNDE0NjM1NThmMDNmIiwiZXhwIjoxNzUyMDQ1NTUzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.k6vmL6HzFn6lRGz1if6v6QlnhfC312BS5AQP-f0JEV4\"\n}"
+						},
 						{
-							"name": "Login",
-							"request": {
+							"name": "RestaurantLogin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiNSIsIlJlc3RhdXJhbnROYW1lIjoiUmVkIEJpcmQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImU5OTI2YTBjLTJmZmUtNDdkNS1iNDBiLWMwYzg1OWQ0ODZiOCIsImV4cCI6MTc0Njk5ODA1MywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xp4so8zGiE3Jk3TFUD4NlYPvSfwtAcS2yJ-IJQsmh5s\"\n}"
+						},
+						{
+							"name": "esplanade",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 8,\n    \"managerName\": \"Esplanade\",\n    \"email\": \"esplanade@gmail.com\",\n    \"restaurantId\": 8,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI4IiwibWFuYWdlck5hbWUiOiJFc3BsYW5hZGUiLCJFbWFpbCI6ImVzcGxhbmFkZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI4IiwiUmVzdGF1cmFudE5hbWUiOiJFc3BsYW5hZGUgQ2FmZSBSZXN0YXVyYW50IiwiU3RhdHVzIjoiRmFsc2UiLCJqdGkiOiI4ODRiMWU1MC0zNGJiLTQwMTItODdiZi03MDk3MjZiM2JjNzciLCJleHAiOjE3NDY5OTgwOTYsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.UQkX_vL1wbQESh38K3Q3g_x99_Mqi0y9N8N-KUzoWEo\"\n}"
+						},
+						{
+							"name": "piccolo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 May 2025 22:11:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 10,\n    \"managerName\": \"store\",\n    \"email\": \"store_owner_1@gmail.com\",\n    \"restaurantId\": 10,\n    \"restaurantName\": \"Saigon Restaurant & Lounge\",\n    \"isApproved\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiIxMCIsIm1hbmFnZXJOYW1lIjoic3RvcmUiLCJFbWFpbCI6InN0b3JlX293bmVyXzFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiMTAiLCJSZXN0YXVyYW50TmFtZSI6IlNhaWdvbiBSZXN0YXVyYW50ICYgTG91bmdlIiwiU3RhdHVzIjoiVHJ1ZSIsImp0aSI6IjY2MGM0ZjRmLWJkMDMtNDQzZS1hNGM0LTNkYjA3ZWU5MjI1ZCIsImV4cCI6MTc0NjkxODY3NCwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.qNrW8MKM7nLlh68lQvI-8lXsSehpfYpOiPqjH7Bmc70\"\n}"
+						},
+						{
+							"name": "Skyview",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:15:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 6,\n    \"managerName\": \"SkyView\",\n    \"email\": \"skyview@gmail.com\",\n    \"restaurantId\": 6,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI2IiwibWFuYWdlck5hbWUiOiJTa3lWaWV3IiwiRW1haWwiOiJza3l2aWV3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlJlc3RhdXJhbnQgTWFuYWdlciIsIlJlc3RhdXJhbnRJZCI6IjYiLCJSZXN0YXVyYW50TmFtZSI6IlNreSBWaWV3IFJlc3RhdXJhbnQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImE3NzZkODc4LTZmMmMtNDc4NC05MGUzLTNiYmQxYjY4YjNhZiIsImV4cCI6MTc0Njk5ODExMywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.Vu8d03b1_N03nl3yKlVEvDxMHC_wRbhn0zl_Z9VJtQs\"\n}"
+						},
+						{
+							"name": "Kamala",
+							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -133,223 +330,629 @@
 									]
 								}
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "esplanade",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:14:56 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"managerID\": 8,\n    \"managerName\": \"Esplanade\",\n    \"email\": \"esplanade@gmail.com\",\n    \"restaurantId\": 8,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI4IiwibWFuYWdlck5hbWUiOiJFc3BsYW5hZGUiLCJFbWFpbCI6ImVzcGxhbmFkZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI4IiwiUmVzdGF1cmFudE5hbWUiOiJFc3BsYW5hZGUgQ2FmZSBSZXN0YXVyYW50IiwiU3RhdHVzIjoiRmFsc2UiLCJqdGkiOiI4ODRiMWU1MC0zNGJiLTQwMTItODdiZi03MDk3MjZiM2JjNzciLCJleHAiOjE3NDY5OTgwOTYsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.UQkX_vL1wbQESh38K3Q3g_x99_Mqi0y9N8N-KUzoWEo\"\n}"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
 								},
 								{
-									"name": "piccolo",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:11:14 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"managerID\": 10,\n    \"managerName\": \"store\",\n    \"email\": \"store_owner_1@gmail.com\",\n    \"restaurantId\": 10,\n    \"restaurantName\": \"Saigon Restaurant & Lounge\",\n    \"isApproved\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiIxMCIsIm1hbmFnZXJOYW1lIjoic3RvcmUiLCJFbWFpbCI6InN0b3JlX293bmVyXzFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiMTAiLCJSZXN0YXVyYW50TmFtZSI6IlNhaWdvbiBSZXN0YXVyYW50ICYgTG91bmdlIiwiU3RhdHVzIjoiVHJ1ZSIsImp0aSI6IjY2MGM0ZjRmLWJkMDMtNDQzZS1hNGM0LTNkYjA3ZWU5MjI1ZCIsImV4cCI6MTc0NjkxODY3NCwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.qNrW8MKM7nLlh68lQvI-8lXsSehpfYpOiPqjH7Bmc70\"\n}"
+									"key": "Date",
+									"value": "Tue, 13 May 2025 19:18:03 GMT"
 								},
 								{
-									"name": "Skyview",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:15:13 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"managerID\": 6,\n    \"managerName\": \"SkyView\",\n    \"email\": \"skyview@gmail.com\",\n    \"restaurantId\": 6,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI2IiwibWFuYWdlck5hbWUiOiJTa3lWaWV3IiwiRW1haWwiOiJza3l2aWV3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlJlc3RhdXJhbnQgTWFuYWdlciIsIlJlc3RhdXJhbnRJZCI6IjYiLCJSZXN0YXVyYW50TmFtZSI6IlNreSBWaWV3IFJlc3RhdXJhbnQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImE3NzZkODc4LTZmMmMtNDc4NC05MGUzLTNiYmQxYjY4YjNhZiIsImV4cCI6MTc0Njk5ODExMywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.Vu8d03b1_N03nl3yKlVEvDxMHC_wRbhn0zl_Z9VJtQs\"\n}"
+									"key": "Server",
+									"value": "Kestrel"
 								},
 								{
-									"name": "RedBird",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"login"
-											]
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 9,\n    \"managerName\": \"kamala\",\n    \"email\": \"kamala@gmail.com\",\n    \"restaurantId\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI5IiwibWFuYWdlck5hbWUiOiJrYW1hbGEiLCJFbWFpbCI6ImthbWFsYUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI5IiwiUmVzdGF1cmFudE5hbWUiOiJLYW1hbGEgQXNpYW4gUmVzdGF1cmFudCIsIlN0YXR1cyI6IkZhbHNlIiwianRpIjoiM2Q3YTM0OGUtMDg2MC00OWVmLTk0MDgtM2Y4MjExMzcxODA4IiwiZXhwIjoxNzQ3MTY3NDgzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.M1Uak310s77pWgv6geC9anIrDVYmxpKJNdF-A4iOhEY\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{SufraPort}}/api/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{SufraPort}}",
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "esplanade",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:14:12 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
 									],
-									"cookie": [],
-									"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiNSIsIlJlc3RhdXJhbnROYW1lIjoiUmVkIEJpcmQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImU5OTI2YTBjLTJmZmUtNDdkNS1iNDBiLWMwYzg1OWQ0ODZiOCIsImV4cCI6MTc0Njk5ODA1MywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xp4so8zGiE3Jk3TFUD4NlYPvSfwtAcS2yJ-IJQsmh5s\"\n}"
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
 								},
 								{
-									"name": "Kamala",
-									"originalRequest": {
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 8,\n    \"managerName\": \"Esplanade\",\n    \"email\": \"esplanade@gmail.com\",\n    \"restaurantId\": 8,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI4IiwibWFuYWdlck5hbWUiOiJFc3BsYW5hZGUiLCJFbWFpbCI6ImVzcGxhbmFkZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI4IiwiUmVzdGF1cmFudE5hbWUiOiJFc3BsYW5hZGUgQ2FmZSBSZXN0YXVyYW50IiwiU3RhdHVzIjoiRmFsc2UiLCJqdGkiOiI4ODRiMWU1MC0zNGJiLTQwMTItODdiZi03MDk3MjZiM2JjNzciLCJleHAiOjE3NDY5OTgwOTYsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.UQkX_vL1wbQESh38K3Q3g_x99_Mqi0y9N8N-KUzoWEo\"\n}"
+						},
+						{
+							"name": "piccolo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 May 2025 22:11:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 10,\n    \"managerName\": \"store\",\n    \"email\": \"store_owner_1@gmail.com\",\n    \"restaurantId\": 10,\n    \"restaurantName\": \"Saigon Restaurant & Lounge\",\n    \"isApproved\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiIxMCIsIm1hbmFnZXJOYW1lIjoic3RvcmUiLCJFbWFpbCI6InN0b3JlX293bmVyXzFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiMTAiLCJSZXN0YXVyYW50TmFtZSI6IlNhaWdvbiBSZXN0YXVyYW50ICYgTG91bmdlIiwiU3RhdHVzIjoiVHJ1ZSIsImp0aSI6IjY2MGM0ZjRmLWJkMDMtNDQzZS1hNGM0LTNkYjA3ZWU5MjI1ZCIsImV4cCI6MTc0NjkxODY3NCwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.qNrW8MKM7nLlh68lQvI-8lXsSehpfYpOiPqjH7Bmc70\"\n}"
+						},
+						{
+							"name": "Skyview",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:15:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 6,\n    \"managerName\": \"SkyView\",\n    \"email\": \"skyview@gmail.com\",\n    \"restaurantId\": 6,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI2IiwibWFuYWdlck5hbWUiOiJTa3lWaWV3IiwiRW1haWwiOiJza3l2aWV3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlJlc3RhdXJhbnQgTWFuYWdlciIsIlJlc3RhdXJhbnRJZCI6IjYiLCJSZXN0YXVyYW50TmFtZSI6IlNreSBWaWV3IFJlc3RhdXJhbnQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImE3NzZkODc4LTZmMmMtNDc4NC05MGUzLTNiYmQxYjY4YjNhZiIsImV4cCI6MTc0Njk5ODExMywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.Vu8d03b1_N03nl3yKlVEvDxMHC_wRbhn0zl_Z9VJtQs\"\n}"
+						},
+						{
+							"name": "RedBird",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiNSIsIlJlc3RhdXJhbnROYW1lIjoiUmVkIEJpcmQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImU5OTI2YTBjLTJmZmUtNDdkNS1iNDBiLWMwYzg1OWQ0ODZiOCIsImV4cCI6MTc0Njk5ODA1MywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xp4so8zGiE3Jk3TFUD4NlYPvSfwtAcS2yJ-IJQsmh5s\"\n}"
+						},
+						{
+							"name": "Kamala",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 May 2025 19:18:03 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 9,\n    \"managerName\": \"kamala\",\n    \"email\": \"kamala@gmail.com\",\n    \"restaurantId\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI5IiwibWFuYWdlck5hbWUiOiJrYW1hbGEiLCJFbWFpbCI6ImthbWFsYUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI5IiwiUmVzdGF1cmFudE5hbWUiOiJLYW1hbGEgQXNpYW4gUmVzdGF1cmFudCIsIlN0YXR1cyI6IkZhbHNlIiwianRpIjoiM2Q3YTM0OGUtMDg2MC00OWVmLTk0MDgtM2Y4MjExMzcxODA4IiwiZXhwIjoxNzQ3MTY3NDgzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.M1Uak310s77pWgv6geC9anIrDVYmxpKJNdF-A4iOhEY\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{SufraPort}}/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{SufraPort}}",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "esplanade",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 8,\n    \"managerName\": \"Esplanade\",\n    \"email\": \"esplanade@gmail.com\",\n    \"restaurantId\": 8,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI4IiwibWFuYWdlck5hbWUiOiJFc3BsYW5hZGUiLCJFbWFpbCI6ImVzcGxhbmFkZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI4IiwiUmVzdGF1cmFudE5hbWUiOiJFc3BsYW5hZGUgQ2FmZSBSZXN0YXVyYW50IiwiU3RhdHVzIjoiRmFsc2UiLCJqdGkiOiI4ODRiMWU1MC0zNGJiLTQwMTItODdiZi03MDk3MjZiM2JjNzciLCJleHAiOjE3NDY5OTgwOTYsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.UQkX_vL1wbQESh38K3Q3g_x99_Mqi0y9N8N-KUzoWEo\"\n}"
+						},
+						{
+							"name": "piccolo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 May 2025 22:11:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 10,\n    \"managerName\": \"store\",\n    \"email\": \"store_owner_1@gmail.com\",\n    \"restaurantId\": 10,\n    \"restaurantName\": \"Saigon Restaurant & Lounge\",\n    \"isApproved\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiIxMCIsIm1hbmFnZXJOYW1lIjoic3RvcmUiLCJFbWFpbCI6InN0b3JlX293bmVyXzFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiMTAiLCJSZXN0YXVyYW50TmFtZSI6IlNhaWdvbiBSZXN0YXVyYW50ICYgTG91bmdlIiwiU3RhdHVzIjoiVHJ1ZSIsImp0aSI6IjY2MGM0ZjRmLWJkMDMtNDQzZS1hNGM0LTNkYjA3ZWU5MjI1ZCIsImV4cCI6MTc0NjkxODY3NCwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.qNrW8MKM7nLlh68lQvI-8lXsSehpfYpOiPqjH7Bmc70\"\n}"
+						},
+						{
+							"name": "Skyview",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:15:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 6,\n    \"managerName\": \"SkyView\",\n    \"email\": \"skyview@gmail.com\",\n    \"restaurantId\": 6,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI2IiwibWFuYWdlck5hbWUiOiJTa3lWaWV3IiwiRW1haWwiOiJza3l2aWV3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlJlc3RhdXJhbnQgTWFuYWdlciIsIlJlc3RhdXJhbnRJZCI6IjYiLCJSZXN0YXVyYW50TmFtZSI6IlNreSBWaWV3IFJlc3RhdXJhbnQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImE3NzZkODc4LTZmMmMtNDc4NC05MGUzLTNiYmQxYjY4YjNhZiIsImV4cCI6MTc0Njk5ODExMywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.Vu8d03b1_N03nl3yKlVEvDxMHC_wRbhn0zl_Z9VJtQs\"\n}"
+						},
+						{
+							"name": "RedBird",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:14:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiNSIsIlJlc3RhdXJhbnROYW1lIjoiUmVkIEJpcmQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImU5OTI2YTBjLTJmZmUtNDdkNS1iNDBiLWMwYzg1OWQ0ODZiOCIsImV4cCI6MTc0Njk5ODA1MywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xp4so8zGiE3Jk3TFUD4NlYPvSfwtAcS2yJ-IJQsmh5s\"\n}"
+						},
+						{
+							"name": "Kamala",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{SufraPort}}",
+									"path": [
+										"api",
+										"Restaurant",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 May 2025 19:18:03 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"managerID\": 9,\n    \"managerName\": \"kamala\",\n    \"email\": \"kamala@gmail.com\",\n    \"restaurantId\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI5IiwibWFuYWdlck5hbWUiOiJrYW1hbGEiLCJFbWFpbCI6ImthbWFsYUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI5IiwiUmVzdGF1cmFudE5hbWUiOiJLYW1hbGEgQXNpYW4gUmVzdGF1cmFudCIsIlN0YXR1cyI6IkZhbHNlIiwianRpIjoiM2Q3YTM0OGUtMDg2MC00OWVmLTk0MDgtM2Y4MjExMzcxODA4IiwiZXhwIjoxNzQ3MTY3NDgzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.M1Uak310s77pWgv6geC9anIrDVYmxpKJNdF-A4iOhEY\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "SufraEmpManagement",
+			"item": []
+		},
+		{
+			"name": "RestaurantManagement",
+			"item": [
+				{
+					"name": "MenuManagement",
+					"item": [
+						{
+							"name": "MenuItems",
+							"item": [
+								{
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+											"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"BEEF TENDERLOIN\",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 480,\r\n    \"Availability\": true\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -357,45 +960,515 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
+											"raw": "http://localhost:5164/api/menuitem",
 											"protocol": "http",
 											"host": [
 												"localhost"
 											],
-											"port": "{{SufraPort}}",
+											"port": "5164",
 											"path": [
 												"api",
-												"Restaurant",
-												"login"
+												"menuitem"
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
+									"response": [
 										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 13 May 2025 19:18:03 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
+											"name": "Menu-Item",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5164/api/menuitem",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5164",
+													"path": [
+														"api",
+														"menuitem"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:26:36 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
 										}
-									],
-									"cookie": [],
-									"body": "{\n    \"managerID\": 9,\n    \"managerName\": \"kamala\",\n    \"email\": \"kamala@gmail.com\",\n    \"restaurantId\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI5IiwibWFuYWdlck5hbWUiOiJrYW1hbGEiLCJFbWFpbCI6ImthbWFsYUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI5IiwiUmVzdGF1cmFudE5hbWUiOiJLYW1hbGEgQXNpYW4gUmVzdGF1cmFudCIsIlN0YXR1cyI6IkZhbHNlIiwianRpIjoiM2Q3YTM0OGUtMDg2MC00OWVmLTk0MDgtM2Y4MjExMzcxODA4IiwiZXhwIjoxNzQ3MTY3NDgzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.M1Uak310s77pWgv6geC9anIrDVYmxpKJNdF-A4iOhEY\"\n}"
+									]
+								},
+								{
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"fdsaf \",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 100,\r\n    \"Availability\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5164/api/menuitem/:menuItemId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5164",
+											"path": [
+												"api",
+												"menuitem",
+												":menuItemId"
+											],
+											"variable": [
+												{
+													"key": "menuItemId",
+													"value": "13"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Menu-Item",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5164/api/menuitem",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5164",
+													"path": [
+														"api",
+														"menuitem"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:26:36 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5164/api/menuItem/:menuItemId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5164",
+											"path": [
+												"api",
+												"menuItem",
+												":menuItemId"
+											],
+											"variable": [
+												{
+													"key": "menuItemId",
+													"value": "15"
+												}
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
+						{
+							"name": "MenuSections",
+							"item": [
+								{
+									"name": "Menu-Section",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"MenuSectionName\": \"FRESH GARDEN\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:{{SufraPort}}/api/menusection",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "{{SufraPort}}",
+											"path": [
+												"api",
+												"menusection"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Menu-Section",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionName\": \"Cold Items\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:{{SufraPort}}/api/menusection",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "{{SufraPort}}",
+													"path": [
+														"api",
+														"menusection"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:12:22 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"menuSection\": \"Cold Items\",\n    \"restaurantId\": 10\n}"
+										}
+									]
+								},
+								{
+									"name": "Menu-Section Name",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"MenuSectionName\": \"m4 sfdasfresh GARDEN\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "{{SufraPort}}",
+											"path": [
+												"api",
+												"menusection",
+												":menuSectionId"
+											],
+											"variable": [
+												{
+													"key": "menuSectionId",
+													"value": "5"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Menu-Section",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionName\": \"Cold Items\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:{{SufraPort}}/api/menusection",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "{{SufraPort}}",
+													"path": [
+														"api",
+														"menusection"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:12:22 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"menuSection\": \"Cold Items\",\n    \"restaurantId\": 10\n}"
+										}
+									]
+								},
+								{
+									"name": "Menu-Section",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "{{SufraPort}}",
+											"path": [
+												"api",
+												"menusection",
+												":menuSectionId"
+											],
+											"variable": [
+												{
+													"key": "menuSectionId",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Menu-Section",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenusectionId\" : 10\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:{{SufraPort}}/api/menusection",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "{{SufraPort}}",
+													"path": [
+														"api",
+														"menusection"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:13:04 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Deleted\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "csvFile",
+											"type": "file",
+											"src": []
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
 						{
 							"name": "Register",
 							"request": {
@@ -403,7 +1476,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Layla\",\r\n      \"lname\": \"Hassan\",\r\n      \"email\": \"layla.hassan@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://example.com/images/Zooba.jpg\",\r\n      \"name\": \"Zooba\",\r\n      \"phone\": \"+20 1197114278\",\r\n      \"cuisineId\": 30,\r\n      \"description\": \"Zooba serves authentic Australian cuisine in the heart of Smouha.\",\r\n      \"latitude\": 27.5181,\r\n      \"longitude\": 34.299182,\r\n      \"address\": \"586 Smouha Street\",\r\n      \"districtId\": 7\r\n    }\r\n}\r\n",
+									"raw": "  {\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Youssef\",\r\n      \"email\": \"dalia.youssef@piatto.com\",\r\n      \"password\": \"P1@tt0P@sta\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/piatto.jpg\",\r\n      \"name\": \"Piatto\",\r\n      \"phone\": \"+20 1032547896\",\r\n      \"cuisineId\": 3,\r\n      \"description\": \"Authentic Italian pasta and pizza.\",\r\n      \"latitude\": 30.0573,\r\n      \"longitude\": 31.2248,\r\n      \"address\": \"Mohandessin, Cairo\",\r\n      \"districtId\": 3\r\n    }\r\n  }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -840,60 +1913,15 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 19,\n    \"managerFname\": \"Layla\",\n    \"restaurantID\": 24,\n    \"restaurantName\": \"Zooba\",\n    \"status\": false\n}"
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "MenuSections",
-					"item": [
-						{
-							"name": "Menu-Section",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
 								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"MenuSectionName\": \"FRESH GARDEN\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/menusection",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"menusection"
-									]
-								}
-							},
-							"response": [
 								{
-									"name": "Menu-Section",
+									"name": "Register",
 									"originalRequest": {
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionName\": \"Cold Items\"\r\n}",
+											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Naguib\",\r\n      \"email\": \"dalia.naguib@saffronlounge.com\",\r\n      \"password\": \"Saffron#Asian\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/saffron_lounge.jpg\",\r\n      \"name\": \"Saffron Lounge\",\r\n      \"phone\": \"+20 1112223334\",\r\n      \"cuisineId\": 22,\r\n      \"description\": \"Pan‑Asian fine dining: Thai, Indian & Chinese fusion.\",\r\n      \"latitude\": 30.0736,\r\n      \"longitude\": 31.3004,\r\n      \"address\": \"189 Nasr City\",\r\n      \"districtId\": 1\r\n    }\r\n  }",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -901,7 +1929,7 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection",
+											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -909,453 +1937,17 @@
 											"port": "{{SufraPort}}",
 											"path": [
 												"api",
-												"menusection"
+												"Restaurant",
+												"register"
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:12:22 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
+									"_postman_previewlanguage": null,
+									"header": null,
 									"cookie": [],
-									"body": "{\n    \"status\": \"success\",\n    \"menuSection\": \"Cold Items\",\n    \"restaurantId\": 10\n}"
+									"body": null
 								}
 							]
-						},
-						{
-							"name": "Menu-Section Name",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"MenuSectionName\": \"m4 sfdasfresh GARDEN\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"menusection",
-										":menuSectionId"
-									],
-									"variable": [
-										{
-											"key": "menuSectionId",
-											"value": "5"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Menu-Section",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionName\": \"Cold Items\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"menusection"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:12:22 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": \"success\",\n    \"menuSection\": \"Cold Items\",\n    \"restaurantId\": 10\n}"
-								}
-							]
-						},
-						{
-							"name": "Menu-Section",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"menusection",
-										":menuSectionId"
-									],
-									"variable": [
-										{
-											"key": "menuSectionId",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Menu-Section",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"MenusectionId\" : 10\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"menusection"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:13:04 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Deleted\"\n}"
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "MenuItems",
-					"item": [
-						{
-							"name": "Menu-Item",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"BEEF TENDERLOIN\",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 480,\r\n    \"Availability\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5164/api/menuitem",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5164",
-									"path": [
-										"api",
-										"menuitem"
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Menu-Item",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/menuitem",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"menuitem"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:26:36 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
-								}
-							]
-						},
-						{
-							"name": "Menu-Item",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"fdsaf \",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 100,\r\n    \"Availability\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5164/api/menuitem/:menuItemId",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5164",
-									"path": [
-										"api",
-										"menuitem",
-										":menuItemId"
-									],
-									"variable": [
-										{
-											"key": "menuItemId",
-											"value": "13"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Menu-Item",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/menuitem",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"menuitem"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sat, 10 May 2025 22:26:36 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
-								}
-							]
-						},
-						{
-							"name": "Menu-Item",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{RestaurantManagerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:5164/api/menuItem/:menuItemId",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5164",
-									"path": [
-										"api",
-										"menuItem",
-										":menuItemId"
-									],
-									"variable": [
-										{
-											"key": "menuItemId",
-											"value": "15"
-										}
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -1500,7 +2092,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/search/",
+									"raw": "http://localhost:5164/api/restaurant/search/?query=&PageSize=12&DistrictId=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1515,13 +2107,30 @@
 									"query": [
 										{
 											"key": "query",
-											"value": "egy",
-											"description": "get all approved restaurants by cuisine , district , Name",
-											"disabled": true
+											"value": "",
+											"description": "get all approved restaurants by cuisine , district , Name"
 										},
 										{
 											"key": "isapproved",
 											"value": "false",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "PageSize",
+											"value": "12"
+										},
+										{
+											"key": "DistrictId",
+											"value": "1"
+										},
+										{
+											"key": "CuisineId",
+											"value": null,
 											"disabled": true
 										}
 									]
@@ -2892,16 +3501,42 @@
 			"name": "CustomerManagement",
 			"item": [
 				{
-					"name": "Auth",
-					"item": [
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"taha\",\r\n  \"Email\": \"it.helwanUni@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"+201150391409\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5164/api/customer/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5164",
+							"path": [
+								"api",
+								"customer",
+								"register"
+							]
+						}
+					},
+					"response": [
 						{
-							"name": "Login",
-							"request": {
+							"name": "Ibrahim",
+							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"Email\":\"It.unknOWnfbx@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
+									"raw": "{\r\n  \"Fname\": \"Ibrahim\",\r\n  \"Lname\": \"Taha\",\r\n  \"Email\": \"it919247@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391406\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2909,7 +3544,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/login",
+									"raw": "http://localhost:5164/api/customer/register",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2918,276 +3553,141 @@
 									"path": [
 										"api",
 										"customer",
-										"login"
+										"register"
 									]
 								}
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "Ibrahim",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\":\"it919247@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:48:50 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it919247@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6IklicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkN1c3RvbWVyIiwianRpIjoiODQyNmE2M2EtNmMxZi00OWFmLWJkMGQtZDkwMWZjOGM2ZDhhIiwiZXhwIjoxNzQ3MDAwMTMwLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.f-1Ju4X_fJkbAQ4gpznJEWHi83ie2v5T3Min3LVcnmA\",\n    \"roleforTesting\": \"Customer\"\n}"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
 								},
 								{
-									"name": "Ibrahimfbx",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\":\"it.unknownfbx@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 13 May 2025 19:42:07 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"fname\": \"ibrahim\",\n    \"lname\": \"taha\",\n    \"email\": \"it.unknownfbx@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI1IiwiTmFtZSI6ImlicmFoaW0iLCJFbWFpbCI6Iml0LnVua25vd25mYnhAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJqdGkiOiIwNzM2YTA2NC1hMzZhLTQ3MzEtODZkOS05Yzg3OGNkYThiODEiLCJleHAiOjE3NDcxNjg5MjgsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.cfXUKOL25MEzIkTiFtD9Y09vNp1HwnbaH6JLgGxbIhU\",\n    \"roleforTesting\": \"Customer\"\n}"
+									"key": "Date",
+									"value": "Mon, 21 Apr 2025 16:32:54 GMT"
 								},
 								{
-									"name": "IbrahimElfitiany",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\":\"ibrahimelfitiany@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:49:10 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"fname\": \"ibrahim\",\n    \"lname\": \"el-Fitiany\",\n    \"email\": \"ibrahimelfitiany@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0IiwiTmFtZSI6ImlicmFoaW0iLCJFbWFpbCI6ImlicmFoaW1lbGZpdGlhbnlAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJqdGkiOiIyY2M4N2NmMC1mMDM2LTQwOWQtYTUyOS1jYTUyZjlmMTdjN2QiLCJleHAiOjE3NDcwMDAxNTAsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.kqb4hH6-xD4CyXwUwxwx_Pn7TQJu7zfEoMdSMLaGZ70\",\n    \"roleforTesting\": \"Customer\"\n}"
+									"key": "Server",
+									"value": "Kestrel"
 								},
 								{
-									"name": "John",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\":\"john@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:49:30 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"fname\": \"john\",\n    \"lname\": \"doe\",\n    \"email\": \"john@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyIiwiTmFtZSI6ImpvaG4iLCJFbWFpbCI6ImpvaG5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJqdGkiOiI4MmY5YTA5YS1lNWRmLTQzNmItYTdmZC1lMjY5YTcxMDE3NTciLCJleHAiOjE3NDcwMDAxNzEsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.G-43G1_h5EgkEoz_Pe5JLWDmtUMaI07rlm6RPpudOkc\",\n    \"roleforTesting\": \"Customer\"\n}"
-								},
-								{
-									"name": "Amy",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Email\":\"amylee@gmail.com\",\r\n    \"Password\": \"123\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:49:46 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"fname\": \"Amy\",\n    \"lname\": \"Lee\",\n    \"email\": \"amylee@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIzIiwiTmFtZSI6IkFteSIsIkVtYWlsIjoiYW15bGVlQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkN1c3RvbWVyIiwianRpIjoiMjgyYTE0YjUtZGI0NS00NTc4LThlMDItZDBhNzZmNTFhNzk2IiwiZXhwIjoxNzQ3MDAwMTg2LCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.fKE06NTcbJcTmsOZzY32MC_8fpejeMgMN64oVJgsjpc\",\n    \"roleforTesting\": \"Customer\"\n}"
+									"key": "Transfer-Encoding",
+									"value": "chunked"
 								}
-							]
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 8,\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it919241@gmail.com\",\n    \"password\": \"$2a$11$NacHSRuRoBh7pDXqCn9euee6Yvtd7YiEKWLQy20XOwoT6mHZVv.Ra\",\n    \"phone\": \"01150391406\",\n    \"registrationDate\": \"2025-04-21T16:32:53.941464Z\"\n}"
 						},
 						{
-							"name": "Register",
-							"request": {
+							"name": "Ibrahimfbx",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"taha\",\r\n  \"Email\": \"it.unknownfbx@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391409\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5164/api/customer/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5164",
+									"path": [
+										"api",
+										"customer",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 May 2025 19:41:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 5,\n    \"fname\": \"ibrahim\",\n    \"lname\": \"taha\",\n    \"email\": \"it.unknownfbx@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+						},
+						{
+							"name": "ibrahimElfitiany",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"el-Fitiany\",\r\n  \"Email\": \"ibrahimelfitiany@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391401\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5164/api/customer/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5164",
+									"path": [
+										"api",
+										"customer",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 20:48:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"fname\": \"ibrahim\",\n    \"lname\": \"el-Fitiany\",\n    \"email\": \"ibrahimelfitiany@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+						},
+						{
+							"name": "Uni",
+							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -3213,372 +3713,185 @@
 									]
 								}
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "Ibrahim",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"Ibrahim\",\r\n  \"Lname\": \"Taha\",\r\n  \"Email\": \"it919247@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391406\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Mon, 21 Apr 2025 16:32:54 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 8,\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it919241@gmail.com\",\n    \"password\": \"$2a$11$NacHSRuRoBh7pDXqCn9euee6Yvtd7YiEKWLQy20XOwoT6mHZVv.Ra\",\n    \"phone\": \"01150391406\",\n    \"registrationDate\": \"2025-04-21T16:32:53.941464Z\"\n}"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
 								},
 								{
-									"name": "Ibrahimfbx",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"taha\",\r\n  \"Email\": \"it.unknownfbx@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391409\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 13 May 2025 19:41:28 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 5,\n    \"fname\": \"ibrahim\",\n    \"lname\": \"taha\",\n    \"email\": \"it.unknownfbx@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+									"key": "Date",
+									"value": "Mon, 26 May 2025 22:03:05 GMT"
 								},
 								{
-									"name": "ibrahimElfitiany",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"el-Fitiany\",\r\n  \"Email\": \"ibrahimelfitiany@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391401\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:48:11 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 4,\n    \"fname\": \"ibrahim\",\n    \"lname\": \"el-Fitiany\",\n    \"email\": \"ibrahimelfitiany@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+									"key": "Server",
+									"value": "Kestrel"
 								},
 								{
-									"name": "Uni",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"ibrahim\",\r\n  \"Lname\": \"taha\",\r\n  \"Email\": \"it.helwanUni@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"+201150391409\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Mon, 26 May 2025 22:03:05 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 7,\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it.helwanuni@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
-								},
-								{
-									"name": "John",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"john\",\r\n  \"Lname\": \"doe\",\r\n  \"Email\": \"john@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391403\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 05:16:36 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 2,\n    \"fname\": \"john\",\n    \"lname\": \"doe\",\n    \"email\": \"john@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
-								},
-								{
-									"name": "Amy",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"Amy\",\r\n  \"Lname\": \"Lee\",\r\n  \"Email\": \"amylee@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391405\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5164/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 05:16:53 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": 3,\n    \"fname\": \"alex\",\n    \"lname\": \"eubank\",\n    \"email\": \"alex@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
-								},
-								{
-									"name": "fail",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"Fname\": \"Ibrahim\",\r\n  \"Lname\": \"Taha\",\r\n  \"Email\": \"it919241@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391406\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:5272/api/customer/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5272",
-											"path": [
-												"api",
-												"customer",
-												"register"
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Mon, 21 Apr 2025 16:37:06 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"The email address is already in use.\"\n}"
+									"key": "Transfer-Encoding",
+									"value": "chunked"
 								}
-							]
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 7,\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it.helwanuni@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+						},
+						{
+							"name": "John",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Fname\": \"john\",\r\n  \"Lname\": \"doe\",\r\n  \"Email\": \"john@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391403\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5164/api/customer/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5164",
+									"path": [
+										"api",
+										"customer",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 05:16:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"fname\": \"john\",\n    \"lname\": \"doe\",\n    \"email\": \"john@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+						},
+						{
+							"name": "Amy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Fname\": \"Amy\",\r\n  \"Lname\": \"Lee\",\r\n  \"Email\": \"amylee@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391405\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5164/api/customer/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5164",
+									"path": [
+										"api",
+										"customer",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 May 2025 05:16:53 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"fname\": \"alex\",\n    \"lname\": \"eubank\",\n    \"email\": \"alex@gmail.com\",\n    \"message\": \"Registration successful\"\n}"
+						},
+						{
+							"name": "fail",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Fname\": \"Ibrahim\",\r\n  \"Lname\": \"Taha\",\r\n  \"Email\": \"it919241@gmail.com\",\r\n  \"Password\": \"123\",\r\n  \"Phone\": \"01150391406\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5272/api/customer/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5272",
+									"path": [
+										"api",
+										"customer",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Apr 2025 16:37:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The email address is already in use.\"\n}"
 						}
 					]
 				}
@@ -4417,7 +4730,7 @@
 			"name": "CusinieManagement",
 			"item": [
 				{
-					"name": "Cuisines",
+					"name": "CuisinesForDisplay",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -4425,7 +4738,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cuisine",
+							"raw": "http://localhost:5164/api/cuisine/with-images",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4433,7 +4746,32 @@
 							"port": "5164",
 							"path": [
 								"api",
-								"cuisine"
+								"cuisine",
+								"with-images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CuisinesBasic",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5164/api/cuisine/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5164",
+							"path": [
+								"api",
+								"cuisine",
+								""
 							]
 						}
 					},

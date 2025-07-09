@@ -1,4 +1,5 @@
-﻿using Sufra.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Sufra.Data;
 using Sufra.Models;
 using Sufra.Repositories.IRepositories;
 
@@ -22,14 +23,22 @@ namespace Sufra.Repositories.Repositories
             return token;
         }
 
-        public Task<RefreshToken?> GetByTokenAsync(string token)
+        public async Task UpdateAsync(RefreshToken token)
         {
-            throw new NotImplementedException();
+            _context.RefreshTokens.Update(token);
+            await _context.SaveChangesAsync();
         }
 
-        public Task RevokeAsync(string token)
+        public async Task<RefreshToken?> GetByTokenAsync(string token)
         {
-            throw new NotImplementedException();
+            return await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == token);
+        }
+
+        public async Task RevokeAsync(RefreshToken token)
+        {
+            token.IsRevoked = true;
+            token.RevokedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Sufra.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
-            int CustomerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int CustomerId = int.Parse(User.FindFirst("Id")?.Value);
 
             try
             {

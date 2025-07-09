@@ -38,6 +38,10 @@ namespace Sufra.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<RefreshToken>()
+                .Property(rt => rt.UserType)
+                .HasConversion<string>();
+
             // 1-to-1: Restaurant <-> RestaurantManager
             modelBuilder.Entity<Restaurant>()
                 .HasOne(r => r.Manager)

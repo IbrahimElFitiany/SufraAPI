@@ -24,7 +24,7 @@ namespace Sufra.DTOs.RestaurantDTOs
                 new Claim(ClaimTypes.Role, Role.ToString()),
                 new Claim("RestaurantId", RestaurantId.ToString()),
                 new Claim("RestaurantName", RestaurantName),
-                new Claim("Status", IsApproved.ToString())
+                new Claim("IsApproved", IsApproved.ToString())
             };
         }
     }

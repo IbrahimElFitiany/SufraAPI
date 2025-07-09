@@ -8,7 +8,6 @@ namespace Sufra.Services.IServices
     public interface IRestaurantServices
     {
         Task<RestaurantRegisterResponseDTO> RegistrationAsync(RestaurantRegisterRequestDTO restaurantRegistrationDTO);
-        Task<RestaurantLoginResponseDTO> LoginAsync(RestaurantLoginRequestDTO restaurantLoginDTO);
 
         Task ApproveRestaurantAsync(int restaurantId);
         Task BlockRestaurantAsync(int restaurantId);

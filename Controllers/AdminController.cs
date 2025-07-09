@@ -17,19 +17,5 @@ namespace Sufra.Controllers
 
         //---------------------
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AdminLoginRequestDTO adminLoginRequestDTO)
-        {
-            try
-            {
-                AdminLoginResponseDTO adminLoginResponseDTO = await _adminServices.Login(adminLoginRequestDTO);
-                return Ok(adminLoginResponseDTO);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-        }
-
     }
 }

@@ -31,45 +31,6 @@ namespace Sufra.Services.Services
         }
 
         //------------------------------------------
-        public async Task<LoginResult<CustomerLoginResDTO>> LoginAsync(CustomerLoginReqDTO loginDTO)
-        {
-            Customer customer = await _CustomerRepository.GetCustomerByEmailAsync(loginDTO.Email);
-
-            if (customer == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, customer.Password)) throw new AuthenticationException("Invalid email or password.");
-
-
-            var accessToken = _tokenService.GenerateAccessToken(
-                new CustomerClaimsDTO
-                {
-                    userID = customer.Id,
-                    Name = customer.Fname,
-                    Email = customer.Email,
-                    Role = UserType.Customer
-                });
-
-            var refreshToken = await _RefreshTokenRepository.AddAsync(new RefreshToken
-            {
-                UserId = customer.Id,
-                UserType = UserType.Customer,
-                ExpiresAt = DateTime.UtcNow.AddDays(10),
-
-            });
-
-            return new LoginResult<CustomerLoginResDTO>
-            {
-                LoginResDTO = new CustomerLoginResDTO
-                {
-                    Fname = customer.Fname,
-                    Lname = customer.Lname,
-                    Email = customer.Email,
-                    AccessToken = accessToken
-                },
-                RefreshToken = refreshToken.Token,
-                ExpirationDate = refreshToken.ExpiresAt
-            };
-
-        }
-
         public async Task<RegisterResponseDTO> RegisterAsync(CustomerRegisterDTO registerDTO)
         {
 

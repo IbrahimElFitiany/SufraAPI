@@ -45,21 +45,6 @@ namespace Sufra.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] RestaurantLoginRequestDTO restaurantLoginRequestDTO)
-        {
-            try
-            {
-                RestaurantLoginResponseDTO restaurantLoginResponse = await _restaurantServices.LoginAsync(restaurantLoginRequestDTO);
-                return Ok(restaurantLoginResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new {ex.Message });
-            }
-        }
-
 
         //-------------------------------------------------------------
 

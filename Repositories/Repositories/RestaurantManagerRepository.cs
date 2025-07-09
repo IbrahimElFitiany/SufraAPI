@@ -18,34 +18,19 @@ namespace Sufra.Repositories.Repositories
 
         public async Task AddManagerAsync(RestaurantManager manager)
         {
-            try
-            {
-                await _context.RestaurantManagers.AddAsync(manager);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Error in Repo , AddManagerAsync: {e.Message}");
-            }
-
+            await _context.RestaurantManagers.AddAsync(manager);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<RestaurantManager> GetManagerByEmailAsync(string email)
         {
-            try
-            {
-                RestaurantManager manager = await _context.RestaurantManagers.FirstOrDefaultAsync(m => m.Email == email);
-                return manager;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            RestaurantManager manager = await _context.RestaurantManagers.FirstOrDefaultAsync(m => m.Email == email);
+            return manager;
         }
 
-        public Task<RestaurantManager> GetManagerByIdAsync(int id)
+        public async Task<RestaurantManager> GetManagerByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.RestaurantManagers.FirstOrDefaultAsync(rm => rm.Id == id);
         }
 
         public Task<List<RestaurantManager>> GetAllManagersAsync()

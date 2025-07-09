@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sufra.Common.Types;
 using Sufra.DTOs.CustomerDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
-using System.Threading.Tasks;
 
 namespace Sufra.Controllers
 {
@@ -20,34 +18,6 @@ namespace Sufra.Controllers
         }
 
         //----------------------------------------------
-
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login( [FromBody] CustomerLoginReqDTO loginDTO)
-        {
-            try
-            {
-                LoginResult<CustomerLoginResDTO> loginResult = await _customerServices.LoginAsync(loginDTO);
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.None,
-                    Expires = loginResult.ExpirationDate
-                };
-
-                Response.Cookies.Append("RefreshToken", loginResult.RefreshToken, cookieOptions);
-                return Ok(loginResult.LoginResDTO);
-            }
-            catch (AuthenticationException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
 
         [AllowAnonymous]
         [HttpPost("register")]

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Sufra.Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace Sufra.DTOs.CustomerDTOs
+namespace Sufra.DTOs
 {
-    public class CustomerLoginReqDTO
+    public class LoginReqDTO
     {
         private string _email;
 
@@ -16,7 +17,11 @@ namespace Sufra.DTOs.CustomerDTOs
         }
 
         [Required(ErrorMessage = "Password is required")]
+        [MinLength(3, ErrorMessage = "Password must be at least 6 characters")]
         [MaxLength(50, ErrorMessage = "Password cannot exceed 50 characters")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "UserType is required")]
+        public UserType UserType { get; set; }
     }
 }
