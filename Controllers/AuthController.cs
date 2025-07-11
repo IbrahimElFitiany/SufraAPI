@@ -34,6 +34,7 @@ namespace Sufra.Controllers
             {
                 string userAgent = Request.Headers["User-Agent"].ToString();
                 string? ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+                string? oldToken = Request.Cookies["refreshToken"];
 
                 _logger.LogInformation("User-Agent: {UserAgent}", userAgent);
                 _logger.LogInformation("IP Address: {IP}", ip);
@@ -41,15 +42,15 @@ namespace Sufra.Controllers
                 switch (loginDto.UserType)
                 {
                     case UserType.Customer:
-                        var customerLoginResult = await _authService.LoginAsync<CustomerLoginResDTO>(loginDto, userAgent, ip);
+                        var customerLoginResult = await _authService.LoginAsync<CustomerLoginResDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(customerLoginResult);
 
                     case UserType.SufraEmp:
-                        var adminLoginResult = await _authService.LoginAsync<AdminLoginResponseDTO>(loginDto, userAgent, ip);
+                        var adminLoginResult = await _authService.LoginAsync<AdminLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(adminLoginResult);
 
                     case UserType.RestaurantManager:
-                        var managerLoginResult = await _authService.LoginAsync<RestaurantLoginResponseDTO>(loginDto, userAgent, ip);
+                        var managerLoginResult = await _authService.LoginAsync<RestaurantLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(managerLoginResult);
 
                     default:

@@ -34,7 +34,7 @@ namespace Sufra.Services.Services
 
         //----------
 
-        public async Task<LoginResult<TLoginResDTO>> LoginAsync<TLoginResDTO>(LoginReqDTO loginReqDTO , string userAgent , string ip)
+        public async Task<LoginResult<TLoginResDTO>> LoginAsync<TLoginResDTO>(LoginReqDTO loginReqDTO , string userAgent , string ip, string? oldToken)
         {
             int userId;
             string accessToken;
@@ -128,6 +128,18 @@ namespace Sufra.Services.Services
 
             var refreshToken = _tokenService.GenerateRefreshToken(userId, loginReqDTO.UserType, ip, userAgent);
             refreshToken = await _refreshTokenRepo.AddAsync(refreshToken);
+
+            if (!string.IsNullOrEmpty(oldToken))
+            {
+                var oldRefreshToken = await _refreshTokenRepo.GetByTokenAsync(oldToken);
+                if (oldRefreshToken != null && !oldRefreshToken.IsRevoked)
+                {
+                    oldRefreshToken.IsRevoked = true;
+                    oldRefreshToken.RevokedAt = DateTime.UtcNow;
+                    oldRefreshToken.ReplacedByToken = refreshToken.Token;
+                    await _refreshTokenRepo.UpdateAsync(oldRefreshToken);
+                }
+            }
 
             return new LoginResult<TLoginResDTO>
             {
