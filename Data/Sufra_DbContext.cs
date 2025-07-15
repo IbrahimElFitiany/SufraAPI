@@ -261,6 +261,10 @@ namespace Sufra.Data
             .Property(roh => roh.DayOfWeek)
             .HasConversion<string>();
 
+            modelBuilder.Entity<RestaurantOpeningHours>()
+            .HasIndex(roh => new { roh.RestaurantId, roh.DayOfWeek })
+            .IsUnique();
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

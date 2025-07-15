@@ -21,6 +21,7 @@ namespace Sufra.Services.IServices
         Task RemoveTableAsync(int restaurantId, int tableId);
         Task UpdateRestaurantAsync(int restaurantId , UpdateRestaurantReqDTO updateRestaurantReqDTO);
 
+        Task<IEnumerable<RestaurantOpeningHoursResponseDTO>> GetOpeningHours(int restaurantId);
         Task AddOpeningHours(RestaurantOpeningHoursDTO restaurantOpeningHoursDTO);
         Task UpdateOpeningHours(RestaurantOpeningHoursDTO restaurantOpeningHoursDTO);
         Task DeleteOpeningHours(int RestaurantId, DayOfWeek dayOfWeek);

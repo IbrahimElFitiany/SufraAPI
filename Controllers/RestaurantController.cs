@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Sufra.Common.Enums;
 using Sufra.DTOs.RestaurantDTOs;
 using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
 using Sufra.DTOs.RestaurantDTOs.TableDTOs;
@@ -278,7 +279,7 @@ namespace Sufra.Controllers
         //----------------------OpeningHours-------------------------
 
         [Authorize(Roles = "RestaurantManager")]
-        [HttpPost("open-hours")]
+        [HttpPost("opening-hours")]
         public async Task<IActionResult> AddOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
@@ -310,8 +311,30 @@ namespace Sufra.Controllers
             }
         }
 
+        [HttpGet("{restaurantId}/opening-hours")]
+        public async Task<IActionResult> GetOpeningHours([FromRoute] int restaurantId)
+        {
+            try
+            {
+                var openingHours = await _restaurantServices.GetOpeningHours(restaurantId);
+                return Ok(openingHours);
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+            catch (OpeningHoursExistsException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
         [Authorize(Roles = "RestaurantManager")]
-        [HttpPut("open-hours")]
+        [HttpPut("opening-hours")]
         public async Task<IActionResult> UpdateOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
@@ -340,7 +363,7 @@ namespace Sufra.Controllers
         }
 
         [Authorize(Roles = "RestaurantManager")]
-        [HttpDelete("open-hours/{dayOfWeek}")]
+        [HttpDelete("opening-hours/{dayOfWeek}")]
         public async Task<IActionResult> DeleteOpeningHours([FromRoute] DayOfWeek dayOfWeek)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);

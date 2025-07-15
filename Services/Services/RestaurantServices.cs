@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sufra.Common.Enums;
 using Sufra.Common.Models;
 using Sufra.DTOs;
 using Sufra.DTOs.MenuDTOs;
@@ -21,14 +20,11 @@ namespace Sufra.Services.Services
 
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IRestaurantManagerRepository _restaurantManagerRepository;
-        private readonly ITokenService _tokenService;
 
-
-        public RestaurantServices(IRestaurantRepository restaurantRepository , IRestaurantManagerRepository restaurantManagerRepository , ITokenService tokenService)
+        public RestaurantServices(IRestaurantRepository restaurantRepository , IRestaurantManagerRepository restaurantManagerRepository)
         {
             _restaurantRepository = restaurantRepository;
             _restaurantManagerRepository = restaurantManagerRepository;
-            _tokenService = tokenService;
         }
 
         //----------------------------------------------------------------------------
@@ -323,6 +319,27 @@ namespace Sufra.Services.Services
 
             restaurant.AddOpeningHour(restaurantOpeningHoursDTO.DayOfWeek, restaurantOpeningHoursDTO.OpenTime, restaurantOpeningHoursDTO.CloseTime);
             await _restaurantRepository.SaveAsync();
+        }
+        public async Task<IEnumerable<RestaurantOpeningHoursResponseDTO>> GetOpeningHours(int restaurantId)
+        {
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
+
+            if (restaurant == null)
+            {
+                throw new RestaurantNotFoundException("Restaurant not found.");
+            }
+
+            IEnumerable<RestaurantOpeningHours> openingHours = restaurant.GetOpeningHours();
+
+            IEnumerable<RestaurantOpeningHoursResponseDTO> openingHoursDTOs = openingHours.OrderBy(op => op.DayOfWeek).Select(op => new RestaurantOpeningHoursResponseDTO
+            {
+                DayOfWeek = op.DayOfWeek,
+                OpenTime = op.OpenTime,
+                CloseTime = op.CloseTime,
+
+            });
+
+            return openingHoursDTOs;
         }
         public async Task UpdateOpeningHours(RestaurantOpeningHoursDTO restaurantOpeningHoursDTO)
         {

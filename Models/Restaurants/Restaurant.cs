@@ -112,6 +112,10 @@ namespace Sufra.Models.Restaurants
 
             _openingHours.Add(new RestaurantOpeningHours(day,openTime,closeTime,Id));
         }
+        public IReadOnlyCollection<RestaurantOpeningHours> GetOpeningHours()
+        {
+            return OpeningHours;
+        }
         public void UpdateOpeningHour(DayOfWeek day, TimeSpan openTime, TimeSpan closeTime)
         {
             if (openTime >= closeTime)
