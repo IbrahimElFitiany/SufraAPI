@@ -98,8 +98,8 @@ namespace Sufra.Models.Restaurants
         // OpeningHours Behavior 
         public void AddOpeningHour(DayOfWeek day, TimeSpan openTime, TimeSpan closeTime)
         {
-            if (openTime >= closeTime)
-                throw new ArgumentException("Start time must be before end time.");
+            if (openTime == closeTime)
+                throw new ArgumentException("Open and close time cannot be the same.");
 
             bool openingHoursExists = OpeningHours.Any(h =>
                 h.DayOfWeek == day
@@ -146,20 +146,21 @@ namespace Sufra.Models.Restaurants
         }
         public bool IsInOpeningHour(DateTime reservationTime)
         {
-
-            DayOfWeek day = reservationTime.DayOfWeek; 
+            DayOfWeek day = reservationTime.DayOfWeek;
+            TimeSpan reservationTimeOfDay = reservationTime.TimeOfDay;
 
             RestaurantOpeningHours openingHour = OpeningHours.FirstOrDefault(h => h.DayOfWeek == day);
 
-            if (openingHour == null)
+            if (openingHour == null) return false;
+
+            if (openingHour.OpenTime < openingHour.CloseTime)
             {
-                return false;
+                return reservationTimeOfDay >= openingHour.OpenTime && reservationTimeOfDay <= openingHour.CloseTime;
             }
-
-            TimeSpan reservationTimeOfDay = reservationTime.TimeOfDay;
-
-
-            return reservationTimeOfDay >= openingHour.OpenTime && reservationTimeOfDay <= openingHour.CloseTime;
+            else
+            {
+                return reservationTimeOfDay >= openingHour.OpenTime || reservationTimeOfDay <= openingHour.CloseTime;
+            }
         }
 
         //-----------------------------------------------------------------------
