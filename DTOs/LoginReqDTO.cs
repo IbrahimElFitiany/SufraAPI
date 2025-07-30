@@ -1,11 +1,11 @@
-﻿using Sufra.Common.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sufra.DTOs
 {
     public class LoginReqDTO
     {
         private string _email;
+        private string _userType;
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
@@ -22,6 +22,10 @@ namespace Sufra.DTOs
         public string Password { get; set; }
 
         [Required(ErrorMessage = "UserType is required")]
-        public UserType UserType { get; set; }
+        public string UserType
+        {
+            get => _userType;
+            set => _userType = value?.Trim().ToLower();
+        }
     }
 }

@@ -4,11 +4,11 @@ using Sufra.DTOs.CustomerDTOs;
 using Sufra.DTOs.SufraEmpDTOs;
 using Sufra.DTOs.RestaurantDTOs;
 using Sufra.Services.IServices;
-using Sufra.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Sufra.Common.Types;
 using Sufra.Exceptions.Auth;
 using Sufra.Exceptions;
+using Sufra.Common.Constants;
 
 namespace Sufra.Controllers
 {
@@ -41,20 +41,20 @@ namespace Sufra.Controllers
 
                 switch (loginDto.UserType)
                 {
-                    case UserType.Customer:
+                    case RoleNames.Customer:
                         var customerLoginResult = await _authService.LoginAsync<CustomerLoginResDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(customerLoginResult);
 
-                    case UserType.SufraEmp:
+                    case RoleNames.Admin:
                         var adminLoginResult = await _authService.LoginAsync<AdminLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(adminLoginResult);
 
-                    case UserType.RestaurantManager:
+                    case RoleNames.RestaurantManager:
                         var managerLoginResult = await _authService.LoginAsync<RestaurantLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
                         return HandleLoginResponse(managerLoginResult);
 
                     default:
-                        return BadRequest("Invalid user type.");
+                        return BadRequest(new { message = "Invalid user type."});
                 }
             }
             catch (AuthenticationException ex)
@@ -145,7 +145,7 @@ namespace Sufra.Controllers
                 HttpOnly = true,
                 Secure = true,
                 Path = "/",
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = result.ExpirationDate
             });
 

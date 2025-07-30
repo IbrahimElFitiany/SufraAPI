@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sufra.Common.Constants;
 using Sufra.DTOs.MenuSectionDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
@@ -20,7 +20,7 @@ namespace Sufra.Controllers
 
         //------------------------------------------------
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPost]
         public async Task<IActionResult> CreateMenuSection ([FromBody] CreateMenuSectionReqDTO createMenuSectionReqDTO)
         {
@@ -52,7 +52,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpDelete("{menuSectionId}")]
         public async Task<IActionResult> DeleteMenuSection([FromRoute] int menuSectionId)
         {
@@ -90,7 +90,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPatch ("{menuSectionId}")]
         public async Task<IActionResult> UpdateMenuSectionName([FromRoute] int menuSectionId , [FromBody] CreateMenuSectionReqDTO updateMenuSectionReqDTO)
         {

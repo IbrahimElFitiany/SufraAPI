@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Security.Claims;
-using Sufra.Common.Enums;
+using Sufra.Common.Constants;
 using Sufra.Infrastructure.Services;
 
 namespace Sufra.DTOs.SufraEmpDTOs
@@ -16,10 +16,10 @@ namespace Sufra.DTOs.SufraEmpDTOs
         {
             return new[]
 {
-                new Claim("UserID", UserId.ToString()),
-                new Claim("Name", Name),
-                new Claim("Email", Email),
-                new Claim(ClaimTypes.Role, Role)
+                new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
+                new Claim(ClaimTypes.Name, Name),
+                new Claim(ClaimTypes.Email, Email),
+                new Claim(ClaimTypes.Role, RoleNames.Admin)
             };
         }
     }
