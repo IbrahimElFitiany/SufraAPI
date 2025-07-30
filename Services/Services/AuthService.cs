@@ -1,4 +1,4 @@
-﻿using Sufra.Common.Enums;
+﻿using Sufra.Common.Constants;
 using Sufra.Common.Types;
 using Sufra.DTOs;
 using Sufra.DTOs.CustomerDTOs;
@@ -8,8 +8,6 @@ using Sufra.Exceptions;
 using Sufra.Exceptions.Auth;
 using Sufra.Infrastructure.Services;
 using Sufra.Models;
-using Sufra.Models.Customers;
-using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
 using Sufra.Services.IServices;
 
@@ -42,7 +40,7 @@ namespace Sufra.Services.Services
 
             switch (loginReqDTO.UserType)
             {
-                case UserType.Customer:
+                case RoleNames.Customer:
                     var customer = await _customerRepo.GetCustomerByEmailAsync(loginReqDTO.Email);
                     if (customer == null || !BCrypt.Net.BCrypt.Verify(loginReqDTO.Password, customer.Password))
                         throw new AuthenticationException("Invalid email or password.");
@@ -51,10 +49,10 @@ namespace Sufra.Services.Services
 
                     accessToken = _tokenService.GenerateAccessToken(new CustomerClaimsDTO
                     {
-                        Id = customer.Id,
+                        UserId = customer.Id,
                         Name = customer.Fname,
                         Email = customer.Email,
-                        Role = UserType.Customer
+                        Role = RoleNames.Customer
                     });
 
                     loginResDTO = new CustomerLoginResDTO
@@ -66,7 +64,7 @@ namespace Sufra.Services.Services
                     };
                     break;
 
-                case UserType.SufraEmp:
+                case RoleNames.Admin:
                     var admin = await _adminRepo.GetAdminByEmail(loginReqDTO.Email);
                     if (admin == null || loginReqDTO.Password != admin.Password)
                         throw new AuthenticationException("Invalid email or password.");
@@ -78,7 +76,7 @@ namespace Sufra.Services.Services
                         UserId = admin.Id,
                         Name = admin.Fname,
                         Email = admin.Email,
-                        Role = admin.Role
+                        Role = RoleNames.Admin
                     });
 
                     loginResDTO = new AdminLoginResponseDTO
@@ -86,12 +84,12 @@ namespace Sufra.Services.Services
                         AdminID = admin.Id,
                         Name = admin.Fname,
                         Email = admin.Email,
-                        Role = admin.Role,
+                        Role = RoleNames.Admin,
                         AccessToken = accessToken
                     };
                     break;
 
-                case UserType.RestaurantManager:
+                case RoleNames.RestaurantManager:
                     var manager = await _restaurantManagerRepo.GetManagerByEmailAsync(loginReqDTO.Email);
                     if (manager == null || !BCrypt.Net.BCrypt.Verify(loginReqDTO.Password, manager.Password))
                         throw new AuthenticationException("Invalid email or password.");
@@ -106,7 +104,7 @@ namespace Sufra.Services.Services
                         RestaurantId = manager.Restaurant.Id,
                         RestaurantName = manager.Restaurant.Name,
                         IsApproved = manager.Restaurant.IsApproved,
-                        Role = UserType.RestaurantManager
+                        Role = RoleNames.RestaurantManager
                     });
 
                     loginResDTO = new RestaurantLoginResponseDTO
@@ -177,18 +175,18 @@ namespace Sufra.Services.Services
 
             switch (refreshToken.UserType)
             {
-                case UserType.Customer:
+                case RoleNames.Customer:
                     var customer = await _customerRepo.GetByIdAsync(refreshToken.UserId);
                     accessToken = _tokenService.GenerateAccessToken(new CustomerClaimsDTO
                     {
-                        Id = customer.Id,
+                        UserId = customer.Id,
                         Name = customer.Fname,
                         Email = customer.Email,
-                        Role = UserType.Customer
+                        Role = RoleNames.Customer
                     });
                     break;
 
-                case UserType.RestaurantManager:
+                case RoleNames.RestaurantManager:
                     var manager = await _restaurantManagerRepo.GetManagerByIdAsync(refreshToken.UserId);
                     accessToken = _tokenService.GenerateAccessToken(new RestaurantClaimsDTO
                     {
@@ -198,18 +196,18 @@ namespace Sufra.Services.Services
                         RestaurantId = manager.Restaurant.Id,
                         RestaurantName = manager.Restaurant.Name,
                         IsApproved = manager.Restaurant.IsApproved,
-                        Role = UserType.RestaurantManager
+                        Role = RoleNames.RestaurantManager
                     });
                     break;
 
-                case UserType.SufraEmp:
+                case RoleNames.Admin:
                     var admin = await _adminRepo.GetAdminById(refreshToken.UserId);
                     accessToken = _tokenService.GenerateAccessToken(new AdminClaimsDTO
                     {
                         UserId = admin.Id,
                         Name = admin.Fname,
                         Email = admin.Email,
-                        Role = admin.Role
+                        Role = RoleNames.Admin
                     });
                     break;
                 default:

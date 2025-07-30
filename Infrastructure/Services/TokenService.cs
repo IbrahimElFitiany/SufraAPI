@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Sufra.Common.Enums;
 using Sufra.Configuration;
 using Sufra.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,7 +35,7 @@ namespace Sufra.Infrastructure.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public RefreshToken GenerateRefreshToken(int userId, UserType userType, string? ipAddress = null, string? userAgent = null)
+        public RefreshToken GenerateRefreshToken(int userId, string userType, string? ipAddress = null, string? userAgent = null)
         {
             return new RefreshToken
             {

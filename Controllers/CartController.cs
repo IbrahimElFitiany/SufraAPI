@@ -1,9 +1,10 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sufra.Common.Constants;
 using Sufra.DTOs.CartDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
+using System.Security.Claims;
 
 namespace Sufra.Controllers
 {
@@ -22,11 +23,11 @@ namespace Sufra.Controllers
 
 
 
-        [Authorize (Roles = "Customer")]
+        [Authorize (Roles = RoleNames.Customer)]
         [HttpPost]
         public async Task<IActionResult> AddToCart([FromBody] AddToCartReqDTO addToCartReqDTO)
         {
-            int CustomerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
             try
             {
@@ -52,11 +53,11 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
-            int CustomerId = int.Parse(User.FindFirst("Id")?.Value);
+            int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
             try
             {
@@ -69,11 +70,11 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {
-            int CustomerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             try
             {
                 await _cartServices.ClearCart(CustomerId);
@@ -97,11 +98,11 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpDelete("remove/{cartItemId}")]
         public async Task<IActionResult> RemoveFromCart([FromRoute] int cartItemId)
         {
-            int CustomerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             try
             {
                 await _cartServices.RemoveFromCartAsync(CustomerId , cartItemId);

@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Sufra.Common.Enums;
+using Sufra.Common.Constants;
 using Sufra.Infrastructure.Services;
 
 namespace Sufra.DTOs.RestaurantDTOs
@@ -12,16 +12,16 @@ namespace Sufra.DTOs.RestaurantDTOs
         public int RestaurantId { get; set; }
         public string RestaurantName { get; set; }
         public bool IsApproved { get; set; }
-        public UserType Role { get; set; }
+        public string Role { get; set; }
 
         public IEnumerable<Claim> GetClaims()
         {
             return new[]
             {
-                new Claim("managerId", UserId.ToString()),
-                new Claim("managerName", Name),
-                new Claim("Email", Email),
-                new Claim(ClaimTypes.Role, Role.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
+                new Claim(ClaimTypes.Name, Name),
+                new Claim(ClaimTypes.Email, Email),
+                new Claim(ClaimTypes.Role, RoleNames.RestaurantManager),
                 new Claim("RestaurantId", RestaurantId.ToString()),
                 new Claim("RestaurantName", RestaurantName),
                 new Claim("IsApproved", IsApproved.ToString())

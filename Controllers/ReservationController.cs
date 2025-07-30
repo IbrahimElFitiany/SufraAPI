@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Sufra.Common.Constants;
 using Sufra.DTOs.ReservationDTOs;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
+using System.Security.Claims;
 
 namespace Sufra.Controllers
 {
@@ -21,11 +23,12 @@ namespace Sufra.Controllers
 
         //-----------------------------------
 
-        [Authorize (Roles = "Customer")]
+        [Authorize (Roles = RoleNames.Customer)]
         [HttpPost("{restaurantId}")]
         public async Task<IActionResult> CreateReservation([FromRoute] int restaurantId,[FromBody] CreateReservationReqDTO createReservationReqDTO)
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             try
             {
                 ReservationDTO reservationDTO = new ReservationDTO
@@ -63,7 +66,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize (Roles ="Admin")]
+        [Authorize (Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetAllReservations([FromQuery] ReservationQueryDTO queryDTO)
         {
@@ -81,7 +84,7 @@ namespace Sufra.Controllers
 
 
 
-        [Authorize (Roles ="RestaurantManager")]
+        [Authorize (Roles = RoleNames.RestaurantManager)]
         [HttpPatch("approve/{reservationId}")]
         public async Task<IActionResult> ApproveReservation([FromRoute] int reservationId)
         {
@@ -97,7 +100,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPatch("reject/{reservationId}")]
         public async Task<IActionResult> RejectReservation([FromRoute] int reservationId)
         {
@@ -113,11 +116,12 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpPatch("cancel/{reservationId}")]
         public async Task<IActionResult> CancelReservation([FromRoute] int reservationId)
         {
-            int userId = int.Parse(User.FindFirst("UserID")?.Value);
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             try
             {
                 await _reservationServices.CancelAsync(reservationId, userId);

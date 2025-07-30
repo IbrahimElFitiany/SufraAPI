@@ -36,8 +36,6 @@ namespace Sufra.Services.Services
                 throw new RestaurantNotApprovedException("restaurant Not Approved");
             }
 
-
-
             MenuSection existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuItemDTO.MenuSectionId);
 
 
@@ -79,15 +77,9 @@ namespace Sufra.Services.Services
         {
             bool? restaurantIsApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(menuItemDTO.RestaurantId);
 
-            if (restaurantIsApproved == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurantIsApproved == null) throw new RestaurantNotFoundException("Restaurant not found.");
+            if (restaurantIsApproved == false) throw new RestaurantNotApprovedException("Restaurant not approved.");
 
-            if (restaurantIsApproved == false)
-            {
-                throw new RestaurantNotApprovedException("Restaurant not approved.");
-            }
 
             MenuSection existingMenuSection = await _menuSectionRepository.GetByIdAsync(menuItemDTO.MenuSectionId);
 

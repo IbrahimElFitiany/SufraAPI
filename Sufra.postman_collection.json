@@ -24,14 +24,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{SufraPort}}/api/auth/login",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/auth/login",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "{{SufraPort}}",
 							"path": [
-								"api",
 								"auth",
 								"login"
 							]
@@ -39,13 +36,13 @@
 					},
 					"response": [
 						{
-							"name": "AdminLogin",
+							"name": "Admin",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"it919247@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"sufraemp\"\r\n}",
+									"raw": "{\r\n    \"email\": \"it919247@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -53,14 +50,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/auth/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/auth/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"auth",
 										"login"
 									]
@@ -95,13 +89,13 @@
 							"body": "{\n    \"adminID\": 1,\n    \"name\": \"ibrahim\",\n    \"email\": \"it919247@gmail.com\",\n    \"role\": \"Admin\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6ImlicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiODQxZWUwMjgtOTk0MC00YTMyLWE3NDktNDE0NjM1NThmMDNmIiwiZXhwIjoxNzUyMDQ1NTUzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.k6vmL6HzFn6lRGz1if6v6QlnhfC312BS5AQP-f0JEV4\"\n}"
 						},
 						{
-							"name": "RestaurantLogin",
+							"name": "RestaurantManager",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"raw": "{\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"restaurantManager\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -109,15 +103,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/auth/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
-										"Restaurant",
+										"auth",
 										"login"
 									]
 								}
@@ -132,11 +123,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 11 May 2025 20:14:12 GMT"
+									"value": "Tue, 15 Jul 2025 11:36:51 GMT"
 								},
 								{
 									"key": "Server",
 									"value": "Kestrel"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "refreshToken=c60aa7ca-d9f7-47d1-b8a9-ec0d788a225a; expires=Fri, 25 Jul 2025 11:36:51 GMT; path=/; secure; samesite=strict; httponly"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -144,16 +139,16 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiNSIsIlJlc3RhdXJhbnROYW1lIjoiUmVkIEJpcmQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImU5OTI2YTBjLTJmZmUtNDdkNS1iNDBiLWMwYzg1OWQ0ODZiOCIsImV4cCI6MTc0Njk5ODA1MywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xp4so8zGiE3Jk3TFUD4NlYPvSfwtAcS2yJ-IJQsmh5s\"\n}"
+							"body": "{\n    \"managerID\": 5,\n    \"managerName\": \"red\",\n    \"email\": \"redbird@gmail.com\",\n    \"restaurantId\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"isApproved\": false,\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI1IiwibWFuYWdlck5hbWUiOiJyZWQiLCJFbWFpbCI6InJlZGJpcmRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI1IiwiUmVzdGF1cmFudE5hbWUiOiJSZWQgQmlyZCIsIklzQXBwcm92ZWQiOiJGYWxzZSIsImp0aSI6IjIxMDA5MWQ2LTZjMGYtNGM0NS1iMWRkLThiMTNlYzYzNDllMSIsImV4cCI6MTc1MjU4MDAxMSwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.xnLP-ZV314wUcsqvPXNdOGWX9rzxT1z3WLanKFC89-o\"\n}"
 						},
 						{
-							"name": "esplanade",
+							"name": "Customer",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+									"raw": "{\r\n    \"email\": \"it919247@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"userType\": \"customer\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -161,15 +156,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/auth/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
-										"Restaurant",
+										"auth",
 										"login"
 									]
 								}
@@ -184,11 +176,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 11 May 2025 20:14:56 GMT"
+									"value": "Thu, 24 Jul 2025 18:33:50 GMT"
 								},
 								{
 									"key": "Server",
 									"value": "Kestrel"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "refreshToken=d6a4976b-37aa-4e77-85da-206a77179f33; expires=Sun, 03 Aug 2025 18:33:51 GMT; path=/; secure; samesite=strict; httponly"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -196,163 +192,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"managerID\": 8,\n    \"managerName\": \"Esplanade\",\n    \"email\": \"esplanade@gmail.com\",\n    \"restaurantId\": 8,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI4IiwibWFuYWdlck5hbWUiOiJFc3BsYW5hZGUiLCJFbWFpbCI6ImVzcGxhbmFkZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI4IiwiUmVzdGF1cmFudE5hbWUiOiJFc3BsYW5hZGUgQ2FmZSBSZXN0YXVyYW50IiwiU3RhdHVzIjoiRmFsc2UiLCJqdGkiOiI4ODRiMWU1MC0zNGJiLTQwMTItODdiZi03MDk3MjZiM2JjNzciLCJleHAiOjE3NDY5OTgwOTYsImlzcyI6IlN1ZnJhLUJhY2tFbmQiLCJhdWQiOiIqIn0.UQkX_vL1wbQESh38K3Q3g_x99_Mqi0y9N8N-KUzoWEo\"\n}"
-						},
-						{
-							"name": "piccolo",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"Restaurant",
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 10 May 2025 22:11:14 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "Kestrel"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"managerID\": 10,\n    \"managerName\": \"store\",\n    \"email\": \"store_owner_1@gmail.com\",\n    \"restaurantId\": 10,\n    \"restaurantName\": \"Saigon Restaurant & Lounge\",\n    \"isApproved\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiIxMCIsIm1hbmFnZXJOYW1lIjoic3RvcmUiLCJFbWFpbCI6InN0b3JlX293bmVyXzFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUmVzdGF1cmFudCBNYW5hZ2VyIiwiUmVzdGF1cmFudElkIjoiMTAiLCJSZXN0YXVyYW50TmFtZSI6IlNhaWdvbiBSZXN0YXVyYW50ICYgTG91bmdlIiwiU3RhdHVzIjoiVHJ1ZSIsImp0aSI6IjY2MGM0ZjRmLWJkMDMtNDQzZS1hNGM0LTNkYjA3ZWU5MjI1ZCIsImV4cCI6MTc0NjkxODY3NCwiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.qNrW8MKM7nLlh68lQvI-8lXsSehpfYpOiPqjH7Bmc70\"\n}"
-						},
-						{
-							"name": "Skyview",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"Restaurant",
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 11 May 2025 20:15:13 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "Kestrel"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"managerID\": 6,\n    \"managerName\": \"SkyView\",\n    \"email\": \"skyview@gmail.com\",\n    \"restaurantId\": 6,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI2IiwibWFuYWdlck5hbWUiOiJTa3lWaWV3IiwiRW1haWwiOiJza3l2aWV3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlJlc3RhdXJhbnQgTWFuYWdlciIsIlJlc3RhdXJhbnRJZCI6IjYiLCJSZXN0YXVyYW50TmFtZSI6IlNreSBWaWV3IFJlc3RhdXJhbnQiLCJTdGF0dXMiOiJGYWxzZSIsImp0aSI6ImE3NzZkODc4LTZmMmMtNDc4NC05MGUzLTNiYmQxYjY4YjNhZiIsImV4cCI6MTc0Njk5ODExMywiaXNzIjoiU3VmcmEtQmFja0VuZCIsImF1ZCI6IioifQ.Vu8d03b1_N03nl3yKlVEvDxMHC_wRbhn0zl_Z9VJtQs\"\n}"
-						},
-						{
-							"name": "Kamala",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"Restaurant",
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 13 May 2025 19:18:03 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "Kestrel"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"managerID\": 9,\n    \"managerName\": \"kamala\",\n    \"email\": \"kamala@gmail.com\",\n    \"restaurantId\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"isApproved\": false,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWQiOiI5IiwibWFuYWdlck5hbWUiOiJrYW1hbGEiLCJFbWFpbCI6ImthbWFsYUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZXN0YXVyYW50IE1hbmFnZXIiLCJSZXN0YXVyYW50SWQiOiI5IiwiUmVzdGF1cmFudE5hbWUiOiJLYW1hbGEgQXNpYW4gUmVzdGF1cmFudCIsIlN0YXR1cyI6IkZhbHNlIiwianRpIjoiM2Q3YTM0OGUtMDg2MC00OWVmLTk0MDgtM2Y4MjExMzcxODA4IiwiZXhwIjoxNzQ3MTY3NDgzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.M1Uak310s77pWgv6geC9anIrDVYmxpKJNdF-A4iOhEY\"\n}"
+							"body": "{\n    \"fname\": \"Ibrahim\",\n    \"lname\": \"Taha\",\n    \"email\": \"it919247@gmail.com\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSWJyYWhpbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkN1c3RvbWVyIiwianRpIjoiMjJkNTA1MjItMDYzMi00NjVjLThmNTktOTZjMzNlZDkwZDEwIiwiZXhwIjoxNzUzMzgyNjMxLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.z7v3lTtNunAJ958Bl8DDLcsQPraWA3NZHkBR7-yJKZo\"\n}"
 						}
 					]
 				},
@@ -362,14 +202,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:{{SufraPort}}/api/auth/refresh",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/auth/refresh",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "{{SufraPort}}",
 							"path": [
-								"api",
 								"auth",
 								"refresh"
 							]
@@ -391,14 +228,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -443,14 +277,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -495,14 +326,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -547,14 +375,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -599,14 +424,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -644,14 +466,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:{{SufraPort}}/api/auth/logout",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/auth/logout",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "{{SufraPort}}",
 							"path": [
-								"api",
 								"auth",
 								"logout"
 							]
@@ -673,14 +492,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -725,14 +541,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -777,14 +590,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -829,14 +639,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -881,14 +688,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/login",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/login",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"Restaurant",
 										"login"
 									]
@@ -930,29 +734,42 @@
 			"name": "RestaurantManagement",
 			"item": [
 				{
-					"name": "MenuManagement",
+					"name": "Auth",
 					"item": [
 						{
-							"name": "MenuItems",
-							"item": [
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Youssef\",\r\n      \"email\": \"skyview@gmail.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/piatto.jpg\",\r\n      \"name\": \"Piatto\",\r\n      \"phone\": \"+20 1032547896\",\r\n      \"cuisineId\": 3,\r\n      \"description\": \"Authentic Italian pasta and pizza.\",\r\n      \"latitude\": 30.0573,\r\n      \"longitude\": 31.2248,\r\n      \"address\": \"Mohandessin, Cairo\",\r\n      \"districtId\": 3\r\n    }\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DevBaseURL}}/Restaurant/register",
+									"host": [
+										"{{DevBaseURL}}"
+									],
+									"path": [
+										"Restaurant",
+										"register"
+									]
+								}
+							},
+							"response": [
 								{
-									"name": "Menu-Item",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{RestaurantManagerToken}}",
-													"type": "string"
-												}
-											]
-										},
+									"name": "esplanade",
+									"originalRequest": {
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"BEEF TENDERLOIN\",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 480,\r\n    \"Availability\": true\r\n}",
+											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"Esplanade\",\r\n    \"lname\": \"Cafe\",\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/a2/20/fc/esplanade-cafe-restaurant.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Esplanade Cafe Restaurant\",\r\n    \"phone\": \"+20 2 24800009\",\r\n    \"cuisineId\": 1,\r\n    \"description\": \"From tasty snacks to a la carte meals to full buffet dinners with live cooking by top chefs, the Esplanade offers 24 hours variety without compromising on quality.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"Omar Ibn El-Khattab St. InterContinental Cairo Citystars, Cairo 11511 Egypt\",\r\n    \"districtId\": 56\r\n  }\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -960,90 +777,48 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/menuitem",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/register",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
-												"menuitem"
+												"Restaurant",
+												"register"
 											]
 										}
 									},
-									"response": [
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
 										{
-											"name": "Menu-Item",
-											"originalRequest": {
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "raw",
-													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "http://localhost:5164/api/menuitem",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "5164",
-													"path": [
-														"api",
-														"menuitem"
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json; charset=utf-8"
-												},
-												{
-													"key": "Date",
-													"value": "Sat, 10 May 2025 22:26:36 GMT"
-												},
-												{
-													"key": "Server",
-													"value": "Kestrel"
-												},
-												{
-													"key": "Transfer-Encoding",
-													"value": "chunked"
-												}
-											],
-											"cookie": [],
-											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 04:29:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
 										}
-									]
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 1,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 1,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"status\": false\n}"
 								},
 								{
-									"name": "Menu-Item",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{RestaurantManagerToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "PUT",
+									"name": "piccolo",
+									"originalRequest": {
+										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"fdsaf \",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 100,\r\n    \"Availability\": true\r\n}",
+											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"piccolo\",\r\n    \"lname\": \"mondo\",\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/d7/f3/c5/lovely-lunch-on-friday.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Piccolo Mondo\",\r\n    \"phone\": \"+20 2 27356730\",\r\n    \"cuisineId\": 3,\r\n    \"description\": \"Inspired by the “Piazza San Carlo”, one of Italy’s famous squares, Piccolo Mondo’s cozy Italian atmosphere is highlighted by gaslights, rustic, “graffiti” covered, stone archways and columns and a spectacular water level Nile view. It features as well a fine a la carte dining. The extensive menu features a variety of appetizers, soups, pasta, pizza, chicken, fish and meat dishes.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"Saray El Gezirah St, Cairo 4270162 Egypt\",\r\n    \"districtId\": 1\r\n  }\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1051,118 +826,371 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/menuitem/:menuItemId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/register",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
-												"menuitem",
-												":menuItemId"
-											],
-											"variable": [
-												{
-													"key": "menuItemId",
-													"value": "13"
-												}
+												"Restaurant",
+												"register"
 											]
 										}
 									},
-									"response": [
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
 										{
-											"name": "Menu-Item",
-											"originalRequest": {
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "raw",
-													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "http://localhost:5164/api/menuitem",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "5164",
-													"path": [
-														"api",
-														"menuitem"
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json; charset=utf-8"
-												},
-												{
-													"key": "Date",
-													"value": "Sat, 10 May 2025 22:26:36 GMT"
-												},
-												{
-													"key": "Server",
-													"value": "Kestrel"
-												},
-												{
-													"key": "Transfer-Encoding",
-													"value": "chunked"
-												}
-											],
-											"cookie": [],
-											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 04:33:18 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
 										}
-									]
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 2,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 2,\n    \"restaurantName\": \"Piccolo Mondo\",\n    \"status\": false\n}"
 								},
 								{
-									"name": "Menu-Item",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{RestaurantManagerToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "DELETE",
+									"name": "Sky View",
+									"originalRequest": {
+										"method": "POST",
 										"header": [],
-										"url": {
-											"raw": "http://localhost:5164/api/menuItem/:menuItemId",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5164",
-											"path": [
-												"api",
-												"menuItem",
-												":menuItemId"
-											],
-											"variable": [
-												{
-													"key": "menuItemId",
-													"value": "15"
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"SkyView\",\r\n    \"lname\": \"Restaurant\",\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/f2/4a/0a/open-air.jpg?w=1100&h=-1&s=1\",\r\n    \"name\": \"Sky View Restaurant\",\r\n    \"phone\": \"+20 3 4861465\",\r\n    \"cuisineId\": 1,\r\n    \"description\": \"Sky View is a Fine Dining rooftop restaurant located in Le Metropole Hotel, specializing in French cuisine with the finest selection of wine overlooking the charming view of the Mediterranean seas.a la carte menu for lunch and dinner with daily live music.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"52 Saad Zaghloul Street Raml Station, Alexandria 00203 Egypt\",\r\n    \"districtId\": 6\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
 												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
 											]
 										}
 									},
-									"response": []
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 04:34:38 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 3,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 3,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "Red Bird",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"red\",\r\n    \"lname\": \"bird\",\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://eatapp.co/cairo-restaurants/images/red-bird-cairo-38-abd-el-moneim-hafez-almazah-restaurant-1.jpg?height=500&width=850\",\r\n    \"name\": \"Red Bird\",\r\n    \"phone\": \"+20 1093321160\",\r\n    \"cuisineId\": 31,\r\n    \"description\": \"Redbird serves delicious international cuisine and is the perfect escape from a busy city life. Redbird appeared for the ones who eagerly search for a relief, recalling precious memories & creating new ones while enjoying a tasteful fast meal.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"4 Galal Al Din Al Desouky, Almazah, Heliopolis, Cairo Governorate 4461143\",\r\n    \"districtId\": 56\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 20:09:52 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 5,\n    \"managerFname\": \"red\",\n    \"restaurantID\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "kamala",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"kamala\",\r\n    \"lname\": \"asian\",\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/b7/96/36/kamala-asian-restaurant.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Kamala Asian Restaurant\",\r\n    \"phone\": \"+20 225808000\",\r\n    \"cuisineId\": 5,\r\n    \"description\": \"Experience a culinary journey through South-East Asia at Kamala restaurant at Sofitel Cairo Downtown Nile Hotel. The stylish décor and sophisticated mood lighting make this beautiful Cairo restaurant the perfect tranquil escape from city life.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"1191 Nile Corniche Inside Sofitel Cairo Downtown Nile\",\r\n    \"districtId\": 1\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 May 2025 19:17:35 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 9,\n    \"managerFname\": \"kamala\",\n    \"restaurantID\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "\"Al-Sahaby Lane",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Omar\",\r\n      \"lname\": \"Mahmoud\",\r\n      \"email\": \"omar.mahmoud@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://media-cdn.tripadvisor.com/media/photo-o/1b/5f/af/d9/al-sahaby-lane-restaurant.jpg\",\r\n      \"name\": \"Al-Sahaby Lane Restaurant\",\r\n      \"phone\": \"+20 1002233445\",\r\n      \"cuisineId\": 2,\r\n      \"description\": \"Enjoy traditional Egyptian cuisine in the heart of Luxor with Nile views and authentic ambiance.\",\r\n      \"latitude\": 25.6872,\r\n      \"longitude\": 32.6396,\r\n      \"address\": \"Al Sahaby St, Luxor, Egypt\",\r\n      \"districtId\": 46\r\n    }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 28 May 2025 12:32:04 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 16,\n    \"managerFname\": \"Omar\",\n    \"restaurantID\": 21,\n    \"restaurantName\": \"Al-Sahaby Lane Restaurant\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "Maison Thomas",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Omar\",\r\n      \"lname\": \"Ahmed\",\r\n      \"email\": \"omar@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://example.com/images/Maison_Thomas.jpg\",\r\n      \"name\": \"Maison Thomas\",\r\n      \"phone\": \"+20 1111067687\",\r\n      \"cuisineId\": 15,\r\n      \"description\": \"Maison Thomas serves authentic Vietnamese cuisine in the heart of Giza City.\",\r\n      \"latitude\": 28.070599,\r\n      \"longitude\": 28.768269,\r\n      \"address\": \"324 Giza City Street\",\r\n      \"districtId\": 13\r\n    }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 28 May 2025 12:37:02 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 18,\n    \"managerFname\": \"Omar\",\n    \"restaurantID\": 23,\n    \"restaurantName\": \"Maison Thomas\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "Zooba",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Layla\",\r\n      \"lname\": \"Hassan\",\r\n      \"email\": \"layla.hassan@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://example.com/images/Zooba.jpg\",\r\n      \"name\": \"Zooba\",\r\n      \"phone\": \"+20 1197114278\",\r\n      \"cuisineId\": 30,\r\n      \"description\": \"Zooba serves authentic Australian cuisine in the heart of Smouha.\",\r\n      \"latitude\": 27.5181,\r\n      \"longitude\": 34.299182,\r\n      \"address\": \"586 Smouha Street\",\r\n      \"districtId\": 7\r\n    }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 28 May 2025 12:38:40 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 19,\n    \"managerFname\": \"Layla\",\n    \"restaurantID\": 24,\n    \"restaurantName\": \"Zooba\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "Register",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Naguib\",\r\n      \"email\": \"dalia.naguib@saffronlounge.com\",\r\n      \"password\": \"Saffron#Asian\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/saffron_lounge.jpg\",\r\n      \"name\": \"Saffron Lounge\",\r\n      \"phone\": \"+20 1112223334\",\r\n      \"cuisineId\": 22,\r\n      \"description\": \"Pan‑Asian fine dining: Thai, Indian & Chinese fusion.\",\r\n      \"latitude\": 30.0736,\r\n      \"longitude\": 31.3004,\r\n      \"address\": \"189 Nasr City\",\r\n      \"districtId\": 1\r\n    }\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/Restaurant/register",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"Restaurant",
+												"register"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
 								}
 							]
-						},
+						}
+					]
+				},
+				{
+					"name": "MenuManagement",
+					"item": [
 						{
 							"name": "MenuSections",
 							"item": [
@@ -1191,14 +1219,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/menusection",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "{{SufraPort}}",
 											"path": [
-												"api",
 												"menusection"
 											]
 										}
@@ -1219,14 +1244,11 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:{{SufraPort}}/api/menusection",
-													"protocol": "http",
+													"raw": "{{DevBaseURL}}/menusection",
 													"host": [
-														"localhost"
+														"{{DevBaseURL}}"
 													],
-													"port": "{{SufraPort}}",
 													"path": [
-														"api",
 														"menusection"
 													]
 												}
@@ -1282,14 +1304,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/menusection/:menuSectionId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "{{SufraPort}}",
 											"path": [
-												"api",
 												"menusection",
 												":menuSectionId"
 											],
@@ -1317,14 +1336,11 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:{{SufraPort}}/api/menusection",
-													"protocol": "http",
+													"raw": "{{DevBaseURL}}/menusection",
 													"host": [
-														"localhost"
+														"{{DevBaseURL}}"
 													],
-													"port": "{{SufraPort}}",
 													"path": [
-														"api",
 														"menusection"
 													]
 												}
@@ -1371,14 +1387,11 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/menusection/:menuSectionId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/menusection/:menuSectionId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "{{SufraPort}}",
 											"path": [
-												"api",
 												"menusection",
 												":menuSectionId"
 											],
@@ -1406,14 +1419,11 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:{{SufraPort}}/api/menusection",
-													"protocol": "http",
+													"raw": "{{DevBaseURL}}/menusection",
 													"host": [
-														"localhost"
+														"{{DevBaseURL}}"
 													],
-													"port": "{{SufraPort}}",
 													"path": [
-														"api",
 														"menusection"
 													]
 												}
@@ -1447,505 +1457,218 @@
 							]
 						},
 						{
-							"name": "New Request",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
+							"name": "MenuItems",
+							"item": [
+								{
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"MenuSectionId\": 30,\r\n    \"Name\": \"Test\",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 480,\r\n    \"Availability\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/menuitem",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"menuitem"
+											]
+										}
+									},
+									"response": [
 										{
-											"key": "csvFile",
-											"type": "file",
-											"src": []
+											"name": "Menu-Item",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DevBaseURL}}/menuitem",
+													"host": [
+														"{{DevBaseURL}}"
+													],
+													"path": [
+														"menuitem"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:26:36 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
 										}
 									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Auth",
-					"item": [
-						{
-							"name": "Register",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "  {\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Youssef\",\r\n      \"email\": \"dalia.youssef@piatto.com\",\r\n      \"password\": \"P1@tt0P@sta\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/piatto.jpg\",\r\n      \"name\": \"Piatto\",\r\n      \"phone\": \"+20 1032547896\",\r\n      \"cuisineId\": 3,\r\n      \"description\": \"Authentic Italian pasta and pizza.\",\r\n      \"latitude\": 30.0573,\r\n      \"longitude\": 31.2248,\r\n      \"address\": \"Mohandessin, Cairo\",\r\n      \"districtId\": 3\r\n    }\r\n  }",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
 								},
-								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{SufraPort}}",
-									"path": [
-										"api",
-										"Restaurant",
-										"register"
+								{
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"MenuSectionId\": 12,\r\n    \"Name\": \"fdsaf \",\r\n    \"MenuItemImg\": \"https://everylittlecrumb.com/wp-content/uploads/kafta_soup-1-1.jpg\",\r\n    \"description\": \"A buttery croissant layers filled with Chocolate, the perfect fusion of cultures in every bite!\",\r\n    \"Price\": 100,\r\n    \"Availability\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/menuitem/:menuItemId",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"menuitem",
+												":menuItemId"
+											],
+											"variable": [
+												{
+													"key": "menuItemId",
+													"value": "13"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Menu-Item",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"MenuSectionId\": 9,\r\n    \"Name\": \"Prawn Tempura\",\r\n    \"MenuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\r\n    \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\r\n    \"Price\": 550,\r\n    \"avalibatliy\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DevBaseURL}}/menuitem",
+													"host": [
+														"{{DevBaseURL}}"
+													],
+													"path": [
+														"menuitem"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 10 May 2025 22:26:36 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Kestrel"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": \"success\",\n    \"message\": \"Menu Item Created\",\n    \"menuItemDTO\": {\n        \"restaurantId\": 10,\n        \"menuSectionId\": 9,\n        \"name\": \"Prawn Tempura\",\n        \"menuItemImg\": \"https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-04.jpg\",\n        \"description\": \"Battered prawns served with soy and ginger sauce and sweet chili aioli\",\n        \"price\": 550,\n        \"availability\": false\n    }\n}"
+										}
 									]
-								}
-							},
-							"response": [
-								{
-									"name": "esplanade",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"Esplanade\",\r\n    \"lname\": \"Cafe\",\r\n    \"email\": \"esplanade@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/a2/20/fc/esplanade-cafe-restaurant.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Esplanade Cafe Restaurant\",\r\n    \"phone\": \"+20 2 24800009\",\r\n    \"cuisineId\": 1,\r\n    \"description\": \"From tasty snacks to a la carte meals to full buffet dinners with live cooking by top chefs, the Esplanade offers 24 hours variety without compromising on quality.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"Omar Ibn El-Khattab St. InterContinental Cairo Citystars, Cairo 11511 Egypt\",\r\n    \"districtId\": 56\r\n  }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 04:29:57 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 1,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 1,\n    \"restaurantName\": \"Esplanade Cafe Restaurant\",\n    \"status\": false\n}"
 								},
 								{
-									"name": "piccolo",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"piccolo\",\r\n    \"lname\": \"mondo\",\r\n    \"email\": \"piccolo@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/d7/f3/c5/lovely-lunch-on-friday.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Piccolo Mondo\",\r\n    \"phone\": \"+20 2 27356730\",\r\n    \"cuisineId\": 3,\r\n    \"description\": \"Inspired by the “Piazza San Carlo”, one of Italy’s famous squares, Piccolo Mondo’s cozy Italian atmosphere is highlighted by gaslights, rustic, “graffiti” covered, stone archways and columns and a spectacular water level Nile view. It features as well a fine a la carte dining. The extensive menu features a variety of appetizers, soups, pasta, pizza, chicken, fish and meat dishes.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"Saray El Gezirah St, Cairo 4270162 Egypt\",\r\n    \"districtId\": 1\r\n  }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
+									"name": "Menu-Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{RestaurantManagerToken}}",
+													"type": "string"
 												}
-											}
+											]
 										},
+										"method": "DELETE",
+										"header": [],
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/menuItem/:menuItemId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "{{SufraPort}}",
 											"path": [
-												"api",
-												"Restaurant",
-												"register"
+												"menuItem",
+												":menuItemId"
+											],
+											"variable": [
+												{
+													"key": "menuItemId",
+													"value": "15"
+												}
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 04:33:18 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 2,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 2,\n    \"restaurantName\": \"Piccolo Mondo\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "Sky View",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"SkyView\",\r\n    \"lname\": \"Restaurant\",\r\n    \"email\": \"skyview@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/f2/4a/0a/open-air.jpg?w=1100&h=-1&s=1\",\r\n    \"name\": \"Sky View Restaurant\",\r\n    \"phone\": \"+20 3 4861465\",\r\n    \"cuisineId\": 1,\r\n    \"description\": \"Sky View is a Fine Dining rooftop restaurant located in Le Metropole Hotel, specializing in French cuisine with the finest selection of wine overlooking the charming view of the Mediterranean seas.a la carte menu for lunch and dinner with daily live music.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"52 Saad Zaghloul Street Raml Station, Alexandria 00203 Egypt\",\r\n    \"districtId\": 6\r\n  }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 04:34:38 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 3,\n    \"managerFname\": \"store\",\n    \"restaurantID\": 3,\n    \"restaurantName\": \"Sky View Restaurant\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "Red Bird",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"red\",\r\n    \"lname\": \"bird\",\r\n    \"email\": \"redbird@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://eatapp.co/cairo-restaurants/images/red-bird-cairo-38-abd-el-moneim-hafez-almazah-restaurant-1.jpg?height=500&width=850\",\r\n    \"name\": \"Red Bird\",\r\n    \"phone\": \"+20 1093321160\",\r\n    \"cuisineId\": 31,\r\n    \"description\": \"Redbird serves delicious international cuisine and is the perfect escape from a busy city life. Redbird appeared for the ones who eagerly search for a relief, recalling precious memories & creating new ones while enjoying a tasteful fast meal.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"4 Galal Al Din Al Desouky, Almazah, Heliopolis, Cairo Governorate 4461143\",\r\n    \"districtId\": 56\r\n  }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 11 May 2025 20:09:52 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 5,\n    \"managerFname\": \"red\",\n    \"restaurantID\": 5,\n    \"restaurantName\": \"Red Bird\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "kamala",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"restaurantManager\": {\r\n    \"fname\": \"kamala\",\r\n    \"lname\": \"asian\",\r\n    \"email\": \"kamala@gmail.com\",\r\n    \"password\": \"123\"\r\n  },\r\n  \"restaurant\": {\r\n    \"imgUrl\":\"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/b7/96/36/kamala-asian-restaurant.jpg?w=1000&h=-1&s=1\",\r\n    \"name\": \"Kamala Asian Restaurant\",\r\n    \"phone\": \"+20 225808000\",\r\n    \"cuisineId\": 5,\r\n    \"description\": \"Experience a culinary journey through South-East Asia at Kamala restaurant at Sofitel Cairo Downtown Nile Hotel. The stylish décor and sophisticated mood lighting make this beautiful Cairo restaurant the perfect tranquil escape from city life.\",\r\n    \"latitude\": 30.0444,\r\n    \"longitude\": 31.2357,\r\n    \"address\": \"1191 Nile Corniche Inside Sofitel Cairo Downtown Nile\",\r\n    \"districtId\": 1\r\n  }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 13 May 2025 19:17:35 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 9,\n    \"managerFname\": \"kamala\",\n    \"restaurantID\": 9,\n    \"restaurantName\": \"Kamala Asian Restaurant\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "\"Al-Sahaby Lane",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Omar\",\r\n      \"lname\": \"Mahmoud\",\r\n      \"email\": \"omar.mahmoud@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://media-cdn.tripadvisor.com/media/photo-o/1b/5f/af/d9/al-sahaby-lane-restaurant.jpg\",\r\n      \"name\": \"Al-Sahaby Lane Restaurant\",\r\n      \"phone\": \"+20 1002233445\",\r\n      \"cuisineId\": 2,\r\n      \"description\": \"Enjoy traditional Egyptian cuisine in the heart of Luxor with Nile views and authentic ambiance.\",\r\n      \"latitude\": 25.6872,\r\n      \"longitude\": 32.6396,\r\n      \"address\": \"Al Sahaby St, Luxor, Egypt\",\r\n      \"districtId\": 46\r\n    }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Wed, 28 May 2025 12:32:04 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 16,\n    \"managerFname\": \"Omar\",\n    \"restaurantID\": 21,\n    \"restaurantName\": \"Al-Sahaby Lane Restaurant\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "Maison Thomas",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Omar\",\r\n      \"lname\": \"Ahmed\",\r\n      \"email\": \"omar@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://example.com/images/Maison_Thomas.jpg\",\r\n      \"name\": \"Maison Thomas\",\r\n      \"phone\": \"+20 1111067687\",\r\n      \"cuisineId\": 15,\r\n      \"description\": \"Maison Thomas serves authentic Vietnamese cuisine in the heart of Giza City.\",\r\n      \"latitude\": 28.070599,\r\n      \"longitude\": 28.768269,\r\n      \"address\": \"324 Giza City Street\",\r\n      \"districtId\": 13\r\n    }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Wed, 28 May 2025 12:37:02 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 18,\n    \"managerFname\": \"Omar\",\n    \"restaurantID\": 23,\n    \"restaurantName\": \"Maison Thomas\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "Zooba",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Layla\",\r\n      \"lname\": \"Hassan\",\r\n      \"email\": \"layla.hassan@example.com\",\r\n      \"password\": \"123\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://example.com/images/Zooba.jpg\",\r\n      \"name\": \"Zooba\",\r\n      \"phone\": \"+20 1197114278\",\r\n      \"cuisineId\": 30,\r\n      \"description\": \"Zooba serves authentic Australian cuisine in the heart of Smouha.\",\r\n      \"latitude\": 27.5181,\r\n      \"longitude\": 34.299182,\r\n      \"address\": \"586 Smouha Street\",\r\n      \"districtId\": 7\r\n    }\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Date",
-											"value": "Wed, 28 May 2025 12:38:40 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Manager Registered , Restaurant Created , pending approval\",\n    \"managerID\": 19,\n    \"managerFname\": \"Layla\",\n    \"restaurantID\": 24,\n    \"restaurantName\": \"Zooba\",\n    \"status\": false\n}"
-								},
-								{
-									"name": "Register",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"restaurantManager\": {\r\n      \"fname\": \"Dalia\",\r\n      \"lname\": \"Naguib\",\r\n      \"email\": \"dalia.naguib@saffronlounge.com\",\r\n      \"password\": \"Saffron#Asian\"\r\n    },\r\n    \"restaurant\": {\r\n      \"imgUrl\": \"https://i.imgur.com/saffron_lounge.jpg\",\r\n      \"name\": \"Saffron Lounge\",\r\n      \"phone\": \"+20 1112223334\",\r\n      \"cuisineId\": 22,\r\n      \"description\": \"Pan‑Asian fine dining: Thai, Indian & Chinese fusion.\",\r\n      \"latitude\": 30.0736,\r\n      \"longitude\": 31.3004,\r\n      \"address\": \"189 Nasr City\",\r\n      \"districtId\": 1\r\n    }\r\n  }",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/Restaurant/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "{{SufraPort}}",
-											"path": [
-												"api",
-												"Restaurant",
-												"register"
-											]
-										}
-									},
-									"_postman_previewlanguage": null,
-									"header": null,
-									"cookie": [],
-									"body": null
+									"response": []
 								}
 							]
 						}
@@ -1970,14 +1693,11 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:{{SufraPort}}/api/restaurant/approve/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/approve/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "{{SufraPort}}",
 									"path": [
-										"api",
 										"restaurant",
 										"approve",
 										":restaurantId"
@@ -1997,14 +1717,11 @@
 										"method": "PATCH",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:{{SufraPort}}/api/restaurant/approve/:restaurantId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/approve/:restaurantId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "{{SufraPort}}",
 											"path": [
-												"api",
 												"restaurant",
 												"approve",
 												":restaurantId"
@@ -2059,14 +1776,11 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/block/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/block/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"block",
 										":restaurantId"
@@ -2092,14 +1806,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/search/?query=&PageSize=12&DistrictId=1",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/search/?query=&PageSize=12&DistrictId=1",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"search",
 										""
@@ -2143,14 +1854,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/search/?q=beach rest",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/search/?q=beach rest",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"search",
 												""
 											],
@@ -2195,21 +1903,18 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Restaurant",
 										":restaurantId"
 									],
 									"variable": [
 										{
 											"key": "restaurantId",
-											"value": "7"
+											"value": "9"
 										}
 									]
 								}
@@ -2221,14 +1926,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"Restaurant",
 												":restaurantId"
 											],
@@ -2282,14 +1984,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Restaurant",
 										":restaurantId"
 									],
@@ -2308,14 +2007,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"Restaurant",
 												":restaurantId"
 											],
@@ -2370,7 +2066,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"imgUrl\": \"https://example.com/images/restaurant1.jpg\",\r\n    \"name\": \"Kamala Grill House\",\r\n    \"phone\": \"+20225808000\",\r\n    //\"cuisineId\": 5,\r\n  //\"description\": \"A cozy place serving authentic Middle Eastern dishes.\",\r\n  //\"latitude\": 30.0444,\r\n  //\"longitude\": 31.2357,\r\n  //\"address\": \"123 Nile Street, Cairo\",\r\n  //\"districtId\": 5\r\n    \"IsApproved\": true\r\n}\r\n",
+									"raw": "{\r\n    \"imgUrl\": \"https://example.com/images/restaurant1.jpg\",\r\n    \"name\": \"Kamala Grill House\",\r\n    \"phone\": \"+20225808000\",\r\n   //\"cuisineId\": 5,\r\n //\"description\": \"A cozy place serving authentic Middle Eastern dishes.\",\r\n //\"latitude\": 30.0444,\r\n //\"longitude\": 31.2357,\r\n //\"address\": \"123 Nile Street, Cairo\",\r\n //\"districtId\": 5\r\n    \"IsApproved\": true\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2378,14 +2074,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Restaurant",
 										":restaurantId"
 									],
@@ -2404,14 +2097,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"Restaurant",
 												":restaurantId"
 											],
@@ -2465,14 +2155,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/Restaurant?isapproved=true&query=bird&page=1&pagesize=-20&CuisineId=31&DistrictId=56",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant?isapproved=true&query=bird&page=1&pagesize=-20&CuisineId=31&DistrictId=56",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Restaurant"
 									],
 									"query": [
@@ -2510,14 +2197,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/Restaurant/:restaurantId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/Restaurant/:restaurantId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"Restaurant",
 												":restaurantId"
 											],
@@ -2561,14 +2245,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/Restaurant/sufra-picks",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Restaurant/sufra-picks",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Restaurant",
 										"sufra-picks"
 									]
@@ -2606,14 +2287,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/tables",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/tables",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"tables"
 									]
@@ -2635,14 +2313,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/tables",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/tables",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"tables"
 											]
@@ -2690,14 +2365,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/tables",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/tables",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"tables"
 									]
@@ -2710,14 +2382,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/tables",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/tables",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"tables"
 											]
@@ -2765,14 +2434,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/tables/:tableId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/tables/:tableId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"tables",
 										":tableId"
@@ -2792,14 +2458,11 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/tables/:tableId",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/tables/:tableId",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"tables",
 												":tableId"
@@ -2856,28 +2519,23 @@
 										}
 									]
 								},
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"DayOfWeek\": \"Tuesday\",                //from 0 to 6 or (Sunday , Monday , Tuesday , WednesDay , Thursday , Friday , Saturday)\r\n    \"OpenTime\": \"08:00:00\",\r\n    \"CloseTime\": \"23:00:00\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/open-hours",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/:id/opening-hours",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
-										"open-hours"
+										":id",
+										"opening-hours"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9"
+										}
 									]
 								}
 							},
@@ -2897,14 +2555,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -2949,14 +2604,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3001,14 +2653,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3053,14 +2702,245 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
+												"restaurant",
+												"open-hours"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 17:14:06 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"added working hours zai el fol\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Opening Hours",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{RestaurantManagerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"DayOfWeek\": \"Tuesday\",               //from 0 to 6 or (Sunday , Monday , Tuesday , WednesDay , Thursday , Friday , Saturday)\r\n    \"OpenTime\": \"08:00:00\",\r\n    \"CloseTime\": \"23:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DevBaseURL}}/restaurant/opening-hours",
+									"host": [
+										"{{DevBaseURL}}"
+									],
+									"path": [
+										"restaurant",
+										"opening-hours"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "sun",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"DayOfWeek\": 0,\r\n    \"OpenTime\": \"01:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"restaurant",
+												"open-hours"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 17:13:49 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"added working hours zai el fol\"\n}"
+								},
+								{
+									"name": "mon",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"DayOfWeek\": 1,\r\n    \"OpenTime\": \"01:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"restaurant",
+												"open-hours"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 17:13:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"added working hours zai el fol\"\n}"
+								},
+								{
+									"name": "tue",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"DayOfWeek\": 2,\r\n    \"OpenTime\": \"01:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
+												"restaurant",
+												"open-hours"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 11 May 2025 17:14:22 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"added working hours zai el fol\"\n}"
+								},
+								{
+									"name": "wed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"DayOfWeek\": 3,\r\n    \"OpenTime\": \"01:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
+											"host": [
+												"{{DevBaseURL}}"
+											],
+											"path": [
 												"restaurant",
 												"open-hours"
 											]
@@ -3117,16 +2997,13 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/open-hours/:dayOfWeek",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/opening-hours/:dayOfWeek",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
-										"open-hours",
+										"opening-hours",
 										":dayOfWeek"
 									],
 									"variable": [
@@ -3153,14 +3030,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3205,14 +3079,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3257,14 +3128,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3309,14 +3177,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3365,7 +3230,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"DayOfWeek\": 5,   //from 0 to 6 or (Sunday , Monday , Tuesday , WednesDay , Thursday , Friday , Saturday)\r\n    \"OpenTime\": \"08:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
+									"raw": "{\r\n    \"DayOfWeek\": 5,  //from 0 to 6 or (Sunday , Monday , Tuesday , WednesDay , Thursday , Friday , Saturday)\r\n    \"OpenTime\": \"08:00:00\",\r\n    \"CloseTime\": \"18:00:00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3373,16 +3238,13 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/open-hours",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/opening-hours",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
-										"open-hours"
+										"opening-hours"
 									]
 								}
 							},
@@ -3402,14 +3264,11 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:5164/api/restaurant/open-hours",
-											"protocol": "http",
+											"raw": "{{DevBaseURL}}/restaurant/open-hours",
 											"host": [
-												"localhost"
+												"{{DevBaseURL}}"
 											],
-											"port": "5164",
 											"path": [
-												"api",
 												"restaurant",
 												"open-hours"
 											]
@@ -3471,14 +3330,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/restaurant/review/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/restaurant/review/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"restaurant",
 										"review",
 										":restaurantId"
@@ -3515,14 +3371,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5164/api/customer/register",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/customer/register",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"customer",
 								"register"
 							]
@@ -3544,14 +3397,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3596,14 +3446,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3648,14 +3495,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3700,14 +3544,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3752,14 +3593,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3804,14 +3642,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/customer/register",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/customer/register",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3856,14 +3691,13 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5272/api/customer/register",
+									"raw": "http://localhost:5272/customer/register",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "5272",
 									"path": [
-										"api",
 										"customer",
 										"register"
 									]
@@ -3925,14 +3759,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5164/api/Reservation/:restaurantId",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/Reservation/:restaurantId",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"Reservation",
 								":restaurantId"
 							],
@@ -3960,14 +3791,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/Reservation/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Reservation/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Reservation",
 										":restaurantId"
 									],
@@ -4021,14 +3849,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/Reservation/?page=1&pagesize=10",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/Reservation/?page=1&pagesize=10",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"Reservation",
 								""
 							],
@@ -4065,14 +3890,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/Reservation/:restaurantId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/Reservation/:restaurantId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"Reservation",
 										":restaurantId"
 									],
@@ -4126,14 +3948,11 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/Reservation/approve/:reservationId",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/Reservation/approve/:reservationId",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"Reservation",
 								"approve",
 								":reservationId"
@@ -4164,14 +3983,11 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/Reservation/reject/:reservationId",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/Reservation/reject/:reservationId",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"Reservation",
 								"reject",
 								":reservationId"
@@ -4202,14 +4018,11 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/Reservation/cancel/:reservationId",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/Reservation/cancel/:reservationId",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"Reservation",
 								"cancel",
 								":reservationId"
@@ -4218,6 +4031,41 @@
 								{
 									"key": "reservationId",
 									"value": "38"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recommended Time Slots",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DevBaseURL}}/Reservation/recommended-time-slots/:restaurantId/:date/:partysize",
+							"host": [
+								"{{DevBaseURL}}"
+							],
+							"path": [
+								"Reservation",
+								"recommended-time-slots",
+								":restaurantId",
+								":date",
+								":partysize"
+							],
+							"variable": [
+								{
+									"key": "restaurantId",
+									"value": "6"
+								},
+								{
+									"key": "date",
+									"value": "2025-05-26 08:00:00"
+								},
+								{
+									"key": "partysize",
+									"value": "8"
 								}
 							]
 						}
@@ -4254,14 +4102,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5164/api/cart",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cart",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cart"
 							]
 						}
@@ -4284,14 +4129,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cart",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cart",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cart"
 							]
 						}
@@ -4314,14 +4156,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cart/remove/:cartItemId",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cart/remove/:cartItemId",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cart",
 								"remove",
 								":cartItemId"
@@ -4352,14 +4191,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cart",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cart",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cart"
 							]
 						}
@@ -4390,14 +4226,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/order/:orderId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order/:orderId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order",
 										":orderId"
 									],
@@ -4427,14 +4260,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/order/customer-orders?page=1&pagesize=20",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order/customer-orders?page=1&pagesize=20",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order",
 										"customer-orders"
 									],
@@ -4473,14 +4303,11 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/order",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order"
 									]
 								}
@@ -4503,14 +4330,11 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/order/:orderId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order/:orderId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order",
 										":orderId"
 									],
@@ -4601,14 +4425,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5164/api/order/restaurant-orders?pageSize=10&page=1&status=pending",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order/restaurant-orders?pageSize=10&page=1&status=pending",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order",
 										"restaurant-orders"
 									],
@@ -4655,14 +4476,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5164/api/order/change-status/:orderId",
-									"protocol": "http",
+									"raw": "{{DevBaseURL}}/order/change-status/:orderId",
 									"host": [
-										"localhost"
+										"{{DevBaseURL}}"
 									],
-									"port": "5164",
 									"path": [
-										"api",
 										"order",
 										"change-status",
 										":orderId"
@@ -4695,14 +4513,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/order?page=1&pagesize=10&status=pending",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/order?page=1&pagesize=10&status=pending",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"order"
 							],
 							"query": [
@@ -4738,14 +4553,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cuisine/with-images",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cuisine/with-images",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cuisine",
 								"with-images"
 							]
@@ -4762,46 +4574,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/cuisine/",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/cuisine/",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"cuisine",
 								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyIiwiTmFtZSI6IklicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiZmUwYjg5OTYtNmI0NC00MjRiLWE5MjQtM2QyMzRlYmI5MzQ2IiwiZXhwIjoxNzQ1NTkwNjUzLCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.9m0F-1yeunqvXamklqLFKvzkvsbt3EH_paoNx4ul_1c",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5272/api/cuisine",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5272",
-							"path": [
-								"api",
-								"cuisine"
 							]
 						}
 					},
@@ -4819,14 +4598,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5164/api/district",
-							"protocol": "http",
+							"raw": "{{DevBaseURL}}/district",
 							"host": [
-								"localhost"
+								"{{DevBaseURL}}"
 							],
-							"port": "5164",
 							"path": [
-								"api",
 								"district"
 							]
 						}
@@ -4860,13 +4636,18 @@
 	],
 	"variable": [
 		{
-			"key": "AdminToken",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6IklicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiY2E3ZWM3YWQtNzk1OC00ZDIxLWIxMTYtMmI2ZDVhZjMyZThlIiwiZXhwIjoxNzQ2NTQzNzI1LCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.SIaCz-bLE_Cyep4zYJa5Vj43w89rJ12OlRvJeICuDTc",
+			"key": "ProductionBaseURL",
+			"value": "https://sufraapi-production.up.railway.app ",
 			"type": "default"
 		},
 		{
-			"key": "SufraPort",
-			"value": "5164",
+			"key": "DevBaseURL",
+			"value": "http://localhost:5164 ",
+			"type": "default"
+		},
+		{
+			"key": "AdminToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTmFtZSI6IklicmFoaW0iLCJFbWFpbCI6Iml0OTE5MjQ3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwianRpIjoiY2E3ZWM3YWQtNzk1OC00ZDIxLWIxMTYtMmI2ZDVhZjMyZThlIiwiZXhwIjoxNzQ2NTQzNzI1LCJpc3MiOiJTdWZyYS1CYWNrRW5kIiwiYXVkIjoiKiJ9.SIaCz-bLE_Cyep4zYJa5Vj43w89rJ12OlRvJeICuDTc",
 			"type": "default"
 		},
 		{
