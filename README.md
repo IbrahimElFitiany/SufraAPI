@@ -4,6 +4,14 @@
 Sufrá is a comprehensive restaurant reservation and food ordering system designed with scalability and domain-driven principles in mind. The platform serves three distinct user roles with robust features, implemented using modern architectural patterns and performance-optimized database operations.
 
 ---
+## 🚀 Live Demo (WIP)
+- 🌐 **Live Site**: [https://sufraa.vercel.app](https://sufraa.vercel.app)  
+> ⚠️ The project is under active development. You may encounter unfinished features or test data. Continuous deployments are used to keep the demo updated.
+
+**Deployment Stack**:
+- Frontend: **Vercel**
+- Backend: **Dockerized on Railway**
+- Database: **Supabase** (PostgreSQL)
 
 ## 🌟 Key Highlights
 
@@ -110,12 +118,6 @@ docker run --name sufra-postgres \
   -p 5432:5432 \
   -d postgres:latest
 ```
-
-### 🚩 Important Security Notice
-
-- The appsettings.json included in this repository is intended for development only. If you modify it:
-    - Update your .gitignore to prevent committing sensitive data
-    - Never commit production credentials or secrets to version control
 
 ## Installation & Run
 
