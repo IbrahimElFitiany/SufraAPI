@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Sufra.Common.Enums;
+using Sufra.Common.Constants;
 using Sufra.DTOs.RestaurantDTOs;
 using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
 using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 using Sufra.Exceptions;
 using Sufra.Models.Restaurants;
 using Sufra.Services.IServices;
+using System.Security.Claims;
 
 namespace Sufra.Controllers
 {
@@ -49,7 +47,7 @@ namespace Sufra.Controllers
 
         //-------------------------------------------------------------
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpPatch("approve/{restaurantId}")]
         public async Task<IActionResult> ApproveRestaurant([FromRoute] int restaurantId)
         {
@@ -74,7 +72,7 @@ namespace Sufra.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpPatch("block/{restaurantId}")]
         public async Task<IActionResult> BlockRestaurant([FromRoute] int restaurantId)
         {
@@ -100,7 +98,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<IActionResult> QueryRestaurants([FromQuery] RestaurantQueryDTO restaurantQueryDTO)
         {
@@ -132,7 +130,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{restaurantId}")]
         public async Task<IActionResult> DeleteRestaurant([FromRoute] int restaurantId)
         {
@@ -152,7 +150,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpPatch("{restaurantId}")] 
         public async Task<IActionResult> UpdateRestaurant(int restaurantId, [FromBody] UpdateRestaurantReqDTO updateRestaurantReqDTO) //partial updates
         {
@@ -206,7 +204,7 @@ namespace Sufra.Controllers
 
         //----------------------Table-------------------------
 
-        [Authorize (Roles = "RestaurantManager")]
+        [Authorize (Roles = RoleNames.RestaurantManager)]
         [HttpPost("tables")]
         public async Task<IActionResult> AddTable(CreateTableReqDTO createTableReqDTO)
         {
@@ -233,7 +231,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpGet("tables")]
         public async Task<IActionResult> GetAllTablesByRestaurant() //will add pagination if performance or data size becomes an issue
         {
@@ -249,7 +247,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpDelete("tables/{tableId}")]
         public async Task<IActionResult> RemoveTable([FromRoute] int tableId)
         {
@@ -278,7 +276,7 @@ namespace Sufra.Controllers
 
         //----------------------OpeningHours-------------------------
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPost("opening-hours")]
         public async Task<IActionResult> AddOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
@@ -333,7 +331,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPut("opening-hours")]
         public async Task<IActionResult> UpdateOpeningHours(CreateRestaurantOpeningHoursReqDTO createRestaurantOpeningHoursReqDTO)
         {
@@ -362,7 +360,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpDelete("opening-hours/{dayOfWeek}")]
         public async Task<IActionResult> DeleteOpeningHours([FromRoute] DayOfWeek dayOfWeek)
         {
@@ -385,15 +383,15 @@ namespace Sufra.Controllers
 
         //-----------------RestaurantReviews-----------------------------
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpPost("review/{restaurantId}")]
-        public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantOpeningHoursReqDTO , [FromRoute] int restaurantId)
+        public async Task<IActionResult> AddReview([FromBody]CreateRestaurantReviewReqDTO createRestaurantReviewReqDTO , [FromRoute] int restaurantId)
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             try
             {
-                await _restaurantServices.AddReviewAsync(customerId, restaurantId, createRestaurantOpeningHoursReqDTO);
+                await _restaurantServices.AddReviewAsync(customerId, restaurantId, createRestaurantReviewReqDTO);
                 return Ok(new { message = "Review Added" });
             }
             catch (RestaurantNotFoundException ex)

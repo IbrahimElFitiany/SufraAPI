@@ -1,5 +1,4 @@
-﻿using Sufra.Common.Enums;
-using Sufra.Common.Types;
+﻿using Sufra.Common.Types;
 using Sufra.DTOs;
 
 namespace Sufra.Services.IServices

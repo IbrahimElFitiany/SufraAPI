@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
+using Sufra.Common.Constants;
 using Sufra.DTOs.OrderDTOS;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
+using System.Security.Claims;
 
 namespace Sufra.Controllers
 {
@@ -21,11 +23,11 @@ namespace Sufra.Controllers
 
         //-------------------------------------------------------------
 
-        [Authorize (Roles ="Customer")]
+        [Authorize (Roles = RoleNames.Customer)]
         [HttpPost]
         public async Task<IActionResult> AddOrder()
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
             try
             {
@@ -56,11 +58,11 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder([FromRoute] int orderId)
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             try
             {
                 OrderDetailedDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
@@ -84,7 +86,7 @@ namespace Sufra.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetQueriedOrders([FromQuery] OrderQueryDTO orderQueryDTO)
         {
@@ -101,11 +103,11 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpGet("customer-orders")]
         public async Task<IActionResult> GetCustomerOrders([FromQuery] OrderQueryDTO orderQueryDTO)
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
             try
             {
@@ -123,7 +125,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpGet("restaurant-orders")]
         public async Task<IActionResult> GetRestaurantOrder([FromQuery] OrderQueryDTO orderQuery)
         {
@@ -146,11 +148,11 @@ namespace Sufra.Controllers
 
 
 
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = RoleNames.Customer)]
         [HttpPatch ("{orderId}")]
         public async Task<IActionResult> CancelOrder([FromRoute] int orderId)
         {
-            int customerId = int.Parse(User.FindFirst("UserID")?.Value);
+            int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
             try
             {
@@ -180,7 +182,7 @@ namespace Sufra.Controllers
         }
 
 
-        [Authorize(Roles = "RestaurantManager")]
+        [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPatch("change-status/{orderId}")]
         public async Task<IActionResult> UpdateOrderStatus([FromRoute]int orderId,UpdateOrderReqDTO updateOrderReqDTO)
         {
@@ -223,8 +225,6 @@ namespace Sufra.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-
 
     }
 }

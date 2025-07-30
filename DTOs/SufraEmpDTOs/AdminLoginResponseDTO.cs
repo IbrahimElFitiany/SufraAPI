@@ -1,4 +1,5 @@
-﻿namespace Sufra.DTOs.SufraEmpDTOs
+﻿
+namespace Sufra.DTOs.SufraEmpDTOs
 {
     public class AdminLoginResponseDTO
     {

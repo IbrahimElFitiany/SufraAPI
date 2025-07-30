@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MimeKit.Cryptography;
 using NuGet.Common;
-using Sufra.Common.Enums;
 using Sufra.Common.Types;
 using Sufra.Data;
 using Sufra.DTOs.CustomerDTOs;

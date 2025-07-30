@@ -1,5 +1,4 @@
-﻿using Sufra.Common.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sufra.Models
 {
@@ -12,7 +11,7 @@ namespace Sufra.Models
         [Required]
         public int UserId { get; set; }
         [Required]
-        public UserType UserType { get; set; }
+        public string UserType { get; set; }
         [Required]
         public DateTime ExpiresAt { get; set; }
         [Required]
