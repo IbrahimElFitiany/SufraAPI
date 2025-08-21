@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using Sufra.Common.Constants;
+using Sufra.Common.Enums;
 using Sufra.DTOs.OrderDTOS;
 using Sufra.Exceptions;
 using Sufra.Services.IServices;
@@ -79,6 +80,31 @@ namespace Sufra.Controllers
             catch (UnauthorizedAccessException ex)
             {
                 return Forbid();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = RoleNames.RestaurantManager)]
+        [HttpGet("trend")]
+        public async Task<IActionResult> GetRestaurantOrdersTrend([FromQuery] TrendPeriod? trendPeriod)
+        {
+            if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int restaurantId)) 
+                return Unauthorized(new { message = "Invalid user ID" });
+            try
+            {
+                OrderTrendDTO orderTrend = await _orderServices.GetRestaurantOrdersTrendAsync(restaurantId,trendPeriod ?? TrendPeriod.Day);
+                return Ok(orderTrend);
+            }
+            catch (RestaurantNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (RestaurantNotApprovedException ex)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, new { message = ex.Message });
             }
             catch (Exception ex)
             {

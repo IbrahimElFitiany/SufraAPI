@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sufra.Common.Enums;
 using Sufra.Data;
 using Sufra.DTOs.OrderDTOS;
 using Sufra.Models.Orders;
@@ -53,6 +54,48 @@ namespace Sufra.Repositories.Repositories
                 .Skip(skip)
                 .Take(orderQuery.pageSize)
                 .ToListAsync();
+        }
+        public async Task<(int Current, int Previous)> GetRestaurantOrdersTrendAsync(int restaurantId, TrendPeriod period)
+        {
+            DateTime now = DateTime.UtcNow;
+
+            DateTime currentStart;
+            DateTime previousStart;
+            DateTime previousEnd;
+
+            switch (period)
+            {
+                case TrendPeriod.Day:
+                    currentStart = DateTime.SpecifyKind(now.Date, DateTimeKind.Utc);
+                    previousStart = currentStart.AddDays(-1);
+                    previousEnd = currentStart;
+                    break;
+                case TrendPeriod.Week:
+                    int daysSinceWeekStart = (int)now.DayOfWeek;
+                    currentStart = DateTime.SpecifyKind(now.Date.AddDays(-daysSinceWeekStart), DateTimeKind.Utc);
+                    previousStart = currentStart.AddDays(-7);
+                    previousEnd = currentStart;
+                    break;
+                case TrendPeriod.Month:
+                    currentStart = DateTime.SpecifyKind(new DateTime(now.Year, now.Month, 1), DateTimeKind.Utc);
+                    previousStart = currentStart.AddMonths(-1);
+                    previousEnd = currentStart;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid period");
+            }
+
+            var result = await _context.Orders
+                .Where(o => o.RestaurantId == restaurantId && (o.OrderDate >= previousStart && o.OrderDate <= now))
+                .GroupBy(_ => 1) // group all relevant orders, then count to reduce DB hits
+                .Select(g => new
+                {
+                    Current = g.Count(o => o.OrderDate >= currentStart),
+                    Previous = g.Count(o => o.OrderDate >= previousStart && o.OrderDate < previousEnd)
+                })
+                .SingleOrDefaultAsync();
+
+            return (result?.Current ?? 0, result?.Previous ?? 0);
         }
         public async Task<IEnumerable<Order>> GetCustomerOrders(int customerId , OrderQueryDTO orderQuery)
         {

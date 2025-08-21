@@ -1,4 +1,5 @@
 ﻿using MailKit.Search;
+using Sufra.Common.Enums;
 using Sufra.DTOs.OrderDTOS;
 using Sufra.Exceptions;
 using Sufra.Models.Customers;
@@ -150,6 +151,21 @@ namespace Sufra.Services.Services
                 TotalPrice = order.TotalPrice,
                 OrderDate = order.OrderDate
             }).ToList();
+        }
+        public async Task<OrderTrendDTO> GetRestaurantOrdersTrendAsync(int restaurantId, TrendPeriod period)
+        {
+            bool? isApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(restaurantId);
+            if (isApproved == null) throw new RestaurantNotFoundException("Restaurant not found");
+            if (isApproved == false) throw new RestaurantNotApprovedException();
+
+            var (current, previous) = await _orderRepository.GetRestaurantOrdersTrendAsync(restaurantId, period);
+
+            return new OrderTrendDTO
+            {
+                Current = current,
+                Previous = previous,
+                Diff = current - previous
+            };
         }
         public async Task<IEnumerable<OrderDTO>> QueryOrdersAsync(OrderQueryDTO orderQueryDTO)
         {
