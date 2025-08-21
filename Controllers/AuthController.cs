@@ -92,7 +92,15 @@ namespace Sufra.Controllers
                     Expires = refreshResult.ExpirationTime
                 });
 
-                return Ok(new { accessToken = refreshResult.AccessToken });
+                Response.Cookies.Append("accessToken", refreshResult.AccessToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Path = "/",
+                    SameSite = SameSiteMode.None,
+                });
+
+                return Ok();
             }
             catch (ExpiredTokenException ex)
             {
@@ -124,6 +132,7 @@ namespace Sufra.Controllers
                 await _authService.LogoutAsync(refreshToken);
 
                 Response.Cookies.Delete("refreshToken");
+                Response.Cookies.Delete("accessToken");
 
                 return Ok(new { message = "Logged out successfully." });
             }
@@ -147,6 +156,14 @@ namespace Sufra.Controllers
                 Path = "/",
                 SameSite = SameSiteMode.None,
                 Expires = result.ExpirationDate
+            });
+
+            Response.Cookies.Append("accessToken", result.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Path = "/",
+                SameSite = SameSiteMode.None
             });
 
             return Ok(result.LoginResDTO);
