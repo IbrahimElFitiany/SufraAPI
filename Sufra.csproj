@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Enums\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

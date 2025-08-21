@@ -60,7 +60,6 @@ namespace Sufra.Services.Services
                         Fname = customer.Fname,
                         Lname = customer.Lname,
                         Email = customer.Email,
-                        AccessToken = accessToken
                     };
                     break;
 
@@ -85,7 +84,6 @@ namespace Sufra.Services.Services
                         Name = admin.Fname,
                         Email = admin.Email,
                         Role = RoleNames.Admin,
-                        AccessToken = accessToken
                     };
                     break;
 
@@ -110,12 +108,12 @@ namespace Sufra.Services.Services
                     loginResDTO = new RestaurantLoginResponseDTO
                     {
                         ManagerID = manager.Id,
-                        ManagerName = manager.Fname,
+                        Fname = manager.Fname,
+                        Lname = manager.Lname,
                         Email = manager.Email,
                         RestaurantId = manager.Restaurant.Id,
                         RestaurantName = manager.Restaurant.Name,
                         IsApproved = manager.Restaurant.IsApproved,
-                        AccessToken = accessToken
                     };
                     break;
 
@@ -143,6 +141,7 @@ namespace Sufra.Services.Services
             {
                 LoginResDTO = (TLoginResDTO)loginResDTO,
                 RefreshToken = refreshToken.Token,
+                AccessToken = accessToken,
                 ExpirationDate = refreshToken.ExpiresAt
             };
         }
@@ -221,7 +220,6 @@ namespace Sufra.Services.Services
                 ExpirationTime = newRefreshToken.ExpiresAt
             };
         }
-
         public async Task LogoutAsync(string token)
         {
             var refreshToken = await _refreshTokenRepo.GetByTokenAsync(token);
@@ -230,6 +228,5 @@ namespace Sufra.Services.Services
 
             await _refreshTokenRepo.RevokeAsync(refreshToken);
         }
-
     }
 }
