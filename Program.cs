@@ -22,7 +22,12 @@ namespace Sufra
             var builder = WebApplication.CreateBuilder(args);
 
             var env = builder.Environment;
-            
+
+
+            builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services.AddSwaggerGen();
+
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -136,6 +141,12 @@ namespace Sufra
             builder.Services.AddScoped<IDistrictServices, DistrictServices>();
 
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
