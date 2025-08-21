@@ -9,6 +9,7 @@ using Sufra.Common.Types;
 using Sufra.Exceptions.Auth;
 using Sufra.Exceptions;
 using Sufra.Common.Constants;
+using System.Security.Claims;
 
 namespace Sufra.Controllers
 {
@@ -55,6 +56,48 @@ namespace Sufra.Controllers
 
                     default:
                         return BadRequest(new { message = "Invalid user type."});
+                }
+            }
+            catch (AuthenticationException ex)
+            {
+                _logger.LogWarning("Authentication failed: {Message}", ex.Message);
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred during login.");
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetMe()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(role)) return Unauthorized();
+            if (!int.TryParse(userId, out int userID)) return Unauthorized();
+
+            try
+            {
+                switch (role)
+                {
+                    case RoleNames.Customer:
+                        var customerLoginResult = await _authService.GetMeAsync<CustomerLoginResDTO>(userID, role);
+                        return Ok(customerLoginResult.MeRes);
+
+                    case RoleNames.Admin:
+                        var adminLoginResult = await _authService.GetMeAsync<AdminLoginResponseDTO>(userID, role);
+                        return Ok(adminLoginResult.MeRes);
+
+                    case RoleNames.RestaurantManager:
+                        var managerLoginResult = await _authService.GetMeAsync<RestaurantLoginResponseDTO>(userID, role);
+                        return Ok(managerLoginResult.MeRes);
+
+                    default:
+                        return BadRequest(new { message = "Invalid user type." });
                 }
             }
             catch (AuthenticationException ex)

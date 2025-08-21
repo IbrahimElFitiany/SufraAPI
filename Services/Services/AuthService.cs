@@ -145,7 +145,50 @@ namespace Sufra.Services.Services
                 ExpirationDate = refreshToken.ExpiresAt
             };
         }
+        public async Task<MeResult<UserType>> GetMeAsync<UserType>(int user , string role)
+        {
+            object meObj;
 
+            switch (role)
+            {
+                case RoleNames.Customer:
+                    var customer = await _customerRepo.GetByIdAsync(user);
+                    meObj = new CustomerLoginResDTO { Email = customer.Email, Fname = customer.Fname , Lname = customer.Lname };
+                    break;
+
+                case RoleNames.Admin:
+                    var admin = await _adminRepo.GetAdminById(user);
+                    meObj = new AdminLoginResponseDTO 
+                    { Email = admin.Email,
+                       AdminID = admin.Id,
+                       Name = admin.Fname,
+                       Role = admin.Role
+                    };
+
+                    break;
+
+                case RoleNames.RestaurantManager:
+                    var manager = await _restaurantManagerRepo.GetManagerByIdAsync(user);
+                    meObj = new RestaurantLoginResponseDTO { 
+                        Email = manager.Email
+                        ,Fname = manager.Fname,
+                        Lname = manager.Lname,
+                       ManagerID = manager.Id,
+                       IsApproved = manager.Restaurant.IsApproved,
+                       RestaurantId = manager.Restaurant.Id,
+                       RestaurantName = manager.Restaurant.Name
+                    };
+
+                    break;
+
+                default:
+                    throw new AuthenticationException("Unsupported user type.");
+            }
+            return new MeResult<UserType>
+            {
+                MeRes = (UserType)meObj
+            };
+        }
         public async Task<RefreshResult> RefreshAsync(string oldRefreshToken,string? ip , string? userAgent)
         {
             RefreshToken? refreshToken = await _refreshTokenRepo.GetByTokenAsync(oldRefreshToken);
