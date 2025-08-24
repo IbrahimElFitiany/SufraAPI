@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +11,7 @@ using Sufra.Repositories.Repositories;
 using Sufra.Services.Services;
 using Sufra.Data;
 using Sufra.Configuration;
+using Sufra.Infrastructure.ExceptionHandling;
 
 namespace Sufra
 {
@@ -27,6 +27,10 @@ namespace Sufra
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+            builder.Services.AddProblemDetails();
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -149,6 +153,7 @@ namespace Sufra
             }
 
             app.UseCors("AllowFrontend");
+            app.UseExceptionHandler(); 
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
