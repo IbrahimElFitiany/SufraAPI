@@ -20,15 +20,8 @@ namespace Sufra.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDistricts()
         {
-            try
-            {
-                IEnumerable<DistrictDTO> districts = await _districtServices.GetAllAsync();
-                return Ok(districts);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
+            IEnumerable<DistrictDTO> districts = await _districtServices.GetAllAsync();
+            return Ok(districts);
         }
 
     }

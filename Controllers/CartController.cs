@@ -22,36 +22,15 @@ namespace Sufra.Controllers
         //-------------------------------------------------------------
 
 
-
         [Authorize (Roles = RoleNames.Customer)]
         [HttpPost]
         public async Task<IActionResult> AddToCart([FromBody] AddToCartReqDTO addToCartReqDTO)
         {
             int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            try
-            {
-                await _cartServices.AddToCartAsync(addToCartReqDTO, CustomerId);
-                return Ok(new { Message = "Item Added To cart" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuItemNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartRestaurantConflictException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _cartServices.AddToCartAsync(addToCartReqDTO, CustomerId);
+            return Ok(new { Message = "Item Added To cart" });
         }
-
 
         [Authorize(Roles = RoleNames.Customer)]
         [HttpGet]
@@ -59,15 +38,8 @@ namespace Sufra.Controllers
         {
             int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            try
-            {
-                IEnumerable<CartListItemDTO> cartItems = await _cartServices.GetAllAsync(CustomerId);
-                return Ok(cartItems);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            IEnumerable<CartListItemDTO> cartItems = await _cartServices.GetAllAsync(CustomerId);
+            return Ok(cartItems);
         }
 
         [Authorize(Roles = RoleNames.Customer)]
@@ -75,27 +47,9 @@ namespace Sufra.Controllers
         public async Task<IActionResult> ClearCart()
         {
             int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
-            try
-            {
-                await _cartServices.ClearCart(CustomerId);
-                return Ok(new { Message = "Cart Cleared" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartIsEmptyException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+
+            await _cartServices.ClearCart(CustomerId);
+            return Ok(new { Message = "Cart Cleared" });
         }
 
         [Authorize(Roles = RoleNames.Customer)]
@@ -103,29 +57,10 @@ namespace Sufra.Controllers
         public async Task<IActionResult> RemoveFromCart([FromRoute] int cartItemId)
         {
             int CustomerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
-            try
-            {
-                await _cartServices.RemoveFromCartAsync(CustomerId , cartItemId);
-                return Ok(new { Message = "Cart Item Deleted" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartItemNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
 
+            await _cartServices.RemoveFromCartAsync(CustomerId , cartItemId);
+            return Ok(new { Message = "Cart Item Deleted" });
+        }
 
     }
 }

@@ -23,23 +23,8 @@ namespace Sufra.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CustomerRegisterDTO registerDTO)
         {
-            try
-            {
-                RegisterResponseDTO createCustomer = await _customerServices.RegisterAsync(registerDTO);
-                return Ok(createCustomer);
-            }
-            catch (EmailAlreadyInUseException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (PhoneAlreadyInUseException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            RegisterResponseDTO createCustomer = await _customerServices.RegisterAsync(registerDTO);
+            return Ok(createCustomer);
         }
     }
 }

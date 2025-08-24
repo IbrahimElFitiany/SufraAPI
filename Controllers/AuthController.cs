@@ -31,42 +31,29 @@ namespace Sufra.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginReqDTO loginDto)
         {
-            try
+            string userAgent = Request.Headers["User-Agent"].ToString();
+            string? ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+            string? oldToken = Request.Cookies["refreshToken"];
+
+            _logger.LogInformation("User-Agent: {UserAgent}", userAgent);
+            _logger.LogInformation("IP Address: {IP}", ip);
+
+            switch (loginDto.UserType)
             {
-                string userAgent = Request.Headers["User-Agent"].ToString();
-                string? ip = HttpContext.Connection.RemoteIpAddress?.ToString();
-                string? oldToken = Request.Cookies["refreshToken"];
+                case RoleNames.Customer:
+                    var customerLoginResult = await _authService.LoginAsync<CustomerLoginResDTO>(loginDto, userAgent, ip, oldToken);
+                    return HandleLoginResponse(customerLoginResult);
 
-                _logger.LogInformation("User-Agent: {UserAgent}", userAgent);
-                _logger.LogInformation("IP Address: {IP}", ip);
+                case RoleNames.Admin:
+                    var adminLoginResult = await _authService.LoginAsync<AdminLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
+                    return HandleLoginResponse(adminLoginResult);
 
-                switch (loginDto.UserType)
-                {
-                    case RoleNames.Customer:
-                        var customerLoginResult = await _authService.LoginAsync<CustomerLoginResDTO>(loginDto, userAgent, ip, oldToken);
-                        return HandleLoginResponse(customerLoginResult);
+                case RoleNames.RestaurantManager:
+                    var managerLoginResult = await _authService.LoginAsync<RestaurantLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
+                    return HandleLoginResponse(managerLoginResult);
 
-                    case RoleNames.Admin:
-                        var adminLoginResult = await _authService.LoginAsync<AdminLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
-                        return HandleLoginResponse(adminLoginResult);
-
-                    case RoleNames.RestaurantManager:
-                        var managerLoginResult = await _authService.LoginAsync<RestaurantLoginResponseDTO>(loginDto, userAgent, ip, oldToken);
-                        return HandleLoginResponse(managerLoginResult);
-
-                    default:
-                        return BadRequest(new { message = "Invalid user type."});
-                }
-            }
-            catch (AuthenticationException ex)
-            {
-                _logger.LogWarning("Authentication failed: {Message}", ex.Message);
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An unexpected error occurred during login.");
-                return StatusCode(500, new { message = "An unexpected error occurred." });
+                default:
+                    return BadRequest(new { message = "Invalid user type."});
             }
         }
 
@@ -80,35 +67,22 @@ namespace Sufra.Controllers
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(role)) return Unauthorized();
             if (!int.TryParse(userId, out int userID)) return Unauthorized();
 
-            try
+            switch (role)
             {
-                switch (role)
-                {
-                    case RoleNames.Customer:
-                        var customerLoginResult = await _authService.GetMeAsync<CustomerLoginResDTO>(userID, role);
-                        return Ok(customerLoginResult.MeRes);
+                case RoleNames.Customer:
+                    var customerLoginResult = await _authService.GetMeAsync<CustomerLoginResDTO>(userID, role);
+                    return Ok(customerLoginResult.MeRes);
 
-                    case RoleNames.Admin:
-                        var adminLoginResult = await _authService.GetMeAsync<AdminLoginResponseDTO>(userID, role);
-                        return Ok(adminLoginResult.MeRes);
+                case RoleNames.Admin:
+                    var adminLoginResult = await _authService.GetMeAsync<AdminLoginResponseDTO>(userID, role);
+                    return Ok(adminLoginResult.MeRes);
 
-                    case RoleNames.RestaurantManager:
-                        var managerLoginResult = await _authService.GetMeAsync<RestaurantLoginResponseDTO>(userID, role);
-                        return Ok(managerLoginResult.MeRes);
+                case RoleNames.RestaurantManager:
+                    var managerLoginResult = await _authService.GetMeAsync<RestaurantLoginResponseDTO>(userID, role);
+                    return Ok(managerLoginResult.MeRes);
 
-                    default:
-                        return BadRequest(new { message = "Invalid user type." });
-                }
-            }
-            catch (AuthenticationException ex)
-            {
-                _logger.LogWarning("Authentication failed: {Message}", ex.Message);
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An unexpected error occurred during login.");
-                return StatusCode(500, new { message = "An unexpected error occurred." });
+                default:
+                    return BadRequest(new { message = "Invalid user type." });
             }
         }
 
@@ -116,79 +90,49 @@ namespace Sufra.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()
         {
-            try
-            {
-                string? refreshToken = Request.Cookies["refreshToken"];
-                if (string.IsNullOrEmpty(refreshToken)) throw new CookieNotFoundException();
+            string? refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken)) throw new CookieNotFoundException();
 
-                string? ip = HttpContext.Connection.RemoteIpAddress.ToString();
-                string userAgent = Request.Headers["User-Agent"].ToString();
+            string? ip = HttpContext.Connection.RemoteIpAddress.ToString();
+            string userAgent = Request.Headers["User-Agent"].ToString();
 
-                var refreshResult = await _authService.RefreshAsync(refreshToken, ip, userAgent);
+            var refreshResult = await _authService.RefreshAsync(refreshToken, ip, userAgent);
 
-                Response.Cookies.Append("refreshToken", refreshResult.RefreshToken, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    Path = "/",
-                    SameSite = SameSiteMode.None,
-                    Expires = refreshResult.ExpirationTime
-                });
+            Response.Cookies.Append("refreshToken", refreshResult.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Path = "/",
+                SameSite = SameSiteMode.None,
+                Expires = refreshResult.ExpirationTime
+            });
 
-                Response.Cookies.Append("accessToken", refreshResult.AccessToken, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    Path = "/",
-                    SameSite = SameSiteMode.None,
-                });
+            Response.Cookies.Append("accessToken", refreshResult.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Path = "/",
+                SameSite = SameSiteMode.None,
+            });
 
-                return Ok();
-            }
-            catch (ExpiredTokenException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (RefreshTokenNotFoundException ex)
-            {
-                return StatusCode(403, new { message = ex.Message });
-            }
-            catch (RevokedTokenException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            return Ok();
         }
 
         [AllowAnonymous]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            try{
-                string? refreshToken = Request.Cookies["refreshToken"];
+            string? refreshToken = Request.Cookies["refreshToken"];
 
-                if (string.IsNullOrEmpty(refreshToken)) return BadRequest(new { message = "No refresh token found." });
+            if (string.IsNullOrEmpty(refreshToken)) return BadRequest(new { message = "No refresh token found." });
 
-                await _authService.LogoutAsync(refreshToken);
+            await _authService.LogoutAsync(refreshToken);
 
-                Response.Cookies.Delete("refreshToken");
-                Response.Cookies.Delete("accessToken");
+            Response.Cookies.Delete("refreshToken");
+            Response.Cookies.Delete("accessToken");
 
-                return Ok(new { message = "Logged out successfully." });
-            }
-            catch (RefreshTokenNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            return Ok(new { message = "Logged out successfully." });
         }
-
 
         private IActionResult HandleLoginResponse<T>(LoginResult<T> result)
         {

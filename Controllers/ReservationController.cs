@@ -29,75 +29,35 @@ namespace Sufra.Controllers
         {
             int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            try
+            ReservationDTO reservationDTO = new ReservationDTO
             {
-                ReservationDTO reservationDTO = new ReservationDTO
-                {
-                    CustomerId = customerId,
-                    RestaurantId = restaurantId,
-                    ReservationDateTime = createReservationReqDTO.StartTime,
-                    PartySize = createReservationReqDTO.PartySize,
-                };
+                CustomerId = customerId,
+                RestaurantId = restaurantId,
+                ReservationDateTime = createReservationReqDTO.StartTime,
+                PartySize = createReservationReqDTO.PartySize,
+            };
 
-                CreateReservationResDTO createReservation = await _reservationServices.CreateAsync(reservationDTO);
+            CreateReservationResDTO createReservation = await _reservationServices.CreateAsync(reservationDTO);
 
-                return Ok(createReservation);
-            }
-            catch (NoAvailableTablesException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (OutOfOpeningHoursException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Forbid();
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new {message = ex.Message});
-            }
+            return Ok(createReservation);
         }
-
 
         [Authorize (Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetAllReservations([FromQuery] ReservationQueryDTO queryDTO)
         {
-            try
-            {
-                IEnumerable<ReservationDTO> reservations = await _reservationServices.GetAllAsync(queryDTO);
-                return Ok(reservations);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            IEnumerable<ReservationDTO> reservations = await _reservationServices.GetAllAsync(queryDTO);
+            return Ok(reservations);
         }
-
-
 
         [Authorize (Roles = RoleNames.RestaurantManager)]
         [HttpPatch("approve/{reservationId}")]
         public async Task<IActionResult> ApproveReservation([FromRoute] int reservationId)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
-            try
-            {
-                await _reservationServices.ApproveAsync(reservationId , restaurantId);
-                return Ok(new{messasge = "approved , email sent"});
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+
+            await _reservationServices.ApproveAsync(reservationId , restaurantId);
+            return Ok(new{messasge = "approved , email sent"});
         }
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
@@ -105,15 +65,9 @@ namespace Sufra.Controllers
         public async Task<IActionResult> RejectReservation([FromRoute] int reservationId)
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
-            try
-            {
-                await _reservationServices.RejectAsync(reservationId, restaurantId);
-                return Ok(new { messasge = "rejected" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+
+            await _reservationServices.RejectAsync(reservationId, restaurantId);
+            return Ok(new { messasge = "rejected" });
         }
 
         [Authorize(Roles = RoleNames.Customer)]
@@ -122,27 +76,8 @@ namespace Sufra.Controllers
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            try
-            {
-                await _reservationServices.CancelAsync(reservationId, userId);
-                return Ok(new { message = "canceled" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new {message = ex.Message});
-            }
-            catch (ReservationNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _reservationServices.CancelAsync(reservationId, userId);
+            return Ok(new { message = "canceled" });
         }
 
     }

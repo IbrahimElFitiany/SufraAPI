@@ -26,68 +26,30 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
-            {
-                MenuSectionDTO menuSectionDTO = new MenuSectionDTO
-                {
-                    RestaurantId = restaurantId,
-                    MenuSectionName = createMenuSectionReqDTO.MenuSectionName
-                };
+            MenuSectionDTO menuSectionDTO = new MenuSectionDTO{
+                RestaurantId = restaurantId,
+                MenuSectionName = createMenuSectionReqDTO.MenuSectionName
+            };
 
-                CreateMenuSectionResDTO newMenuSection = await _menuSectionManagementServices.CreateAsync(menuSectionDTO);
+            CreateMenuSectionResDTO newMenuSection = await _menuSectionManagementServices.CreateAsync(menuSectionDTO);
 
-                return Ok(newMenuSection);
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new {message = ex.Message});
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict (new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return Ok(newMenuSection);
         }
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpDelete("{menuSectionId}")]
         public async Task<IActionResult> DeleteMenuSection([FromRoute] int menuSectionId)
         {
-            try
-            {
-                int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
+            int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-                MenuSectionDTO menuSectionDTO = new MenuSectionDTO
-                {
-                    RestaurantId = restaurantId,
-                    MenuSectionId = menuSectionId                };
+            MenuSectionDTO menuSectionDTO = new MenuSectionDTO
+            {
+                RestaurantId = restaurantId,
+                MenuSectionId = menuSectionId                
+            };
 
-                await _menuSectionManagementServices.DeleteAsync(menuSectionDTO);
-                return Ok(new { message = "Deleted" });
-            }
-            catch (MenuSectionUnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (MenuSectionNotFoundException ex)
-            {
-                return NotFound(new {message = ex.Message});
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _menuSectionManagementServices.DeleteAsync(menuSectionDTO);
+            return Ok(new { message = "Deleted" });
         }
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
@@ -96,31 +58,16 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
+            MenuSectionDTO menuSection = new MenuSectionDTO
             {
-                MenuSectionDTO menuSection = new MenuSectionDTO
-                {
-                    MenuSectionId = menuSectionId,
-                    RestaurantId = restaurantId,
-                    MenuSectionName = updateMenuSectionReqDTO.MenuSectionName,
-                };
+                MenuSectionId = menuSectionId,
+                RestaurantId = restaurantId,
+                MenuSectionName = updateMenuSectionReqDTO.MenuSectionName,
+            };
 
-                await _menuSectionManagementServices.UpdateAsync(menuSection);
+            await _menuSectionManagementServices.UpdateAsync(menuSection);
 
-                return Ok(new {message = "Updated the name"});
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return Ok(new {message = "Updated the name"});
         }
 
     }
