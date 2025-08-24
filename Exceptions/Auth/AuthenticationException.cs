@@ -1,4 +1,4 @@
-﻿namespace Sufra.Exceptions
+﻿namespace Sufra.Exceptions.Auth
 {
     public class AuthenticationException : Exception
     {
