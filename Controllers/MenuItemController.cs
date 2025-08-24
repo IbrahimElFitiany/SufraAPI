@@ -27,48 +27,20 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
+            MenuItemDTO menuItemDTO = new MenuItemDTO
             {
-                MenuItemDTO menuItemDTO = new MenuItemDTO
-                {
-                    RestaurantId = restaurantId,
-                    MenuSectionId = createMenuItemReqDTO.MenuSectionId,
-                    Name = createMenuItemReqDTO.Name,
-                    MenuItemImg = createMenuItemReqDTO.MenuItemImg,
-                    Description = createMenuItemReqDTO.Description,
-                    Price = createMenuItemReqDTO.Price,
-                    Availability = createMenuItemReqDTO.Availability
-                };
+                RestaurantId = restaurantId,
+                MenuSectionId = createMenuItemReqDTO.MenuSectionId,
+                Name = createMenuItemReqDTO.Name,
+                MenuItemImg = createMenuItemReqDTO.MenuItemImg,
+                Description = createMenuItemReqDTO.Description,
+                Price = createMenuItemReqDTO.Price,
+                Availability = createMenuItemReqDTO.Availability
+            };
 
-                CreateMenuItemResDTO newMenuItem = await _menuItemServices.CreateMenuItemAsync(menuItemDTO);
-                return Ok(newMenuItem);
-            }
-            catch (MenuSectionNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuSectionUnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (MenuItemAlreadyExistsException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            CreateMenuItemResDTO newMenuItem = await _menuItemServices.CreateMenuItemAsync(menuItemDTO);
+            return Ok(newMenuItem);
         }
-
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPut ("{menuItemId}")]
@@ -76,53 +48,21 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
+            MenuItemDTO menuItemDTO = new MenuItemDTO
             {
-                MenuItemDTO menuItemDTO = new MenuItemDTO
-                {
-                    MenuItemId = menuItemId,
-                    RestaurantId = restaurantId,
-                    MenuSectionId = createMenuItemReqDTO.MenuSectionId,
-                    Name = createMenuItemReqDTO.Name,
-                    MenuItemImg = createMenuItemReqDTO.MenuItemImg,
-                    Description = createMenuItemReqDTO.Description,
-                    Price = createMenuItemReqDTO.Price,
-                    Availability = createMenuItemReqDTO.Availability
-                };
+                MenuItemId = menuItemId,
+                RestaurantId = restaurantId,
+                MenuSectionId = createMenuItemReqDTO.MenuSectionId,
+                Name = createMenuItemReqDTO.Name,
+                MenuItemImg = createMenuItemReqDTO.MenuItemImg,
+                Description = createMenuItemReqDTO.Description,
+                Price = createMenuItemReqDTO.Price,
+                Availability = createMenuItemReqDTO.Availability
+            };
 
-                await _menuItemServices.UpdateMenuItem(menuItemDTO);
-                return Ok(new {message = "MenuItem Updated"});
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuSectionNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuSectionUnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (MenuItemNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuItemUnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _menuItemServices.UpdateMenuItem(menuItemDTO);
+            return Ok(new {message = "MenuItem Updated"});  
         }
-
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpDelete("{menuItemId}")]
@@ -130,32 +70,8 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
-            {
-                await _menuItemServices.RemoveMenuItemAsync(menuItemId,restaurantId);
-                return Ok(new { message = "MenuItem deleted" });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuItemNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (MenuItemUnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-
+            await _menuItemServices.RemoveMenuItemAsync(menuItemId,restaurantId);
+            return Ok(new { message = "MenuItem deleted" });
         }
 
     }

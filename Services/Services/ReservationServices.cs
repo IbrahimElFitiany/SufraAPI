@@ -7,8 +7,9 @@ using Sufra.Models.Reservations;
 using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
 using Sufra.Services.IServices;
-using Sufra.Exceptions;
 using System.Data;
+using Sufra.Exceptions.Restaurant;
+using Sufra.Exceptions;
 
 namespace Sufra.Services.Services
 {
@@ -35,7 +36,7 @@ namespace Sufra.Services.Services
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
             if (restaurant == null)
             {
-                throw new RestaurantNotFoundException();
+                throw new NotFoundException<Restaurant>();
             }
             if (restaurant.IsApproved == false)
             {
@@ -207,14 +208,14 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer Not Found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
 
             Reservation reservation = await _reservationRepository.GetByIdAsync(reservationId);
 
-            if (reservation == null) throw new ReservationNotFoundException("Reservation Not Found");
+            if (reservation == null) throw new NotFoundException<Reservation>();
 
-            if (reservation.CustomerId != customer.Id) throw new UnauthorizedAccessException("Unauthorized");
+            if (reservation.CustomerId != customer.Id) throw new UnauthorizedException();
 
             await _reservationRepository.CancelAsync(reservation);
         }

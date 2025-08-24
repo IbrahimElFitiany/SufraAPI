@@ -22,30 +22,16 @@ namespace Sufra.Controllers
         [HttpGet("with-images")]
         public async Task<IActionResult> GetCuisinesWithImages()
         {
-            try
-            {
-                IEnumerable<CuisineDisplayDTO> cuisines = await _cuisineServices.GetAllWithImagesAsync();
-                return Ok(cuisines);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
+            IEnumerable<CuisineDisplayDTO> cuisines = await _cuisineServices.GetAllWithImagesAsync();
+            return Ok(cuisines);
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCuisines()
         {
-            try
-            {
-                IEnumerable<CuisineBasicDTO> cuisines = await _cuisineServices.GetAllAsync();
-                return Ok(cuisines);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
+            IEnumerable<CuisineBasicDTO> cuisines = await _cuisineServices.GetAllAsync();
+            return Ok(cuisines); 
         }
 
     }

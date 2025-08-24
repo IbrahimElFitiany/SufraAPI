@@ -23,8 +23,6 @@ namespace Sufra.Repositories.Repositories
                 await _context.Restaurants.AddAsync(restaurant);
                 await _context.SaveChangesAsync();
         }
-
-
         public async Task<PagedQueryResult<Restaurant>> QueryRestaurantsAsync(RestaurantQueryDTO dto)
         {
             int totalCount;
@@ -83,7 +81,6 @@ namespace Sufra.Repositories.Repositories
                 PageSize = dto.PageSize
             };
         }
-
         public async Task<IEnumerable<Restaurant>> GetSufraPicksAsync()
         {
             return await _context.Restaurants
@@ -95,7 +92,6 @@ namespace Sufra.Repositories.Repositories
                 .Take(4)
                 .ToListAsync();
         }
-
         public async Task<Restaurant> GetByIdAsync(int id)
         {
              return await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
@@ -120,9 +116,6 @@ namespace Sufra.Repositories.Repositories
 
             return IsApproved;
         }
-
-
-
         public async Task ApproveRestaurant(Restaurant restaurant)
         {
             restaurant.IsApproved = true;
@@ -137,15 +130,11 @@ namespace Sufra.Repositories.Repositories
             _context.Restaurants.Update(restaurant);
             await _context.SaveChangesAsync();
         }
-
-
         public async Task DeleteRestaurant(Restaurant restaurant)
         {
             _context.Restaurants.Remove(restaurant);
             await _context.SaveChangesAsync();
         }
-
-
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

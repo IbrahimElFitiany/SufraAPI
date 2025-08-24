@@ -6,6 +6,7 @@ using Sufra.Common.Types;
 using Sufra.Data;
 using Sufra.DTOs.CustomerDTOs;
 using Sufra.Exceptions;
+using Sufra.Exceptions.User;
 using Sufra.Infrastructure.Services;
 using Sufra.Models;
 using Sufra.Models.Customers;

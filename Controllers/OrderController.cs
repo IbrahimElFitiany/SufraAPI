@@ -30,33 +30,14 @@ namespace Sufra.Controllers
         {
             int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            try
+            OrderDTO order = new OrderDTO
             {
-                OrderDTO order = new OrderDTO
-                {
-                    CustomerId = customerId,
-                    OrderDate = DateTime.UtcNow
-                };
+                CustomerId = customerId,
+                OrderDate = DateTime.UtcNow
+            };
 
-               await _orderServices.CreateOrderAsync(order);
-               return Ok(new { Message = "Order Created" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (CartIsEmptyException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _orderServices.CreateOrderAsync(order);
+            return Ok(new { Message = "Order Created" });
         }
 
         [Authorize(Roles = RoleNames.Customer)]
@@ -64,27 +45,9 @@ namespace Sufra.Controllers
         public async Task<IActionResult> GetOrder([FromRoute] int orderId)
         {
             int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
-            try
-            {
-                OrderDetailedDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
-                return Ok(order);
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (OrderNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+
+            OrderDetailedDTO order = await _orderServices.GetOrderAsync(orderId, customerId);
+            return Ok(order);
         }
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
@@ -93,39 +56,17 @@ namespace Sufra.Controllers
         {
             if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int restaurantId)) 
                 return Unauthorized(new { message = "Invalid user ID" });
-            try
-            {
-                OrderTrendDTO orderTrend = await _orderServices.GetRestaurantOrdersTrendAsync(restaurantId,trendPeriod ?? TrendPeriod.Day);
-                return Ok(orderTrend);
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+
+            OrderTrendDTO orderTrend = await _orderServices.GetRestaurantOrdersTrendAsync(restaurantId,trendPeriod ?? TrendPeriod.Day);
+            return Ok(orderTrend);
         }
 
         [Authorize(Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetQueriedOrders([FromQuery] OrderQueryDTO orderQueryDTO)
         {
-            try
-            {
-                IEnumerable<OrderDTO> orders =  await _orderServices.QueryOrdersAsync(orderQueryDTO);
-                return Ok(orders);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-
+            IEnumerable<OrderDTO> orders =  await _orderServices.QueryOrdersAsync(orderQueryDTO);
+            return Ok(orders);
         }
 
 
@@ -135,21 +76,9 @@ namespace Sufra.Controllers
         {
             int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            try
-            {
-                var customerOrders = await _orderServices.GetCustomerOrdersAsync(customerId,orderQueryDTO);
-                return Ok(customerOrders);
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new {message = ex.Message});
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var customerOrders = await _orderServices.GetCustomerOrdersAsync(customerId,orderQueryDTO);
+            return Ok(customerOrders);
         }
-
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpGet("restaurant-orders")]
@@ -157,22 +86,9 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
-            {
-                var restaurantOrders = await _orderServices.GetRestaurantOrdersAsync(restaurantId , orderQuery);
-                return Ok(restaurantOrders);
-            }
-            catch(RestaurantNotFoundException ex)
-            {
-                return NotFound(new { Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var restaurantOrders = await _orderServices.GetRestaurantOrdersAsync(restaurantId , orderQuery);
+            return Ok(restaurantOrders);      
         }
-
-
 
         [Authorize(Roles = RoleNames.Customer)]
         [HttpPatch ("{orderId}")]
@@ -180,33 +96,9 @@ namespace Sufra.Controllers
         {
             int customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            try
-            {
-                await _orderServices.CancelOrderAsync(orderId ,customerId);
-                return Ok(new { Message = "Order Canceled" });
-            }
-            catch (UserNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (OrderNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (OrderCancellationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _orderServices.CancelOrderAsync(orderId ,customerId);
+            return Ok(new { Message = "Order Canceled" });
         }
-
 
         [Authorize(Roles = RoleNames.RestaurantManager)]
         [HttpPatch("change-status/{orderId}")]
@@ -214,42 +106,15 @@ namespace Sufra.Controllers
         {
             int restaurantId = int.Parse(User.FindFirst("RestaurantId")?.Value);
 
-            try
+            OrderDTO orderDTO = new OrderDTO
             {
-                OrderDTO orderDTO = new OrderDTO
-                {
-                    OrderId = orderId,
-                    RestaurantId = restaurantId,
-                    Status = updateOrderReqDTO.Status
-                };
+                OrderId = orderId,
+                RestaurantId = restaurantId,
+                Status = updateOrderReqDTO.Status
+            };
 
-                await _orderServices.UpdateOrderStatus(orderDTO);
-                return Ok(new {message = "updated" });
-            }
-            catch (RestaurantNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (RestaurantNotApprovedException ex)
-            {
-                return Forbid($"Restaurant is not approved: {ex.Message}");
-            }
-            catch (OrderNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (OrderUnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (OrderIsAlreadyCanceledException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            await _orderServices.UpdateOrderStatus(orderDTO);
+            return Ok(new {message = "updated" });
         }
 
     }
