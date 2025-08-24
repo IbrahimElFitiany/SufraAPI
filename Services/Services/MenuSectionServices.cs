@@ -3,7 +3,9 @@ using Sufra.DTOs.MenuSectionDTOs;
 using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
 using Sufra.Services.IServices;
+using Sufra.Exceptions.Restaurant;
 using Sufra.Exceptions;
+
 
 namespace Sufra.Services.Services
 {
@@ -27,8 +29,8 @@ namespace Sufra.Services.Services
             bool? approved = await _restaurantRepository.GetRestaurantStatusByIdAsync(menuSectionDTO.RestaurantId);
 
       
-            if (approved == null) throw new RestaurantNotFoundException("restaurant Not found");
-            if (approved == false) throw new RestaurantNotApprovedException("Restaurant not approved");
+            if (approved == null) throw new NotFoundException<Restaurant>();
+            if (approved == false) throw new RestaurantNotApprovedException();
 
             MenuSection menuSection = new MenuSection
             {
@@ -52,23 +54,23 @@ namespace Sufra.Services.Services
 
             if (approved == null)
             {
-                throw new RestaurantNotFoundException("restaurant Not found");
+                throw new NotFoundException<Restaurant>();
             }
 
             if (approved == false)
             {
-                throw new RestaurantNotApprovedException("Restaurant not approved");
+                throw new RestaurantNotApprovedException();
             }
 
             MenuSection menuSection = await _menuSectionRepository.GetByIdAsync(menuSectionDTO.MenuSectionId);
 
             if (menuSection == null) {
-                throw new MenuSectionNotFoundException("Menu section not found.");
+                throw new NotFoundException<MenuSection>();
             } 
 
             if (menuSection.RestaurantId != menuSectionDTO.RestaurantId)
             {
-                throw new MenuSectionUnauthorizedAccessException("No Menu Section with this name assossiated with this restauratnt");
+                throw new UnauthorizedException();
             }
 
             await _menuSectionRepository.DeleteAsync(menuSection);
@@ -86,12 +88,12 @@ namespace Sufra.Services.Services
 
             if (existingMenuSection == null)
             {
-                throw new MenuSectionNotFoundException($"Menu section with ID {menuSection.MenuSectionId} not found.");
+                throw new NotFoundException<MenuSection>();
             }
 
             if (existingMenuSection.RestaurantId != menuSection.RestaurantId)
             {
-                throw new MenuSectionUnauthorizedAccessException("Unauthorized to access this resource");
+                throw new UnauthorizedException();
             }
 
             existingMenuSection.Name = menuSection.MenuSectionName;

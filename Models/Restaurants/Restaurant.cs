@@ -87,7 +87,7 @@ namespace Sufra.Models.Restaurants
             Table table = Tables.FirstOrDefault(t => t.Id == tableId);
             if (table == null)
             {
-                throw new TableNotFoundException("Table Not Found");
+                throw new NotFoundException<Table>();
             }
             _tables.Remove(table);
         }
@@ -107,7 +107,7 @@ namespace Sufra.Models.Restaurants
 
             if (openingHoursExists)
             {
-                throw new OpeningHoursExistsException("Opening hours for this day already exist. Use update method to modify them.");
+                throw new AlreadyExistsException<RestaurantOpeningHours>("Opening hours for this day already exist. Use update method to modify them.");
             }
 
             _openingHours.Add(new RestaurantOpeningHours(day,openTime,closeTime,Id));

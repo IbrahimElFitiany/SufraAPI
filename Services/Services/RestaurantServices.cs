@@ -7,6 +7,8 @@ using Sufra.DTOs.RestaurantDTOs;
 using Sufra.DTOs.RestaurantDTOs.OpeningHoursDTOs;
 using Sufra.DTOs.RestaurantDTOs.TableDTOs;
 using Sufra.Exceptions;
+using Sufra.Exceptions.Restaurant;
+using Sufra.Exceptions.User;
 using Sufra.Infrastructure.Services;
 using Sufra.Models.Restaurants;
 using Sufra.Repositories.IRepositories;
@@ -104,11 +106,11 @@ namespace Sufra.Services.Services
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
             if (restaurant == null)
             {
-                throw new RestaurantNotFoundException("restaurant not found");
+                throw new NotFoundException<Restaurant>();
             }
             if (restaurant.IsApproved)
             {
-                throw new AlreadyApprovedException("Restaurant is already approved");
+                throw new RestaurantAlreadyApprovedException("Restaurant is already approved");
             }
             await _restaurantRepository.ApproveRestaurant(restaurant);
         }
@@ -117,65 +119,55 @@ namespace Sufra.Services.Services
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
             if (restaurant == null)
             {
-                throw new RestaurantNotFoundException("restaurant not found");
+                throw new NotFoundException<Restaurant>();
             }
             if (!restaurant.IsApproved)
             {
-                throw new AlreadyBlockedException("Restaurant is already Blocked");
+                throw new RestaurantAlreadyBlockedException("Restaurant is already Blocked");
             }
             await _restaurantRepository.BlockRestaurant(restaurant);
         }
 
         public async Task<GetRestaurantResponseDTO> GetRestaurantAsync(int restaurantId)
         {
-            try
+            Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
+
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
+            if (restaurant.IsApproved == false) throw new Exception("Restaurant is not Approved in Sufra.");
+
+            return new GetRestaurantResponseDTO
             {
-                Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
-
-                if(restaurant.IsApproved == false)
+                ImgUrl = restaurant.ImgUrl,
+                Name = restaurant.Name,
+                Phone = restaurant.Phone,
+                Cuisine = restaurant.Cuisine.Name,
+                Description = restaurant.Description,
+                Latitude = restaurant.Latitude,
+                Longitude = restaurant.Longitude,
+                Address = restaurant.Address,
+                District = restaurant.District.Name,
+                Rating = restaurant.Rating,
+                Menus = restaurant.MenuSections.Select(section => new MenuSectionDTO
                 {
-                    throw new Exception("Restaurant is not Approved in Sufra.");
-                }
-
-                return new GetRestaurantResponseDTO
-                {
-                    ImgUrl = restaurant.ImgUrl,
-                    Name = restaurant.Name,
-                    Phone = restaurant.Phone,
-                    Cuisine = restaurant.Cuisine.Name,
-                    Description = restaurant.Description,
-                    Latitude = restaurant.Latitude,
-                    Longitude = restaurant.Longitude,
-                    Address = restaurant.Address,
-                    District = restaurant.District.Name,
-                    Rating = restaurant.Rating,
-                    Menus = restaurant.MenuSections.Select(section => new MenuSectionDTO
+                    RestaurantId = restaurant.Id,
+                    MenuSectionId = section.Id,
+                    MenuSectionName = section.Name,
+                    Items = section.MenuItems.Select(item => new MenuItemDTO
                     {
+                        MenuItemId = item.Id,
                         RestaurantId = restaurant.Id,
                         MenuSectionId = section.Id,
-                        MenuSectionName = section.Name,
-                        Items = section.MenuItems.Select(item => new MenuItemDTO
-                        {
-                            MenuItemId = item.Id,
-                            RestaurantId = restaurant.Id,
-                            MenuSectionId = section.Id,
-                            Name = item.Name,
-                            MenuItemImg = item.MenuItemImg,
-                            Description = item.Description,
-                            Price = item.Price,
-                            Availability = item.Availability
-                        }).ToList()
+                        Name = item.Name,
+                        MenuItemImg = item.MenuItemImg,
+                        Description = item.Description,
+                        Price = item.Price,
+                        Availability = item.Availability
                     }).ToList()
-                };
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+                }).ToList()
+            };
         }
         public async Task<PagedResultDTO<RestaurantListItemDTO>> QueryRestaurantsAsync(RestaurantQueryDTO restaurantQueryDTO)
         {
-
             PagedQueryResult<Restaurant> restaurants = await _restaurantRepository.QueryRestaurantsAsync(restaurantQueryDTO);
 
             PagedResultDTO<RestaurantListItemDTO> pagedResults = new PagedResultDTO<RestaurantListItemDTO>
@@ -199,27 +191,18 @@ namespace Sufra.Services.Services
 
             return pagedResults;
         }
-
-
         public async Task DeleteAsync(int restaurantId)
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("restaurant not found");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             await _restaurantRepository.DeleteRestaurant(restaurant);
         }
-
         public async Task UpdateRestaurantAsync(int restaurantId , UpdateRestaurantReqDTO updateRestaurantReqDTO)
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("restaurant not found");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             if (updateRestaurantReqDTO.Name != null) restaurant.Name = updateRestaurantReqDTO.Name;
             if (updateRestaurantReqDTO.Phone != null) restaurant.Phone = updateRestaurantReqDTO.Phone;
@@ -234,12 +217,9 @@ namespace Sufra.Services.Services
 
             await _restaurantRepository.UpdateRestaurant(restaurant);
         }
-
         public async Task<IEnumerable<RestaurantListItemDTO>> GetSufraPicksAsync()
         {
-
             IEnumerable<Restaurant> restaurants = await _restaurantRepository.GetSufraPicksAsync();
-
             IEnumerable<RestaurantListItemDTO> restaurantDtos = restaurants.Select(r => new RestaurantListItemDTO
             {
                 Id=r.Id,
@@ -258,11 +238,7 @@ namespace Sufra.Services.Services
         public async Task<CreateTableResDTO> AddTableAsync(TableDTO tableDTO)
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(tableDTO.RestaurantId);
-
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             restaurant.AddTable(tableDTO.Capacity, tableDTO.Label);
             await _restaurantRepository.SaveAsync();
@@ -275,10 +251,7 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             IEnumerable<Table> tables = restaurant.GetTables();
 
@@ -296,15 +269,11 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             restaurant.RemoveTable(tableId);
             await _restaurantRepository.SaveAsync();
         }
-
 
         //---------------------Opening Hours Services-----------------------------
 
@@ -314,7 +283,7 @@ namespace Sufra.Services.Services
 
             if (restaurant == null)
             {
-                throw new RestaurantNotFoundException("Restaurant not found.");
+                throw new NotFoundException<Restaurant>();
             }
 
             restaurant.AddOpeningHour(restaurantOpeningHoursDTO.DayOfWeek, restaurantOpeningHoursDTO.OpenTime, restaurantOpeningHoursDTO.CloseTime);
@@ -324,10 +293,7 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             IEnumerable<RestaurantOpeningHours> openingHours = restaurant.GetOpeningHours();
 
@@ -345,10 +311,7 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantOpeningHoursDTO.RestaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             restaurant.UpdateOpeningHour(restaurantOpeningHoursDTO.DayOfWeek, restaurantOpeningHoursDTO.OpenTime, restaurantOpeningHoursDTO.CloseTime);
             await _restaurantRepository.SaveAsync();
@@ -357,14 +320,10 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(RestaurantId);
 
-            if (restaurant == null)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found.");
-            }
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
             restaurant.DeleteOpeningHour(dayOfWeek);
             await _restaurantRepository.SaveAsync();
-
         }
 
         //---------------------Restaurant Review Services-----------------------------
@@ -373,9 +332,9 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId);
 
-            if (restaurant == null) throw new RestaurantNotFoundException("Restaurant not found.");
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
 
-            if (restaurant.RestaurantReviews.Any(r => r.CustomerId == customerId)) throw new CustomerAlreadyReviewed("You have already reviewed this restaurant.");            
+            if (restaurant.RestaurantReviews.Any(r => r.CustomerId == customerId)) throw new CustomerAlreadyReviewedException();            
 
             RestaurantReview review = new RestaurantReview
             {

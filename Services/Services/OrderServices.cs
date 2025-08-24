@@ -2,6 +2,10 @@
 using Sufra.Common.Enums;
 using Sufra.DTOs.OrderDTOS;
 using Sufra.Exceptions;
+using Sufra.Exceptions.Cart;
+using Sufra.Exceptions.Order;
+using Sufra.Exceptions.Restaurant;
+using Sufra.Exceptions.User;
 using Sufra.Models.Customers;
 using Sufra.Models.Orders;
 using Sufra.Models.Restaurants;
@@ -31,11 +35,11 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(orderDTO.CustomerId);
 
-            if(customer == null) throw new UserNotFoundException("Customer Not Found");
+            if(customer == null) throw new NotFoundException<Customer>();
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if(customerCart == null) throw new CartNotFoundException("no cart found for this user");
+            if(customerCart == null) throw new NotFoundException<Cart>();
             if (customerCart.CartItems.Count == 0) throw new CartIsEmptyException("Can't Place Order Cart is Empty");
 
             Order newOrder = new Order
@@ -76,12 +80,12 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer Not Found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
 
             Order order = await _orderRepository.GetOrderDetailedByIdAsync(orderId);
 
-            if (order == null) throw new OrderNotFoundException("Order Not Found");
+            if (order == null) throw new NotFoundException<Order>();
 
             if (order.CustomerId != customerId) throw new UnauthorizedAccessException("Order doesn't belong to this customer");
 
@@ -110,7 +114,7 @@ namespace Sufra.Services.Services
         public async Task<IEnumerable<OrderItemListDTO>> GetCustomerOrdersAsync(int customerId , OrderQueryDTO orderQuery)
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
-            if (customer == null) throw new UserNotFoundException("UserNotFound");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             var orders = await _orderRepository.GetCustomerOrders(customerId ,orderQuery);
 
@@ -128,10 +132,7 @@ namespace Sufra.Services.Services
         {
 
             bool restaurantExists = await _restaurantRepository.ExistsAsync(restaurantId);
-            if (!restaurantExists)
-            {
-                throw new RestaurantNotFoundException("Restaurant not found");
-            }
+            if (!restaurantExists) throw new NotFoundException<Restaurant>();
 
             var orders = await _orderRepository.GetRestaurantOrders(restaurantId , orderQuery);
 
@@ -155,7 +156,7 @@ namespace Sufra.Services.Services
         public async Task<OrderTrendDTO> GetRestaurantOrdersTrendAsync(int restaurantId, TrendPeriod period)
         {
             bool? isApproved = await _restaurantRepository.GetRestaurantStatusByIdAsync(restaurantId);
-            if (isApproved == null) throw new RestaurantNotFoundException("Restaurant not found");
+            if (isApproved == null) throw new NotFoundException<Restaurant>();
             if (isApproved == false) throw new RestaurantNotApprovedException();
 
             var (current, previous) = await _orderRepository.GetRestaurantOrdersTrendAsync(restaurantId, period);
@@ -195,11 +196,11 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer Not Found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             Order order = await _orderRepository.GetOrderByIdAsync(orderId);
 
-            if (order == null) throw new OrderNotFoundException("Order Not Found");
+            if (order == null) throw new NotFoundException<Order>();
 
             if (order.CustomerId != customerId) throw new UnauthorizedAccessException("UnAuthorized");
 
@@ -214,14 +215,14 @@ namespace Sufra.Services.Services
         {
             Restaurant restaurant = await _restaurantRepository.GetByIdAsync(orderDTO.RestaurantId);
 
-            if (restaurant == null) throw new RestaurantNotFoundException("Restaurant Not Found");
-            if (!restaurant.IsApproved) throw new RestaurantNotApprovedException("Restaurant Not Approved");
+            if (restaurant == null) throw new NotFoundException<Restaurant>();
+            if (!restaurant.IsApproved) throw new RestaurantNotApprovedException();
 
 
             Order order = await _orderRepository.GetOrderByIdAsync(orderDTO.OrderId);
 
-            if (order == null)  throw new OrderNotFoundException("Order Not Found");
-            if (order.RestaurantId != restaurant.Id) throw new OrderUnauthorizedAccessException("UnAuthoriezed Order doesn't Belong To Restaurant");
+            if (order == null) throw new NotFoundException<Order>();
+            if (order.RestaurantId != restaurant.Id) throw new UnauthorizedException();
 
 
             if(order.Status == OrderStatus.Canceled) throw new OrderIsAlreadyCanceledException($"Order with ID {order.Id} is already canceled.");

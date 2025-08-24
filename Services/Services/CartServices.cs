@@ -1,6 +1,6 @@
 ﻿using Sufra.DTOs.CartDTOs;
-using Sufra.DTOs.MenuDTOs;
 using Sufra.Exceptions;
+using Sufra.Exceptions.Cart;
 using Sufra.Models.Customers;
 using Sufra.Models.Orders;
 using Sufra.Models.Restaurants;
@@ -29,10 +29,10 @@ namespace Sufra.Services.Services
         public async Task AddToCartAsync(AddToCartReqDTO addToCartReqDTO,int customerId)
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
-            if (customer == null) throw new UserNotFoundException("Customer Not Found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             MenuItem menuItem = await _menuItemRepository.GetMenuItemByIdAsync(addToCartReqDTO.MenuItemId);
-            if (menuItem == null) throw new MenuItemNotFoundException("Menu Item Not Found");
+            if (menuItem == null) throw new NotFoundException<MenuItem>();
 
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
@@ -47,7 +47,7 @@ namespace Sufra.Services.Services
                 await _cartRepository.CreateCartAsync(customerCart);
             }
 
-            if (customerCart.RestaurantId != menuItem.RestaurantId) throw new CartRestaurantConflictException("Cart conflict: different restaurant");
+            if (customerCart.RestaurantId != menuItem.RestaurantId) throw new CartRestaurantConflictException();
 
             CartItem existingCartItem = customerCart.CartItems.FirstOrDefault(ci => ci.MenuItemId == menuItem.Id);
 
@@ -76,11 +76,11 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer not found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null) throw new CartNotFoundException("Cart not found");
+            if (customerCart == null) throw new NotFoundException<Cart>();
 
             //N+1 query problem still figuring it out 
             var cartItems = customerCart.GetCartItems();
@@ -100,12 +100,12 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer not found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null) throw new CartNotFoundException("No Cart For This User");
-            if (customerCart.CartItems.Count == 0) throw new CartIsEmptyException("Cart is Already Empty");
+            if (customerCart == null) throw new NotFoundException<Cart>();
+            if (customerCart.CartItems.Count == 0) throw new CartIsEmptyException();
 
 
             await _cartRepository.DeleteCartAsync(customerCart);
@@ -114,16 +114,16 @@ namespace Sufra.Services.Services
         {
             Customer customer = await _customerRepository.GetByIdAsync(customerId);
 
-            if (customer == null) throw new UserNotFoundException("Customer not found");
+            if (customer == null) throw new NotFoundException<Customer>();
 
             Cart customerCart = await _cartRepository.GetCartByCustomerIdAsync(customer.Id);
 
-            if (customerCart == null) throw new CartNotFoundException("Cart not found for the customer");
+            if (customerCart == null) throw new NotFoundException<Cart>();
 
 
             var cartItem = customerCart.CartItems.FirstOrDefault(ci => ci.Id == cartItemId);
 
-            if (cartItem == null) throw new CartItemNotFoundException("No cart item with this id found for this user");
+            if (cartItem == null) throw new NotFoundException<CartItem>();
 
             customerCart.RemoveItem(cartItem);
 
